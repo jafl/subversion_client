@@ -1,0 +1,6 @@
+0
+cancelButton::SVNGetRepoDialog::shortcuts::JXLayout "^["
+okButton::SVNGetRepoDialog::shortcuts::JXLayout "^M"
+okButton::SVNGetRepoDialog::JXLayout "OK"
+cancelButton::SVNGetRepoDialog::JXLayout "Cancel"
+repoUrlLabel::SVNGetRepoDialog::JXLayout "URL of repository:"

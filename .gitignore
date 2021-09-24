@@ -1,0 +1,8 @@
+nps_svn_client
+Makefile
+*.o
+*.bak
+code/svnStringData.h
+strings/version
+strings/nps_svn_client_menu_strings
+.jcc
