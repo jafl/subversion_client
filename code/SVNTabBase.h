@@ -8,7 +8,7 @@
 #ifndef _H_SVNTabBase
 #define _H_SVNTabBase
 
-#include <JPtrArray-JString.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 
 class JXTextMenu;
 class SVNMainDirector;

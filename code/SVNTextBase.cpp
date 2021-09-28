@@ -9,13 +9,13 @@
 
 #include "SVNTextBase.h"
 #include "svnMenus.h"
-#include <JXWindow.h>
-#include <JXTextMenu.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <JFontManager.h>
-#include <JProcess.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -58,10 +58,10 @@ SVNTextBase::SVNTextBase
 SVNTextBase::~SVNTextBase()
 {
 	if (itsProcess != nullptr)
-		{
+	{
 		StopListening(itsProcess);
 		itsProcess->Kill();
-		}
+	}
 	jdelete itsProcess;
 	itsProcess = nullptr;	// avoid crash in ReceiveGoingAway()
 
@@ -77,7 +77,7 @@ void
 SVNTextBase::RefreshContent()
 {
 	if (itsProcess != nullptr)
-		{
+	{
 		JProcess* p = itsProcess;
 		itsProcess  = nullptr;
 
@@ -85,7 +85,7 @@ SVNTextBase::RefreshContent()
 		jdelete p;
 
 		DeleteLink();
-		}
+	}
 
 	GetText()->SetText(JString::empty);
 
@@ -93,13 +93,13 @@ SVNTextBase::RefreshContent()
 	int outFD;
 	const JError err = StartProcess(&p, &outFD);
 	if (err.OK())
-		{
+	{
 		SetConnection(p, outFD);
-		}
+	}
 	else
-		{
+	{
 		err.ReportIfError();
-		}
+	}
 }
 
 /******************************************************************************
@@ -115,13 +115,13 @@ SVNTextBase::Receive
 	)
 {
 	if (sender == itsLink && message.Is(JAsynchDataReceiverT::kDataReady))
-		{
+	{
 		ReceiveData(message);
-		}
+	}
 	else
-		{
+	{
 		JXStaticText::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -136,14 +136,14 @@ SVNTextBase::ReceiveGoingAway
 	)
 {
 	if (sender == itsProcess)
-		{
+	{
 		itsProcess = nullptr;
 		DeleteLink();
-		}
+	}
 	else
-		{
+	{
 		JXStaticText::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 /******************************************************************************
@@ -183,13 +183,13 @@ SVNTextBase::AdjustCursor
 	)
 {
 	if (itsProcess != nullptr)
-		{
+	{
 		DisplayCursor(kJXBusyCursor);
-		}
+	}
 	else
-		{
+	{
 		JXWidget::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************

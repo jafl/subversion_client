@@ -8,7 +8,7 @@
 #ifndef _H_SVNWDManager
 #define _H_SVNWDManager
 
-#include <JXWDManager.h>
+#include <jx-af/jx/JXWDManager.h>
 
 class SVNMainDirector;
 

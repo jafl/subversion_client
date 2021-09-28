@@ -8,11 +8,11 @@
 #ifndef _H_SVNTextBase
 #define _H_SVNTextBase
 
-#include <JXStaticText.h>
+#include <jx-af/jx/JXStaticText.h>
 #include "SVNTabBase.h"
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include <JAsynchDataReceiver.h>
+#include <jx-af/jcore/JAsynchDataReceiver.h>
 
 class JProcess;
 

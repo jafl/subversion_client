@@ -10,15 +10,15 @@
 #include "SVNPropertiesList.h"
 #include "SVNMainDirector.h"
 #include "svnMenus.h"
-#include <JXGetStringDialog.h>
-#include <JXTextSelection.h>
-#include <JXTextMenu.h>
-#include <jXGlobals.h>
-#include <JTableSelection.h>
-#include <JTableSelectionIterator.h>
-#include <JSubstitute.h>
-#include <JSimpleProcess.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXGetStringDialog.h>
+#include <jx-af/jx/JXTextSelection.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JTableSelectionIterator.h>
+#include <jx-af/jcore/JSubstitute.h>
+#include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JString kPropEditCmd("svn propedit $prop_name $file_name", JString::kNoCopy);
 static const JString kPropRemoveCmd("svn propdel $prop_name $file_name", JString::kNoCopy);
@@ -110,14 +110,14 @@ SVNPropertiesList::ShouldDisplayLine
 	const
 {
 	if (line->BeginsWith(" "))
-		{
+	{
 		line->TrimWhitespace();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -138,12 +138,12 @@ SVNPropertiesList::StyleLine
 	)
 {
 	for (JUnsignedOffset i=0; i<kSpecialPropertyCount; i++)
-		{
+	{
 		if (line == kSpecialPropertyList[i])
-			{
+		{
 			SetStyle(index, theBoldStyle);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -160,7 +160,7 @@ SVNPropertiesList::OpenSelectedItems()
 	JString cmd, prop, file = JPrepArgForExec(itsFullName);
 	JSubstitute subst;
 	while (iter.Next(&cell))
-		{
+	{
 		const JString* line = (GetStringList()).GetElement(cell.y);
 
 		prop = JPrepArgForExec(*line);
@@ -171,7 +171,7 @@ SVNPropertiesList::OpenSelectedItems()
 		subst.Substitute(&cmd);
 
 		JSimpleProcess::Create(cmd, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -187,17 +187,17 @@ SVNPropertiesList::CopySelectedItems
 {
 	JTableSelection& s = GetTableSelection();
 	if (!s.HasSelection())
-		{
+	{
 		return;
-		}
+	}
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	JTableSelectionIterator iter(&s);
 	JPoint cell;
 	while (iter.Next(&cell))
-		{
+	{
 		list.Append(*((GetStringList()).GetElement(cell.y)));
-		}
+	}
 
 	auto* data = jnew JXTextSelection(GetDisplay(), list);
 	assert( data != nullptr );
@@ -251,9 +251,9 @@ SVNPropertiesList::UpdateActionsMenu
 
 	JTableSelection& s = GetTableSelection();
 	if (s.HasSelection())
-		{
+	{
 		menu->EnableItem(kRemoveSelectedPropertiesCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -269,37 +269,37 @@ SVNPropertiesList::Receive
 	)
 {
 	if (sender == itsCreatePropertyDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 
 		if (info->Successful())
-			{
+		{
 			CreateProperty1();
-			}
-
-		itsCreatePropertyDialog = nullptr;
 		}
 
+		itsCreatePropertyDialog = nullptr;
+	}
+
 	else if (message.Is(JProcess::kFinished))
-		{
+	{
 		const JSize count = itsProcessList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			if (sender == itsProcessList->GetElement(i))
-				{
+			{
 				itsProcessList->RemoveElement(i);
 				RemoveNextProperty();
 				break;
-				}
 			}
 		}
+	}
 
 	else
-		{
+	{
 		SVNListBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -345,16 +345,16 @@ SVNPropertiesList::CreateProperty1()
 	JSimpleProcess* p;
 	const JError err = JSimpleProcess::Create(&p, cmd, true);
 	if (err.OK())
-		{
+	{
 		itsProcessList->Append(p);
 		ListenTo(p);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		err.ReportIfError();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -371,7 +371,7 @@ SVNPropertiesList::SchedulePropertiesForRemove()
 	JString cmd, prop, file = JPrepArgForExec(itsFullName);
 	JSubstitute subst;
 	while (iter.Next(&cell))
-		{
+	{
 		const JString* line = (GetStringList()).GetElement(cell.y);
 
 		prop = JPrepArgForExec(*line);
@@ -382,7 +382,7 @@ SVNPropertiesList::SchedulePropertiesForRemove()
 		subst.Substitute(&cmd);
 
 		itsRemovePropertyCmdList->Append(cmd);
-		}
+	}
 
 	RemoveNextProperty();
 	return true;
@@ -397,32 +397,32 @@ bool
 SVNPropertiesList::RemoveNextProperty()
 {
 	if (!itsRemovePropertyCmdList->IsEmpty())
-		{
+	{
 		const JString cmd = *itsRemovePropertyCmdList->GetFirstElement();
 		itsRemovePropertyCmdList->DeleteElement(1);
 
 		JSimpleProcess* p;
 		const JError err = JSimpleProcess::Create(&p, cmd, true);
 		if (err.OK())
-			{
+		{
 			itsProcessList->Append(p);
 			ListenTo(p);
 			return true;
-			}
+		}
 		else
-			{
+		{
 			err.ReportIfError();
 			return false;
-			}
 		}
+	}
 	else
-		{
+	{
 		if (GetDirector()->OKToStartActionProcess())
-			{
+		{
 			RefreshContent();
-			}
+		}
 
 		GetDirector()->ScheduleStatusRefresh();
 		return true;
-		}
+	}
 }

@@ -10,8 +10,8 @@
 #include "SVNRepoTree.h"
 #include "SVNRepoTreeNode.h"
 #include "SVNRepoTreeList.h"
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -66,9 +66,9 @@ SVNRepoTree::Update
 	)
 {
 	if (fresh)
-		{
+	{
 		itsSavedOpenNodes->CleanOut();
-		}
+	}
 
 	itsView = view;
 	SaveOpenNodes();
@@ -86,20 +86,20 @@ SVNRepoTree::SaveOpenNodes()
 	const
 {
 	if (itsView != nullptr)
-		{
+	{
 		JPtrArray<JString> paths(JPtrArrayT::kDeleteAll);
 		const JSize count = itsView->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			if (itsView->IsOpen(i))
-				{
+			{
 				auto* s = jnew JString((itsView->GetRepoNode(i))->GetRepoPath());
 				assert( s != nullptr );
 
 				itsSavedOpenNodes->InsertSorted(s);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -119,14 +119,14 @@ SVNRepoTree::SavePathToOpen
 	JString baseUrl = GetRepoRoot()->GetRepoPath();
 	JAppendDirSeparator(&baseUrl);
 	if (!url.BeginsWith(baseUrl))
-		{
+	{
 		return;
-		}
+	}
 	JStripTrailingDirSeparator(&baseUrl);
 
 	JString path, name;
 	while (url.GetCharacterCount() > baseUrl.GetCharacterCount())
-		{
+	{
 		auto* s = jnew JString(url);
 		assert( s != nullptr );
 		itsSavedOpenNodes->InsertSorted(s);
@@ -134,7 +134,7 @@ SVNRepoTree::SavePathToOpen
 		JSplitPathAndName(url, &path, &name);
 		url = path;
 		JStripTrailingDirSeparator(&url);
-		}
+	}
 }
 
 /******************************************************************************
@@ -152,9 +152,9 @@ SVNRepoTree::ReopenIfNeeded
 	JIndex i;
 	if (itsView != nullptr &&
 		itsSavedOpenNodes->SearchSorted(const_cast<JString*>(&repoPath), JListT::kAnyMatch, &i))
-		{
+	{
 		itsView->Open(node);
-		}
+	}
 }
 
 /******************************************************************************
@@ -170,10 +170,10 @@ SVNRepoTree::SkipSetup
 	)
 {
 	if (vers >= 1)
-		{
+	{
 		JPtrArray<JString> savedOpenNodes(JPtrArrayT::kDeleteAll);
 		input >> savedOpenNodes;
-		}
+	}
 }
 
 /******************************************************************************
@@ -189,9 +189,9 @@ SVNRepoTree::ReadSetup
 	)
 {
 	if (vers >= 1)
-		{
+	{
 		input >> *itsSavedOpenNodes;
-		}
+	}
 }
 
 /******************************************************************************

@@ -12,7 +12,7 @@
 #ifndef _H_svnActionDefs
 #define _H_svnActionDefs
 
-#include <jXActionDefs.h>	// for convenience
+#include <jx-af/jx/jXActionDefs.h>	// for convenience
 
 // File menu
 

@@ -8,7 +8,7 @@
 #ifndef _H_SVNRepoView
 #define _H_SVNRepoView
 
-#include <JXNamedTreeListWidget.h>
+#include <jx-af/jx/JXNamedTreeListWidget.h>
 #include "SVNTabBase.h"
 
 class JXTextMenu;

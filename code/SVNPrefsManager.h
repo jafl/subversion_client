@@ -8,7 +8,7 @@
 #ifndef _H_SVNPrefsManager
 #define _H_SVNPrefsManager
 
-#include <JXPrefsManager.h>
+#include <jx-af/jx/JXPrefsManager.h>
 
 class JPoint;
 class JString;

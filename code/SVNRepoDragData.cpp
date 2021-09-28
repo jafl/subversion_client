@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include "SVNRepoDragData.h"
-#include <JXDisplay.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -71,17 +71,17 @@ SVNRepoDragData::ConvertData
 	const
 {
 	if (requestType == itsType)
-		{
+	{
 		*returnType   = XA_STRING;
 		*bitsPerBlock = 8;
 		*dataLength   = itsURI.GetByteCount();
 		*data         = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
-			{
+		{
 			memcpy(*data, itsURI.GetRawBytes(), *dataLength);
 			return true;
-			}
 		}
+	}
 
 	*bitsPerBlock = 8;
 	*data         = nullptr;

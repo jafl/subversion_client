@@ -8,7 +8,7 @@
 #ifndef _H_SVNCreateRepoDirectoryDialog
 #define _H_SVNCreateRepoDirectoryDialog
 
-#include <JXGetStringDialog.h>
+#include <jx-af/jx/JXGetStringDialog.h>
 
 class SVNRepoTreeNode;
 

@@ -8,11 +8,11 @@
 #ifndef _H_SVNRepoTreeNode
 #define _H_SVNRepoTreeNode
 
-#include "JNamedTreeNode.h"
-#include <JError.h>
+#include "jx-af/jcore/JNamedTreeNode.h"
+#include <jx-af/jcore/JError.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include <JMessageProtocol.h>	// template; requires ace includes
+#include <jx-af/jcore/JMessageProtocol.h>	// template; requires ace includes
 
 class JProcess;
 class SVNRepoTree;

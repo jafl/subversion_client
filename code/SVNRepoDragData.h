@@ -8,7 +8,7 @@
 #ifndef _H_SVNRepoDragData
 #define _H_SVNRepoDragData
 
-#include <JXSelectionManager.h>
+#include <jx-af/jx/JXSelectionManager.h>
 
 class SVNRepoDragData : public JXSelectionData
 {

@@ -9,15 +9,15 @@
 
 #include "SVNPrefsDialog.h"
 #include "svnGlobals.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXRadioGroup.h>
-#include <JXTextRadioButton.h>
-#include <JXInputField.h>
-#include <JXStaticText.h>
-#include <JFontManager.h>
-#include <jProcessUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXRadioGroup.h>
+#include <jx-af/jx/JXTextRadioButton.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -197,17 +197,17 @@ void
 SVNPrefsDialog::UpdateDisplay()
 {
 	if (JProgramAvailable(JGetString("CodeCrusaderBinary::SVNGlobal")))
-		{
+	{
 		itsJCCIntegrationRB->Activate();
-		}
+	}
 	else
-		{
+	{
 		itsJCCIntegrationRB->Deactivate();
 		if (itsJCCIntegrationRB->IsChecked())
-			{
+		{
 			itsCmdLineIntegrationRB->Select();
-			}
 		}
+	}
 
 	const bool enableCmds = itsIntegrationRG->GetSelectedItem() == SVNPrefsManager::kCustom;
 
@@ -216,13 +216,13 @@ SVNPrefsDialog::UpdateDisplay()
 	itsReloadChangedCmd->SetActive(enableCmds);
 
 	if (enableCmds)
-		{
+	{
 		itsCommitEditor->Focus();
-		}
+	}
 	else
-		{
+	{
 		GetWindow()->KillFocus();
-		}
+	}
 }
 
 /******************************************************************************
@@ -238,11 +238,11 @@ SVNPrefsDialog::Receive
 	)
 {
 	if (sender == itsIntegrationRG && message.Is(JXRadioGroup::kSelectionChanged))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }

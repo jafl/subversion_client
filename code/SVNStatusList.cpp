@@ -9,16 +9,16 @@
 
 #include "SVNStatusList.h"
 #include "svnMenus.h"
-#include <JXTextMenu.h>
-#include <JXTextSelection.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <JTableSelection.h>
-#include <JSimpleProcess.h>
-#include <JSubstitute.h>
-#include <JStringIterator.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXTextSelection.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/JSubstitute.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JString kIgnoreCmd("svn propedit svn:ignore $path", JString::kNoCopy);
 
@@ -78,21 +78,21 @@ SVNStatusList::StyleLine
 	iter.Invalidate();
 
 	if (c1 == 'C' || c1 == '!' || c1 == '~' || c2 == 'C')
-		{
+	{
 		SetStyle(index, errorStyle);
-		}
+	}
 	else if (c1 == '?' || c1 == 'I')
-		{
+	{
 		SetStyle(index, JColorManager::GetGrayColor(50));
-		}
+	}
 	else if (c1 == 'A')
-		{
+	{
 		SetStyle(index, addStyle);
-		}
+	}
 	else if (c1 == 'D')
-		{
+	{
 		SetStyle(index, removeStyle);
-		}
+	}
 }
 
 /******************************************************************************
@@ -127,9 +127,9 @@ SVNStatusList::UpdateActionsMenu
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
 		((GetStringList()).GetElement(cell.y))->GetFirstCharacter() == '?')
-		{
+	{
 		menu->EnableItem(kIgnoreSelectionCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -151,9 +151,9 @@ SVNStatusList::UpdateContextMenu
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
 		((GetStringList()).GetElement(cell.y))->GetFirstCharacter() == '?')
-		{
+	{
 		canIgnore = true;
-		}
+	}
 
 	menu->SetItemEnable(kIgnoreSelectionCtxCmd, canIgnore);
 }
@@ -170,7 +170,7 @@ SVNStatusList::Ignore()
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
 		((GetStringList()).GetElement(cell.y))->GetFirstCharacter() == '?')
-		{
+	{
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 		GetSelectedFiles(&list);
 
@@ -190,7 +190,7 @@ SVNStatusList::Ignore()
 		subst.Substitute(&cmd);
 
 		JSimpleProcess::Create(cmd, true);
-		}
+	}
 
 	return true;
 }

@@ -21,25 +21,26 @@
 #include "SVNMDIServer.h"
 #include "svnMenus.h"
 #include "svnGlobals.h"
-#include <JXHelpManager.h>
-#include <JXFSBindingManager.h>
-#include <JXWebBrowser.h>
-#include <JXMacWinPrefsDialog.h>
-#include <JXGetStringDialog.h>
-#include <JXChooseSaveFile.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXWDMenu.h>
-#include <JXToolBar.h>
-#include <JXScrollbarSet.h>
-#include <JXColorManager.h>
-#include <JXImage.h>
-#include <JProcess.h>
-#include <jDirUtil.h>
-#include <jWebUtil.h>
-#include <jVCSUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jfs/JXFSBindingManager.h>
+#include <jx-af/jx/JXWebBrowser.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
+#include <jx-af/jx/JXGetStringDialog.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXWDMenu.h>
+#include <jx-af/jx/JXToolBar.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jWebUtil.h>
+#include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // File menu
 
@@ -171,16 +172,16 @@ SVNMainDirector::SVNMainDirector
 	JCoordinate w,h;
 	if ((SVNGetPrefsManager())->GetWindowSize(kSVNMainDirectorWindSizeID,
 											  &desktopLoc, &w, &h))
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Place(desktopLoc.x, desktopLoc.y);
 		window->SetSize(w,h);
-		}
+	}
 
 	if (itsRepoWidget != nullptr)
-		{
+	{
 		itsRepoWidget->RefreshContent();
-		}
+	}
 }
 
 SVNMainDirector::SVNMainDirector
@@ -199,19 +200,19 @@ SVNMainDirector::SVNMainDirector
 	GetWindow()->ReadGeometry(input);
 
 	if (vers >= 1)
-		{
+	{
 		bool hadRepoWidget;
 		input >> JBoolFromString(hadRepoWidget);
 
 		if (itsRepoWidget != nullptr)
-			{
+		{
 			itsRepoWidget->ReadSetup(hadRepoWidget, input, vers);
-			}
-		else if (hadRepoWidget)
-			{
-			SVNRepoView::SkipSetup(input, vers);
-			}
 		}
+		else if (hadRepoWidget)
+		{
+			SVNRepoView::SkipSetup(input, vers);
+		}
+	}
 }
 
 // private
@@ -233,7 +234,7 @@ SVNMainDirector::SVNMainDirectorX()
 
 	BuildWindow();
 
-	(GetDisplay()->GetWDManager())->DirectorCreated(this);
+	GetDisplay()->GetWDManager()->DirectorCreated(this);
 }
 
 /******************************************************************************
@@ -260,16 +261,16 @@ SVNMainDirector::StreamOut
 	// before BuildWindow()
 
 	if (HasPath())
-		{
+	{
 		output << itsPath;
-		}
+	}
 	else
-		{
+	{
 		JString repoPath;
 		const bool hasRepo = GetRepoPath(&repoPath);
 		assert( hasRepo );
 		output << repoPath;
-		}
+	}
 
 	// after BuildWindow()
 
@@ -279,10 +280,10 @@ SVNMainDirector::StreamOut
 	output << ' ' << JBoolToString(itsRepoWidget != nullptr);
 
 	if (itsRepoWidget != nullptr)
-		{
+	{
 		output << ' ';
 		itsRepoWidget->WriteSetup(output);
-		}
+	}
 }
 
 /******************************************************************************
@@ -329,13 +330,13 @@ SVNMainDirector::BuildWindow()
 
 	JString displayPath;
 	if (isURL)
-		{
+	{
 		displayPath = itsPath;
-		}
+	}
 	else
-		{
+	{
 		displayPath = JConvertToHomeDirShortcut(itsPath);
-		}
+	}
 	UpdateWindowTitle(displayPath);
 	window->SetMinSize(200, 200);
 	window->SetWMClass(SVNGetWMClassInstance(), SVNGetMainWindowClass());
@@ -355,14 +356,14 @@ SVNMainDirector::BuildWindow()
 
 	const JSize count = itsEditMenu->GetItemCount();
 	for (JIndex i=1; i<count; i++)
-		{
+	{
 		const JString* id;
 		if (itsEditMenu->GetItemID(i, &id) && *id == kJXCopyAction)
-			{
+		{
 			itsEditMenu->InsertMenuItems(i+1, kEditMenuAddStr, "SVNMainDirector");
 			break;
-			}
 		}
+	}
 
 	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::SVNMainDirector"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr, "SVNMainDirector");
@@ -418,7 +419,7 @@ SVNMainDirector::BuildWindow()
 
 	JString repoPath = itsPath;
 	if (isURL || JGetVCSRepositoryPath(itsPath, &repoPath))
-		{
+	{
 		JXContainer* card            = itsTabGroup->AppendTab(JGetString("RepoTab::SVNMainDirector"));
 		JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
@@ -430,12 +431,12 @@ SVNMainDirector::BuildWindow()
 		assert( itsRepoWidget != nullptr );
 
 		itsTabList->Append(itsRepoWidget);
-		}
+	}
 
 	// svn status
 
 	if (!isURL)
-		{
+	{
 		JXContainer* card            = itsTabGroup->AppendTab(JGetString("StatusTab::SVNMainDirector"));
 		JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
@@ -450,20 +451,20 @@ SVNMainDirector::BuildWindow()
 		itsStatusWidget->RefreshContent();
 
 		itsTabGroup->ShowTab(card);
-		}
+	}
 
 	// if we opened a URL, disable all local functionality
 
 	if (isURL)
-		{
+	{
 		itsPath.Clear();
-		}
+	}
 
 	// must be done after creating widgets
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
-		{
+	{
 		itsToolBar->AppendButton(itsActionsMenu, kUpdateWorkingCopyCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsActionsMenu, kAddSelectedFilesCmd);
@@ -480,7 +481,7 @@ SVNMainDirector::BuildWindow()
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -514,9 +515,9 @@ SVNMainDirector::UpdateWindowTitle
 	)
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"path", path.GetBytes()
-		};
+	};
 	const JString title = JGetString("WindowTitleID::SVNMainDirector", map, sizeof(map));
 	GetWindow()->SetTitle(title);
 }
@@ -547,16 +548,16 @@ SVNMainDirector::GetRepoPath
 	const
 {
 	if (itsRepoWidget != nullptr)
-		{
+	{
 		*path = (itsRepoWidget->GetRepoTree())->GetRepoPath();
 		JStripTrailingDirSeparator(path);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		path->Clear();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -585,9 +586,9 @@ SVNMainDirector::RegisterActionProcess
 
 	JIndex i;
 	if (itsTabList->Find(tab, &i))
-		{
+	{
 		itsTabGroup->SetBusyIndex(i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -599,11 +600,11 @@ void
 SVNMainDirector::ScheduleStatusRefresh()
 {
 	if (itsRefreshStatusTask == nullptr)
-		{
+	{
 		itsRefreshStatusTask = jnew SVNRefreshStatusTask(this);
 		assert( itsRefreshStatusTask != nullptr );
 		itsRefreshStatusTask->Start();
-		}
+	}
 }
 
 /******************************************************************************
@@ -619,67 +620,67 @@ SVNMainDirector::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateActionsMenu();
-		}
+	}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsInfoMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateInfoMenu();
-		}
+	}
 	else if (sender == itsInfoMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleInfoMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePrefsMenu();
-		}
+	}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateHelpMenu();
-		}
+	}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsActionProcess && message.Is(JProcess::kFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
@@ -691,108 +692,108 @@ SVNMainDirector::Receive
 
 		itsTabGroup->ClearBusyIndex();
 		if (info->Successful())
-			{
+		{
 			if (refreshRepo)
-				{
+			{
 				RefreshRepo();
-				}
+			}
 
 			if (refreshStatus)
-				{
+			{
 				RefreshStatus();
-				}
+			}
 
 			if (reload)
-				{
+			{
 				(SVNGetApplication())->ReloadOpenFilesInIDE();
-				}
+			}
 
 			if (sender == itsCheckOutProcess)
-				{
+			{
 				itsCheckOutProcess = nullptr;
 				CreateStatusTab();
-				}
-			}
-		else
-			{
-			CleanUpWorkingCopy();
 			}
 		}
+		else
+		{
+			CleanUpWorkingCopy();
+		}
+	}
 
 	else if (sender == itsBrowseRepoDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 
 		if (info->Successful())
-			{
+		{
 			const JString& url = itsBrowseRepoDialog->GetRepo();
 
 			bool wasOpen;
 			SVNMainDirector* dir =
 				(SVNGetWDManager())->OpenDirectory(url, &wasOpen);
 			if (wasOpen)
-				{
+			{
 				dir->RefreshRepo();
 				(dir->itsRepoWidget->GetRepoTree())->SavePathToOpen(url);
 				dir->RefreshStatus();
-				}
 			}
+		}
 
 		itsBrowseRepoDialog = nullptr;
-		}
+	}
 
 	else if (sender == itsBrowseRepoRevisionDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 
 		if (info->Successful())
-			{
+		{
 			BrowseRepo(itsBrowseRepoRevisionDialog->GetString());
-			}
+		}
 
 		itsBrowseRepoRevisionDialog = nullptr;
-		}
+	}
 
 	else if (sender == itsCheckOutRepoDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 
 		if (info->Successful())
-			{
+		{
 			CheckOut(itsCheckOutRepoDialog->GetRepo());
-			}
-
-		itsCheckOutRepoDialog = nullptr;
 		}
 
+		itsCheckOutRepoDialog = nullptr;
+	}
+
 	else if (message.Is(JXCardFile::kCardRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
 		assert( info != nullptr );
 
 		JIndex i;
 		if (info->GetCardIndex(&i))
-			{
+		{
 			itsTabList->RemoveElement(i);
-			}
 		}
+	}
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
-		{
+	{
 		ScheduleStatusRefresh();
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -809,16 +810,16 @@ SVNMainDirector::ReceiveGoingAway
 	)
 {
 	if (sender == itsActionProcess)
-		{
+	{
 		itsActionProcess   = nullptr;
 		itsCheckOutProcess = nullptr;
 		itsTabGroup->ClearBusyIndex();
 		CleanUpWorkingCopy();
-		}
+	}
 	else
-		{
+	{
 		JXWindowDirector::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 /******************************************************************************
@@ -836,27 +837,27 @@ SVNMainDirector::UpdateFileMenu()
 	itsFileMenu->EnableItem(kQuitCmd);
 
 	if (itsRepoWidget != nullptr && itsStatusWidget == nullptr)
-		{
+	{
 		itsFileMenu->EnableItem(kCheckOutCurrentRepoCmd);
-		}
+	}
 
 	JIndex i;
 	if (itsTabGroup->GetCurrentTabIndex(&i))
-		{
+	{
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 		(itsTabList->GetElement(i))->GetSelectedFiles(&list);
 
 		if (!list.IsEmpty() && itsStatusWidget != nullptr)
-			{
+		{
 			itsFileMenu->EnableItem(kOpenFilesCmd);
 			itsFileMenu->EnableItem(kShowFilesCmd);
-			}
+		}
 
 		if ((itsTabList->GetElement(i))->CanCheckOutSelection())
-			{
+		{
 			itsFileMenu->EnableItem(kCheckOutSelectionCmd);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -871,12 +872,12 @@ SVNMainDirector::HandleFileMenu
 	)
 {
 	if (index == kOpenDirectoryCmd)
-		{
+	{
 		SVNMainDirector* dir;
 		(SVNGetWDManager())->NewBrowser(&dir);
-		}
+	}
 	else if (index == kBrowseRepoCmd)
-		{
+	{
 		assert( itsBrowseRepoDialog == nullptr );
 
 		itsBrowseRepoDialog =
@@ -885,10 +886,10 @@ SVNMainDirector::HandleFileMenu
 		assert( itsBrowseRepoDialog != nullptr );
 		ListenTo(itsBrowseRepoDialog);
 		itsBrowseRepoDialog->BeginDialog();
-		}
+	}
 
 	else if (index == kCheckOutRepoCmd)
-		{
+	{
 		assert( itsCheckOutRepoDialog == nullptr );
 
 		itsCheckOutRepoDialog =
@@ -897,48 +898,48 @@ SVNMainDirector::HandleFileMenu
 		assert( itsCheckOutRepoDialog != nullptr );
 		ListenTo(itsCheckOutRepoDialog);
 		itsCheckOutRepoDialog->BeginDialog();
-		}
+	}
 	else if (index == kCheckOutCurrentRepoCmd)
-		{
+	{
 		CheckOut();
-		}
+	}
 	else if (index == kCheckOutSelectionCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			SVNTabBase* tab = itsTabList->GetElement(i);
 			tab->CheckOutSelection();
-			}
 		}
+	}
 
 	else if (index == kOpenFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			SVNTabBase* tab = itsTabList->GetElement(i);
 			tab->OpenFiles();
-			}
 		}
+	}
 	else if (index == kShowFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			SVNTabBase* tab = itsTabList->GetElement(i);
 			tab->ShowFiles();
-			}
 		}
+	}
 
 	else if (index == kCloseCmd)
-		{
+	{
 		GetWindow()->Close();
-		}
+	}
 	else if (index == kQuitCmd)
-		{
+	{
 		SVNGetApplication()->Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -954,11 +955,11 @@ SVNMainDirector::CheckOut
 {
 	SVNMainDirector* dir;
 	if (!(SVNGetWDManager())->GetBrowserForExactURL(url, &dir))
-		{
+	{
 		dir = jnew SVNMainDirector(JXGetApplication(), url);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 	dir->CheckOut();
 }
 
@@ -971,29 +972,29 @@ void
 SVNMainDirector::CheckOut()
 {
 	if (itsStatusWidget != nullptr || !OKToStartActionProcess())
-		{
+	{
 		return;
-		}
+	}
 
 	JString repoPath;
 	if (!GetRepoPath(&repoPath))
-		{
+	{
 		return;
-		}
+	}
 
 	JString path, name;
 	JSplitPathAndName(repoPath, &path, &name);
 
 	if (!(JXGetChooseSaveFile())->SaveFile(
 			JGetString("CheckOutDirectoryPrompt::SVNMainDirector"), JString::empty, name, &path))
-		{
+	{
 		return;
-		}
+	}
 
 	if (JFileExists(path))
-		{
+	{
 		JRemoveFile(path);
-		}
+	}
 
 	JString repoCmd("svn co ");
 	repoCmd += JPrepArgForExec(repoPath);
@@ -1048,25 +1049,25 @@ SVNMainDirector::UpdateActionsMenu()
 	JIndex i;
 	const bool hasTab = itsTabGroup->GetCurrentTabIndex(&i);
 	if (hasTab && itsTabGroup->TabCanClose(i))
-		{
+	{
 		itsActionsMenu->EnableItem(kCloseTabCmd);
-		}
+	}
 
 	if (itsActionProcess == nullptr)
-		{
+	{
 		if (HasPath())
-			{
+		{
 			itsActionsMenu->EnableItem(kUpdateWorkingCopyCmd);
 			itsActionsMenu->EnableItem(kCleanUpWorkingCopyCmd);
 			itsActionsMenu->EnableItem(kCommitAllChangesCmd);
 			itsActionsMenu->EnableItem(kRevertAllChangesCmd);
-			}
+		}
 
 		if (hasTab)
-			{
+		{
 			(itsTabList->GetElement(i))->UpdateActionsMenu(itsActionsMenu);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1081,133 +1082,133 @@ SVNMainDirector::HandleActionsMenu
 	)
 {
 	if (index == kRefreshCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
-			(itsTabList->GetElement(i))->RefreshContent();
-			}
-		}
-	else if (index == kCloseTabCmd)
 		{
+			(itsTabList->GetElement(i))->RefreshContent();
+		}
+	}
+	else if (index == kCloseTabCmd)
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i) && itsTabGroup->TabCanClose(i))
-			{
+		{
 			itsTabGroup->DeleteTab(i);
-			}
 		}
+	}
 
 	else if (index == kUpdateWorkingCopyCmd)
-		{
+	{
 		UpdateWorkingCopy();
-		}
+	}
 	else if (index == kCleanUpWorkingCopyCmd)
-		{
+	{
 		CleanUpWorkingCopy();
-		}
+	}
 
 	else if (index == kAddSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			(itsTabList->GetElement(i))->ScheduleForAdd();
-			}
 		}
+	}
 	else if (index == kRemoveSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			(itsTabList->GetElement(i))->ScheduleForRemove();
-			}
 		}
+	}
 	else if (index == kForceRemoveSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			(itsTabList->GetElement(i))->ForceScheduleForRemove();
-			}
 		}
+	}
 
 	else if (index == kResolveSelectedConflictsCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			(itsTabList->GetElement(i))->Resolved();
-			}
 		}
+	}
 
 	else if (index == kCommitSelectedChangesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
-			(itsTabList->GetElement(i))->Commit();
-			}
-		}
-	else if (index == kCommitAllChangesCmd)
 		{
-		CommitAll();
+			(itsTabList->GetElement(i))->Commit();
 		}
+	}
+	else if (index == kCommitAllChangesCmd)
+	{
+		CommitAll();
+	}
 
 	else if (index == kRevertSelectedChangesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
-			(itsTabList->GetElement(i))->Revert();
-			}
-		}
-	else if (index == kRevertAllChangesCmd)
 		{
-		RevertAll();
+			(itsTabList->GetElement(i))->Revert();
 		}
+	}
+	else if (index == kRevertAllChangesCmd)
+	{
+		RevertAll();
+	}
 
 	else if (index == kCreateDirectoryCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			(itsTabList->GetElement(i))->CreateDirectory();
-			}
 		}
+	}
 	else if (index == kDuplicateSelectedItemCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			(itsTabList->GetElement(i))->DuplicateItem();
-			}
 		}
+	}
 
 	else if (index == kCreatePropertyCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
-			(itsTabList->GetElement(i))->CreateProperty();
-			}
-		}
-	else if (index == kRemoveSelectedPropertiesCmd)
 		{
+			(itsTabList->GetElement(i))->CreateProperty();
+		}
+	}
+	else if (index == kRemoveSelectedPropertiesCmd)
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i) &&
 			JGetUserNotification()->AskUserNo(JGetString("WarnRemoveProperties::SVNMainDirector")))
-			{
-			(itsTabList->GetElement(i))->SchedulePropertiesForRemove();
-			}
-		}
-	else if (index == kIgnoreSelectionCmd)
 		{
+			(itsTabList->GetElement(i))->SchedulePropertiesForRemove();
+		}
+	}
+	else if (index == kIgnoreSelectionCmd)
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			(itsTabList->GetElement(i))->Ignore();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1219,9 +1220,9 @@ void
 SVNMainDirector::RefreshRepo()
 {
 	if (itsRepoWidget != nullptr)
-		{
+	{
 		itsRepoWidget->RefreshContent();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1240,9 +1241,9 @@ SVNMainDirector::BrowseRepo
 	assert( hasRepo );
 
 	const JUtf8Byte* map[] =
-		{
+	{
 		"rev", rev.GetBytes()
-		};
+	};
 	const JString title = JGetString("RepoRevTab::SVNMainDirector", map, sizeof(map));
 
 	JXContainer* card            = itsTabGroup->AppendTab(title, true);
@@ -1273,9 +1274,9 @@ SVNMainDirector::RefreshStatus()
 	itsRefreshStatusTask = nullptr;
 
 	if (itsStatusWidget != nullptr)
-		{
+	{
 		itsStatusWidget->RefreshContent();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1287,9 +1288,9 @@ void
 SVNMainDirector::UpdateWorkingCopy()
 {
 	if (!HasPath())
-		{
+	{
 		return;
-		}
+	}
 
 	JXContainer* card            = itsTabGroup->AppendTab(JGetString("UpdateTab::SVNMainDirector"), true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
@@ -1316,10 +1317,10 @@ void
 SVNMainDirector::CleanUpWorkingCopy()
 {
 	if (HasPath())
-		{
+	{
 		Execute("CleanUpTab::SVNMainDirector",
 				JString("svn cleanup", JString::kNoCopy), false, true, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1334,9 +1335,9 @@ SVNMainDirector::Commit
 	)
 {
 	if (HasPath())
-		{
+	{
 		Execute("CommitTab::SVNMainDirector", cmd, true, true, false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1348,10 +1349,10 @@ void
 SVNMainDirector::CommitAll()
 {
 	if (HasPath())
-		{
+	{
 		Execute("CommitAllTab::SVNMainDirector",
 				JString("svn commit", JString::kNoCopy), true, true, false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1364,10 +1365,10 @@ SVNMainDirector::RevertAll()
 {
 	if (HasPath() &&
 		JGetUserNotification()->AskUserNo(JGetString("WarnRevertAll::SVNMainDirector")))
-		{
+	{
 		Execute("RevertAllTab::SVNMainDirector",
 				JString("svn revert -R .", JString::kNoCopy), false, true, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1413,9 +1414,9 @@ SVNMainDirector::UpdateInfoMenu()
 
 	JIndex i;
 	if (itsTabGroup->GetCurrentTabIndex(&i))
-		{
+	{
 		(itsTabList->GetElement(i))->UpdateInfoMenu(itsInfoMenu);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1430,60 +1431,60 @@ SVNMainDirector::HandleInfoMenu
 	)
 {
 	if (index == kInfoLogSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			ShowInfoLog(itsTabList->GetElement(i));
-			}
 		}
+	}
 	else if (index == kPropSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			ShowProperties(itsTabList->GetElement(i));
-			}
 		}
+	}
 
 	else if (index == kDiffEditedSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			if (tab->GetBaseRevision(&rev))
-				{
+			{
 				tab->CompareEdited(rev);
-				}
 			}
 		}
+	}
 	else if (index == kDiffCurrentSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			tab->GetBaseRevision(&rev);
 			tab->CompareCurrent(rev);
-			}
 		}
+	}
 	else if (index == kDiffPrevSelectedFilesCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			tab->GetBaseRevision(&rev);
 			tab->ComparePrev(rev);
-			}
 		}
+	}
 
 	else if (index == kBrowseRepoRevisionCmd)
-		{
+	{
 		assert( itsBrowseRepoRevisionDialog == nullptr );
 
 		itsBrowseRepoRevisionDialog =
@@ -1493,20 +1494,20 @@ SVNMainDirector::HandleInfoMenu
 		assert( itsBrowseRepoRevisionDialog != nullptr );
 		ListenTo(itsBrowseRepoRevisionDialog);
 		itsBrowseRepoRevisionDialog->BeginDialog();
-		}
+	}
 	else if (index == kBrowseSelectedRepoRevisionCmd)
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			if (tab->GetBaseRevision(&rev))
-				{
+			{
 				BrowseRepo(rev);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1525,9 +1526,9 @@ SVNMainDirector::ShowInfoLog
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		ShowInfoLog(*(list.GetElement(i)));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1581,9 +1582,9 @@ SVNMainDirector::ShowProperties
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		ShowProperties(*(list.GetElement(i)));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1642,30 +1643,30 @@ SVNMainDirector::HandlePrefsMenu
 	)
 {
 	if (index == kIntegrationPrefsCmd)
-		{
+	{
 		(SVNGetPrefsManager())->EditPrefs();
-		}
+	}
 	else if (index == kEditToolBarCmd)
-		{
+	{
 		itsToolBar->Edit();
-		}
+	}
 	else if (index == kEditBindingsCmd)
-		{
+	{
 		(JXFSBindingManager::Instance())->EditBindings();
-		}
+	}
 	else if (index == kWebBrowserCmd)
-		{
+	{
 		(JXGetWebBrowser())->EditPrefs();
-		}
+	}
 	else if (index == kEditMacWinPrefsCmd)
-		{
+	{
 		JXMacWinPrefsDialog::EditPrefs();
-		}
+	}
 
 	else if (index == kSaveWindSizeCmd)
-		{
+	{
 		(SVNGetPrefsManager())->SaveWindowSize(kSVNMainDirectorWindSizeID, GetWindow());
-		}
+	}
 }
 
 /******************************************************************************
@@ -1690,29 +1691,29 @@ SVNMainDirector::HandleHelpMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		SVNGetApplication()->DisplayAbout();
-		}
+	}
 
 	else if (index == kTOCCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowTOC();
-		}
+	}
 	else if (index == kOverviewCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("SVNOverviewHelp");
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("SVNMainHelp");
-		}
+	}
 
 	else if (index == kChangesCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
-		}
+	}
 }

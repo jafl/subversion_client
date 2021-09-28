@@ -8,14 +8,14 @@
 #ifndef _H_svnGlobals
 #define _H_svnGlobals
 
-#include <jXGlobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 // we include these for convenience
 
 #include "SVNApp.h"
 #include "SVNPrefsManager.h"
 #include "SVNWDManager.h"
-#include <JXDocumentManager.h>
+#include <jx-af/jx/JXDocumentManager.h>
 
 class SVNMDIServer;
 

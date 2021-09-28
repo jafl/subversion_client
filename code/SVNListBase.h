@@ -8,11 +8,11 @@
 #ifndef _H_SVNListBase
 #define _H_SVNListBase
 
-#include <JXStringList.h>
+#include <jx-af/jx/JXStringList.h>
 #include "SVNTabBase.h"
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include <JMessageProtocol.h>	// template; requires ace includes
+#include <jx-af/jcore/JMessageProtocol.h>	// template; requires ace includes
 
 class JProcess;
 class JXTextMenu;

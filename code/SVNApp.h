@@ -8,7 +8,7 @@
 #ifndef _H_SVNApp
 #define _H_SVNApp
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
 class SVNApp : public JXApplication
 {

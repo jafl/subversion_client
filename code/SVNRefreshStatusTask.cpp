@@ -12,7 +12,7 @@
 
 #include "SVNRefreshStatusTask.h"
 #include "SVNMainDirector.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kRetryPeriod = 500;		// milliseconds
 
@@ -54,13 +54,13 @@ SVNRefreshStatusTask::Perform
 	)
 {
 	if (itsDirector == nullptr)
-		{
+	{
 		jdelete this;
-		}
+	}
 
 	if (TimeToPerform(delta, maxSleepTime) &&
 		itsDirector->OKToStartActionProcess())
-		{
+	{
 		itsDirector->RefreshStatus();	// deletes us
-		}
+	}
 }

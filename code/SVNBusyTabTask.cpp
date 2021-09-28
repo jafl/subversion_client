@@ -9,7 +9,7 @@
 
 #include "SVNBusyTabTask.h"
 #include "SVNTabGroup.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kAnimationPeriod = 100;		// milliseconds
 
@@ -50,7 +50,7 @@ SVNBusyTabTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		itsTabGroup->IncrementSpinnerIndex();
-		}
+	}
 }

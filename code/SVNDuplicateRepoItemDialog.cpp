@@ -9,11 +9,11 @@
 
 #include "SVNDuplicateRepoItemDialog.h"
 #include "SVNRepoTreeNode.h"
-#include <JXInputField.h>
-#include <JXChooseSaveFile.h>
-#include <jXGlobals.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -55,23 +55,23 @@ bool
 SVNDuplicateRepoItemDialog::OKToDeactivate()
 {
 	if (!JXGetStringDialog::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	const JString& name = GetString();
 	JNamedTreeNode* node;
 	if ((itsSrcNode->GetNamedParent())->FindNamedChild(name, &node))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::SVNDuplicateRepoItemDialog"));
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }

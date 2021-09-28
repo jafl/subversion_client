@@ -9,10 +9,10 @@
 
 #include "SVNUpdateList.h"
 #include "svnGlobals.h"
-#include <JProcess.h>
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JRegex revisionPattern = "revision [0-9]+\\.$";
 static const JString conflictPattern("conflicts:", JString::kNoCopy);
@@ -61,10 +61,10 @@ void
 SVNUpdateList::RefreshContent()
 {
 	if (!itsHasRefreshedFlag)
-	{
+{
 		SVNListBase::RefreshContent();
 		itsHasRefreshedFlag = true;
-	}
+}
 }
 
 /******************************************************************************
@@ -89,17 +89,17 @@ SVNUpdateList::StyleLine
 	iter.Invalidate();
 
 	if (c1 == 'C' || c2 == 'C')
-		{
+	{
 		SetStyle(index, errorStyle);
-		}
+	}
 	else if (c1 == 'A' && c2 != 't')
-		{
+	{
 		SetStyle(index, addStyle);
-		}
+	}
 	else if (c1 == 'D')
-		{
+	{
 		SetStyle(index, removeStyle);
-		}
+	}
 }
 
 /******************************************************************************
@@ -147,20 +147,20 @@ SVNUpdateList::Receive
 	)
 {
 	if (message.Is(JProcess::kFinished))
-		{
+	{
 		JPtrArray<JString>*	list = GetLineList();
 		const JSize count        = list->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const JString* line = list->GetElement(i);
 			if (revisionPattern.Match(*line))
-				{
+			{
 				list->MoveElementToIndex(i, 1);
 				SetStyle(1, JFontStyle(true, false, 0, false));
 				break;
-				}
 			}
 		}
+	}
 
 	SVNListBase::Receive(sender, message);
 }

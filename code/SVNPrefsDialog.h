@@ -8,7 +8,7 @@
 #ifndef _H_SVNPrefsDialog
 #define _H_SVNPrefsDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 #include "SVNPrefsManager.h"	// need defn of Integration
 
 class JXRadioGroup;

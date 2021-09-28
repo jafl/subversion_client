@@ -8,7 +8,7 @@
 #ifndef _H_SVNRepoTreeList
 #define _H_SVNRepoTreeList
 
-#include <JNamedTreeList.h>
+#include <jx-af/jcore/JNamedTreeList.h>
 
 class SVNRepoTree;
 class SVNRepoTreeNode;

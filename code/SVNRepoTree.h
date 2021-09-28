@@ -8,8 +8,8 @@
 #ifndef _H_SVNRepoTree
 #define _H_SVNRepoTree
 
-#include <JTree.h>
-#include <JPtrArray-JString.h>
+#include <jx-af/jcore/JTree.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 
 class SVNRepoTreeList;
 class SVNRepoTreeNode;

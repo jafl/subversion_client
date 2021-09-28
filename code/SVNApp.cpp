@@ -11,8 +11,8 @@
 #include "SVNAboutDialog.h"
 #include "svnStringData.h"
 #include "svnGlobals.h"
-#include <JSimpleProcess.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "nps_svn_client";
 
@@ -34,21 +34,21 @@ SVNApp::SVNApp
 	*displayAbout = SVNCreateGlobals(this);
 
 	if (!*displayAbout)
-		{
+	{
 		*prevVersStr = (SVNGetPrefsManager())->GetPrevVersionStr();
 		if (*prevVersStr == SVNGetVersionNumberStr())
-			{
-			prevVersStr->Clear();
-			}
-		else
-			{
-			*displayAbout = true;
-			}
-		}
-	else
 		{
-		prevVersStr->Clear();
+			prevVersStr->Clear();
 		}
+		else
+		{
+			*displayAbout = true;
+		}
+	}
+	else
+	{
+		prevVersStr->Clear();
+	}
 }
 
 /******************************************************************************
@@ -73,9 +73,9 @@ SVNApp::Close()
 
 	const bool success = JXApplication::Close();	// deletes us if successful
 	if (!success)
-		{
+	{
 		(SVNGetPrefsManager())->ForgetProgramState();
-		}
+	}
 
 	return success;
 }
@@ -109,9 +109,9 @@ SVNApp::ReloadOpenFilesInIDE()
 	SVNPrefsManager::Integration type;
 	JString cmd;
 	if ((SVNGetPrefsManager())->GetCommand(SVNPrefsManager::kReloadChangedCmd, &type, &cmd))
-		{
+	{
 		JSimpleProcess::Create(cmd, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -130,9 +130,9 @@ SVNApp::CleanUpBeforeSuddenDeath
 	JXApplication::CleanUpBeforeSuddenDeath(reason);
 
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 		(SVNGetPrefsManager())->SaveProgramState();
-		}
+	}
 
 	SVNCleanUpBeforeSuddenDeath(reason);		// must be last call
 }

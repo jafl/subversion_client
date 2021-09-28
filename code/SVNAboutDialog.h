@@ -8,7 +8,7 @@
 #ifndef _H_SVNAboutDialog
 #define _H_SVNAboutDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextButton;
 

@@ -8,7 +8,7 @@
 #ifndef _H_SVNBusyTabTask
 #define _H_SVNBusyTabTask
 
-#include <JXIdleTask.h>
+#include <jx-af/jx/JXIdleTask.h>
 
 class SVNTabGroup;
 

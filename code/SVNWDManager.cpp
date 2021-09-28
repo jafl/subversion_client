@@ -9,11 +9,11 @@
 
 #include "SVNWDManager.h"
 #include "SVNMainDirector.h"
-#include <JXChooseSaveFile.h>
-#include <jXGlobals.h>
-#include <jDirUtil.h>
-#include <jWebUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jWebUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // state information
 
@@ -59,15 +59,15 @@ SVNWDManager::NewBrowser
 	JString path;
 	if ((JXGetChooseSaveFile())->ChooseRWPath(JString::empty, JGetString("NewBrowserInstr::SVNWDManager"),
 											  JString::empty, &path))
-		{
+	{
 		*dir = OpenDirectory(path);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*dir = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -87,14 +87,14 @@ SVNWDManager::GetBrowser
 	JString p1;
 	bool isURL = JIsURL(path);
 	if (isURL)
-		{
+	{
 		p1 = path;
 		JAppendDirSeparator(&p1);
-		}
+	}
 	else if (!JGetTrueName(path, &p1))
-		{
+	{
 		return false;
-		}
+	}
 
 	JPtrArray<JXWindowDirector> windowList(JPtrArrayT::kForgetAll);
 	GetDirectors(&windowList);
@@ -102,30 +102,30 @@ SVNWDManager::GetBrowser
 	const JSize windowCount = windowList.GetElementCount();
 	JString p2, p3;
 	for (JIndex i=1; i<=windowCount; i++)
-		{
+	{
 		auto* d = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
 		if (d == nullptr)
-			{
+		{
 			continue;
-			}
+		}
 
 		if (isURL && d->GetRepoPath(&p2))
-			{
+		{
 			JAppendDirSeparator(&p2);
 			if (p1.BeginsWith(p2))
-				{
+			{
 				*dir = d;
 				break;
-				}
 			}
+		}
 		else if (!isURL && d->GetPath(&p3) &&
 				 (JSameDirEntry(p1, p3) ||
 				  (JGetTrueName(p3, &p2) && p1.BeginsWith(p2))))
-			{
+		{
 			*dir = d;
 			break;
-			}
 		}
+	}
 
 	return *dir != nullptr;
 }
@@ -153,14 +153,14 @@ SVNWDManager::GetBrowserForExactURL
 	const JSize windowCount = windowList.GetElementCount();
 	JString p2;
 	for (JIndex i=1; i<=windowCount; i++)
-		{
+	{
 		auto* d = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
 		if (d != nullptr && d->GetRepoPath(&p2) && p1 == p2)
-			{
+		{
 			*dir = d;
 			break;
-			}
 		}
+	}
 
 	return *dir != nullptr;
 }
@@ -180,15 +180,15 @@ SVNWDManager::OpenDirectory
 	SVNMainDirector* dir;
 	const bool open = GetBrowser(path, &dir);
 	if (wasOpen != nullptr)
-		{
+	{
 		*wasOpen = open;
-		}
+	}
 
 	if (!open)
-		{
+	{
 		dir = jnew SVNMainDirector(JXGetApplication(), path);
 		assert( dir != nullptr );
-		}
+	}
 
 	dir->Activate();
 	return dir;
@@ -211,20 +211,20 @@ SVNWDManager::RestoreState
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentStateVersion)
-		{
+	{
 		return false;
-		}
+	}
 
 	JSize windowCount;
 	input >> windowCount;
 
 	JString fileName;
 	for (JIndex i=1; i<=windowCount; i++)
-		{
+	{
 		auto* dir = jnew SVNMainDirector(JXGetApplication(), input, vers);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	return windowCount > 0;
 }
@@ -250,9 +250,9 @@ SVNWDManager::SaveState
 	JPtrArray<JXWindowDirector> windowList(JPtrArrayT::kForgetAll);
 	GetDirectors(&windowList);
 	if (windowList.IsEmpty())
-		{
+	{
 		return false;
-		}
+	}
 
 	output << kCurrentStateVersion;
 
@@ -260,12 +260,12 @@ SVNWDManager::SaveState
 	output << ' ' << windowCount;
 
 	for (JIndex i=1; i<=windowCount; i++)
-		{
+	{
 		auto* dir = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
 
 		output << ' ';
 		dir->StreamOut(output);
-		}
+	}
 
 	return true;
 }

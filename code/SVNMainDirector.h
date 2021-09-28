@@ -8,9 +8,9 @@
 #ifndef _H_SVNMainDirector
 #define _H_SVNMainDirector
 
-#include <JXWindowDirector.h>
-#include <JPrefObject.h>
-#include <JString.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
+#include <jx-af/jcore/JString.h>
 
 class JProcess;
 class JXContainer;

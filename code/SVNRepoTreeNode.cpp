@@ -7,15 +7,15 @@
 
 #include "SVNRepoTreeNode.h"
 #include "SVNRepoTree.h"
-#include <jXGlobals.h>
-#include <JTree.h>
-#include <JSimpleProcess.h>
-#include <jFileUtil.h>
-#include <jXMLUtil.h>
-#include <jTime.h>
-#include <jMath.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JTree.h>
+#include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jXMLUtil.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jMath.h>
 #include <libxml/parser.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -61,16 +61,16 @@ SVNRepoTreeNode::~SVNRepoTreeNode()
 	DeleteLinks();
 
 	if (itsProcess != nullptr)
-		{
+	{
 		StopListening(itsProcess);
 		itsProcess->Kill();
-		}
+	}
 	jdelete itsProcess;
 
 	if (!itsResponseFullName.IsEmpty())
-		{
+	{
 		JRemoveFile(itsResponseFullName);
-		}
+	}
 
 	jdelete itsErrorList;
 }
@@ -105,9 +105,9 @@ SVNRepoTreeNode::Rename
 	)
 {
 	if (newName == GetName())
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	JString path, name;
 	JSplitPathAndName(itsRepoPath, &path, &name);
@@ -124,13 +124,13 @@ SVNRepoTreeNode::Rename
 	JSimpleProcess::Create(&p, cmd, false);
 	p->WaitUntilFinished();
 	if (p->SuccessfulFinish())
-		{
+	{
 		SetName(newName);
 		itsRepoPath = newRepoPath;
 		if (itsType == kDirectory)
-			{
+		{
 			itsNeedUpdateFlag = true;
-			}
+		}
 
 // newName may be invalid beyond this point if text is from input field
 
@@ -138,10 +138,10 @@ SVNRepoTreeNode::Rename
 		// because can invoke Update()
 
 		if (sort)
-			{
+		{
 			GetParent()->SortChildren();		// this method maintains the selection
-			}
 		}
+	}
 
 	jdelete p;
 	return JNoError();
@@ -157,16 +157,16 @@ SVNRepoTreeNode::OKToOpen()
 	const
 {
 	if (!JNamedTreeNode::OKToOpen())
-		{
+	{
 		return false;
-		}
+	}
 
 	auto* me = const_cast<SVNRepoTreeNode*>(this);
 	if (itsNeedUpdateFlag)
-		{
+	{
 		me->itsNeedUpdateFlag = false;
 		me->Update();
-		}
+	}
 
 	return true;
 }
@@ -180,7 +180,7 @@ void
 SVNRepoTreeNode::Update()
 {
 	if (itsProcess != nullptr)
-		{
+	{
 		JProcess* p = itsProcess;
 		itsProcess  = nullptr;
 
@@ -188,26 +188,26 @@ SVNRepoTreeNode::Update()
 		jdelete p;
 
 		DeleteLinks();
-		}
+	}
 
 	if (itsType != kDirectory)
-		{
+	{
 		return;
-		}
+	}
 
 	JError err = JCreateTempFile(nullptr, nullptr, &itsResponseFullName);
 	if (!err.OK())
-		{
+	{
 		err.ReportIfError();
 		return;
-		}
+	}
 
 	JString cmd("/bin/sh -c 'svn list");
 	if (!itsRepoRevision.IsEmpty())
-		{
+	{
 		cmd += " -r ";
 		cmd += itsRepoRevision;
-		}
+	}
 	cmd += " --xml ";
 	cmd += JPrepArgForExec(itsRepoPath);
 	cmd += " >> ";
@@ -220,7 +220,7 @@ SVNRepoTreeNode::Update()
 						   kJIgnoreConnection, nullptr,
 						   kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		itsProcess->ShouldDeleteWhenFinished();
 		ListenTo(itsProcess);
 		SetConnection(errFD);
@@ -233,11 +233,11 @@ SVNRepoTreeNode::Update()
 								 kBusy, 0, 0, JString::empty, 0);
 		assert( node != nullptr );
 		this->Append(node);
-		}
+	}
 	else
-		{
+	{
 		err.ReportIfError();
-		}
+	}
 }
 
 /******************************************************************************
@@ -253,13 +253,13 @@ SVNRepoTreeNode::Receive
 	)
 {
 	if (sender == itsErrorLink && message.Is(JMessageProtocolT::kMessageReady))
-		{
+	{
 		ReceiveErrorLine();
-		}
+	}
 	else
-		{
+	{
 		JNamedTreeNode::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -274,16 +274,16 @@ SVNRepoTreeNode::ReceiveGoingAway
 	)
 {
 	if (sender == itsProcess)
-		{
+	{
 		itsProcess = nullptr;
 		DeleteLinks();
 
 		ParseResponse();
-		}
+	}
 	else
-		{
+	{
 		JNamedTreeNode::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 /******************************************************************************
@@ -315,19 +315,19 @@ SVNRepoTreeNode::ParseResponse()
 
 	xmlDoc* doc = xmlReadFile(itsResponseFullName.GetBytes(), nullptr, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
 	if (doc != nullptr)
-		{
+	{
 		xmlNode* root = xmlDocGetRootElement(doc);
 
 		if (root != nullptr &&
 			strcmp((char*) root->name, "lists") == 0 &&
 			strcmp((char*) root->children->name, "list") == 0)
-			{
+		{
 			const JString repoPath = JGetXMLNodeAttr(root->children, "path");
 
 			xmlNode* entry = root->children->children;
 			JString repoPath1;
 			while (entry != nullptr)
-				{
+			{
 				const JString type = JGetXMLNodeAttr(entry, "kind");
 
 				JString name, author;
@@ -338,45 +338,45 @@ SVNRepoTreeNode::ParseResponse()
 				xmlNode* child = JGetXMLChildNode(entry, "name");
 				if (child != nullptr && child->children != nullptr &&
 					child->children->type == XML_TEXT_NODE)
-					{
+				{
 					name = (char*) child->children->content;
-					}
+				}
 
 				child = JGetXMLChildNode(entry, "size");
 				if (child != nullptr && child->children != nullptr &&
 					child->children->type == XML_TEXT_NODE)
-					{
+				{
 					size = atol((char*) child->children->content);
-					}
+				}
 
 				child = JGetXMLChildNode(entry, "commit");
 				if (child != nullptr)
-					{
+				{
 					rev = atol(JGetXMLNodeAttr(child, "revision").GetBytes());
 
 					xmlNode* child2 = JGetXMLChildNode(child, "author");
 					if (child2 != nullptr && child2->children != nullptr &&
 						child2->children->type == XML_TEXT_NODE)
-						{
+					{
 						author = (char*) child2->children->content;
-						}
+					}
 
 					child2 = JGetXMLChildNode(child, "date");
 					if (child2 != nullptr && child2->children != nullptr &&
 						child2->children->type == XML_TEXT_NODE)
-						{
+					{
 						tm tm;
 						char* endPtr = strptime((char*) child2->children->content,
 												"%Y-%m-%dT%H:%M:%S", &tm);
 						if (*endPtr == '.')
-							{
+						{
 							modTime = mktime(&tm) + JGetTimezoneOffset();
-							}
 						}
 					}
+				}
 
 				if (!name.IsEmpty())
-					{
+				{
 					repoPath1 = JCombinePathAndName(repoPath, name);
 
 					auto* node =
@@ -385,21 +385,21 @@ SVNRepoTreeNode::ParseResponse()
 											rev, modTime, author, size);
 					assert( node != nullptr );
 					this->InsertSorted(node);
-					}
+				}
 
 				entry = entry->next;
-				}
+			}
 
 			SVNRepoTree* tree = GetRepoTree();
 			const JSize count = GetChildCount();
 			for (JIndex i=1; i<=count; i++)
-				{
+			{
 				tree->ReopenIfNeeded(GetRepoChild(i));
-				}
 			}
+		}
 
 		xmlFreeDoc(doc);
-		}
+	}
 
 	JRemoveFile(itsResponseFullName);
 	itsResponseFullName.Clear();
@@ -417,14 +417,14 @@ SVNRepoTreeNode::DisplayErrors()
 {
 	const JSize count = itsErrorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		auto* node =
 			jnew SVNRepoTreeNode(GetTree(), JString::empty, JString::empty,
 								 *(itsErrorList->GetElement(i)),
 								 kError, 0, 0, JString::empty, 0);
 		assert( node != nullptr );
 		this->InsertAtIndex(i, node);
-		}
+	}
 
 	itsErrorList->DeleteAll();
 }
@@ -483,16 +483,16 @@ SVNRepoTreeNode::GetRepoParent
 {
 	JTreeNode* p;
 	if (GetParent(&p))
-		{
+	{
 		*parent = dynamic_cast<SVNRepoTreeNode*>(p);
 		assert( *parent != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*parent = nullptr;
 		return false;
-		}
+	}
 }
 
 bool
@@ -504,16 +504,16 @@ SVNRepoTreeNode::GetRepoParent
 {
 	const JTreeNode* p;
 	if (GetParent(&p))
-		{
+	{
 		*parent = dynamic_cast<const SVNRepoTreeNode*>(p);
 		assert( *parent != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*parent = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

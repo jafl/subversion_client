@@ -4,7 +4,7 @@
 
 @nps_svn_client
 
-.cpp ./code/nps_svn_client
+.cpp ./code/main
 .cpp ./code/SVNApp
 .cpp ./code/svnGlobals
 .cpp ./code/SVNPrefsManager

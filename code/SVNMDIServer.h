@@ -8,7 +8,7 @@
 #ifndef _H_SVNMDIServer
 #define _H_SVNMDIServer
 
-#include <JXMDIServer.h>
+#include <jx-af/jx/JXMDIServer.h>
 
 class SVNMDIServer : public JXMDIServer
 {

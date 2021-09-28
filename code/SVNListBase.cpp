@@ -10,20 +10,20 @@
 #include "SVNListBase.h"
 #include "SVNMainDirector.h"
 #include "svnMenus.h"
-#include <JXWindow.h>
-#include <JXTextMenu.h>
-#include <JXColorManager.h>
-#include <JXDeleteObjectTask.h>
-#include <JXTextSelection.h>
-#include <jXGlobals.h>
-#include <JTableSelection.h>
-#include <JFontManager.h>
-#include <JProcess.h>
-#include <JStringIterator.h>
-#include <jStreamUtil.h>
-#include <jDirUtil.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXDeleteObjectTask.h>
+#include <jx-af/jx/JXTextSelection.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Context menu
 
@@ -107,10 +107,10 @@ SVNListBase::SVNListBase
 SVNListBase::~SVNListBase()
 {
 	if (itsProcess != nullptr)
-		{
+	{
 		StopListening(itsProcess);
 		itsProcess->Kill();
-		}
+	}
 	jdelete itsProcess;
 
 	DeleteLinks();
@@ -129,7 +129,7 @@ void
 SVNListBase::RefreshContent()
 {
 	if (itsProcess != nullptr)
-		{
+	{
 		JProcess* p = itsProcess;
 		itsProcess  = nullptr;
 
@@ -137,19 +137,19 @@ SVNListBase::RefreshContent()
 		jdelete p;
 
 		DeleteLinks();
-		}
+	}
 	else
-		{
+	{
 		itsSavedSelection->CleanOut();
 		JTableSelection& s = GetTableSelection();
 		JTableSelectionIterator iter(&s);
 		JPoint cell;
 		while (iter.Next(&cell))
-			{
+		{
 			const JString* line = itsLineList->GetElement(cell.y);
 			itsSavedSelection->InsertSorted(jnew JString(ExtractRelativePath(*line)));
-			}
 		}
+	}
 
 	itsDisplayState = SaveDisplayState();
 	itsLineList->CleanOut();
@@ -157,33 +157,33 @@ SVNListBase::RefreshContent()
 	int outFD, errFD;
 	JError err = JNoError();
 	if (GetDirector()->HasPath())
-		{
+	{
 		err = JProcess::Create(&itsProcess, GetPath(), itsCmd,
 							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, &outFD,
 							   kJCreatePipe, &errFD);
-		}
+	}
 	else	// working with URL
-		{
+	{
 		err = JProcess::Create(&itsProcess, itsCmd,
 							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, &outFD,
 							   kJCreatePipe, &errFD);
-		}
+	}
 
 	if (err.OK())
-		{
+	{
 		itsProcess->ShouldDeleteWhenFinished();
 		ListenTo(itsProcess);
 		GetDirector()->RegisterActionProcess(this, itsProcess, itsRefreshRepoFlag,
 											   itsRefreshStatusFlag, itsReloadOpenFilesFlag);
 
 		SetConnection(outFD, errFD);
-		}
+	}
 	else
-		{
+	{
 		err.ReportIfError();
-		}
+	}
 }
 
 /******************************************************************************
@@ -199,48 +199,48 @@ SVNListBase::Receive
 	)
 {
 	if (sender == itsMessageLink && message.Is(JMessageProtocolT::kMessageReady))
-		{
+	{
 		ReceiveMessageLine();
-		}
+	}
 	else if (sender == itsErrorLink && message.Is(JMessageProtocolT::kMessageReady))
-		{
+	{
 		ReceiveErrorLine();
-		}
+	}
 
 	else if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			UpdateEditMenu();
-			}
 		}
+	}
 	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
-			}
 		}
+	}
 
 	else if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateContextMenu(itsContextMenu);
-		}
+	}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXStringList::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -255,20 +255,20 @@ SVNListBase::ReceiveGoingAway
 	)
 {
 	if (sender == itsProcess)
-		{
+	{
 		itsProcess = nullptr;
 		DeleteLinks();
 
 		DisplayErrors();
 		if (itsDisplayState.vMax > 0)
-			{
-			RestoreDisplayState(itsDisplayState);
-			}
-		}
-	else
 		{
-		JXStringList::ReceiveGoingAway(sender);
+			RestoreDisplayState(itsDisplayState);
 		}
+	}
+	else
+	{
+		JXStringList::ReceiveGoingAway(sender);
+	}
 }
 
 /******************************************************************************
@@ -286,9 +286,9 @@ SVNListBase::ReceiveMessageLine()
 	assert( ok );
 
 	if (!ShouldDisplayLine(&line))
-		{
+	{
 		return;
-		}
+	}
 
 	const JFontStyle red(true, false, 0, false, JColorManager::GetRedColor());
 	const JFontStyle blue = JColorManager::GetBlueColor();
@@ -304,9 +304,9 @@ SVNListBase::ReceiveMessageLine()
 	JString relPath = ExtractRelativePath(line);
 	JIndex j;
 	if (itsSavedSelection->SearchSorted(&relPath, JListT::kAnyMatch, &j))
-		{
+	{
 		(GetTableSelection()).SelectRow(i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -355,10 +355,10 @@ SVNListBase::DisplayErrors()
 
 	const JSize count = itsErrorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		itsLineList->InsertAtIndex(i, itsErrorList->GetElement(i));
 		SetStyle(i, red);
-		}
+	}
 
 	itsErrorList->RemoveAll();
 }
@@ -374,15 +374,15 @@ SVNListBase::UpdateEditMenu()
 	const JSize count = itsEditMenu->GetItemCount();
 	const JString* id;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (itsEditMenu->GetItemID(i, &id) &&
 			(((*id == kJXCopyAction || *id == kSVNCopyFullPathAction) &&
 			  (GetTableSelection()).HasSelection()) ||
 			 *id == kJXSelectAllAction))
-			{
+		{
 			itsEditMenu->EnableItem(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -398,22 +398,22 @@ SVNListBase::HandleEditMenu
 {
 	const JString* id;
 	if (!itsEditMenu->GetItemID(index, &id))
-		{
+	{
 		return;
-		}
+	}
 
 	if (*id == kJXCopyAction)
-		{
+	{
 		CopySelectedItems(false);
-		}
+	}
 	else if (*id == kSVNCopyFullPathAction)
-		{
+	{
 		CopySelectedItems(true);
-		}
+	}
 	else if (*id == kJXSelectAllAction)
-		{
+	{
 		(GetTableSelection()).SelectAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -430,20 +430,20 @@ SVNListBase::CopySelectedItems
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	GetSelectedFiles(&list, true);
 	if (list.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	if (!fullPath)
-		{
+	{
 		const JSize count       = list.GetElementCount();
 		const JString& basePath = GetPath();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			JString* path = list.GetElement(i);
 			*path         = JConvertToRelativePath(*path, basePath);
-			}
 		}
+	}
 
 	auto* data = jnew JXTextSelection(GetDisplay(), list);
 	assert( data != nullptr );
@@ -464,13 +464,13 @@ SVNListBase::AdjustCursor
 	)
 {
 	if (itsProcess != nullptr)
-		{
+	{
 		DisplayCursor(kJXBusyCursor);
-		}
+	}
 	else
-		{
+	{
 		JXWidget::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -494,33 +494,33 @@ SVNListBase::HandleMouseDown
 
 	JPoint cell;
 	if (button > kJXRightButton)
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 	else if (!GetCell(pt, &cell))
-		{
+	{
 		s.ClearSelection();
-		}
+	}
 	else if (button == kJXLeftButton && modifiers.shift())
-		{
+	{
 		itsIsDraggingFlag = s.ExtendSelection(cell);
-		}
+	}
 	else if (button == kJXLeftButton && modifiers.control())
-		{
+	{
 		s.InvertCell(cell);
 		if (s.IsSelected(cell))
-			{
+		{
 			s.SetBoat(cell);
 			s.SetAnchor(cell);
-			}
+		}
 		else
-			{
+		{
 			s.ClearBoat();
 			s.ClearAnchor();
-			}
 		}
+	}
 	else if (button == kJXLeftButton)
-		{
+	{
 		s.ClearSelection();
 		s.SetBoat(cell);
 		s.SetAnchor(cell);
@@ -528,25 +528,25 @@ SVNListBase::HandleMouseDown
 		itsIsDraggingFlag = true;
 
 		if (clickCount == 2)
-			{
-			OpenSelectedItems();
-			}
-		}
-	else if (button == kJXRightButton && clickCount == 1)
 		{
+			OpenSelectedItems();
+		}
+	}
+	else if (button == kJXRightButton && clickCount == 1)
+	{
 		if (CreateContextMenu())
-			{
+		{
 			if (!s.IsSelected(cell))
-				{
+			{
 				s.ClearSelection();
 				s.SetBoat(cell);
 				s.SetAnchor(cell);
 				s.SelectCell(cell);
-				}
+			}
 
 			itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -563,14 +563,14 @@ SVNListBase::HandleMouseDrag
 	)
 {
 	if (itsIsDraggingFlag)
-		{
+	{
 		ScrollForDrag(pt);
 
 		JPoint cell;
 		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 		(GetTableSelection()).ExtendSelection(cell);
-		}
+	}
 }
 
 /******************************************************************************
@@ -591,29 +591,29 @@ SVNListBase::HandleKeyPress
 	itsSavedSelection->CleanOut();
 
 	if (c == kJReturnKey)
-		{
+	{
 		OpenSelectedItems();
-		}
+	}
 
 	// space->clear is handled by JXStringList
 
 	else if (c == kJUpArrow || c == kJDownArrow)
-		{
+	{
 		ClearIncrementalSearchBuffer();
 		if (!hadSelection && c == kJUpArrow && GetRowCount() > 0)
-			{
+		{
 			SelectSingleCell(JPoint(1, GetRowCount()));
-			}
-		else
-			{
-			HandleSelectionKeyPress(c, modifiers);
-			}
 		}
+		else
+		{
+			HandleSelectionKeyPress(c, modifiers);
+		}
+	}
 
 	else
-		{
+	{
 		JXStringList::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -627,7 +627,7 @@ bool
 SVNListBase::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr && itsEnableContextMenuFlag)
-		{
+	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNListBase");
@@ -637,7 +637,7 @@ SVNListBase::CreateContextMenu()
 		itsContextMenu->SetItemImage(kInfoLogSelectedFilesCtxCmd, svn_info_log);
 
 		ListenTo(itsContextMenu);
-		}
+	}
 
 	return itsEnableContextMenuFlag && itsContextMenu != nullptr;
 }
@@ -669,44 +669,44 @@ SVNListBase::HandleContextMenu
 	)
 {
 	if (index == kDiffEditedSelectedFilesCtxCmd)
-		{
+	{
 		JString rev;
 		if (GetBaseRevision(&rev))
-			{
-			CompareEdited(rev);
-			}
-		}
-	else if (index == kDiffCurrentSelectedFilesCtxCmd)
 		{
+			CompareEdited(rev);
+		}
+	}
+	else if (index == kDiffCurrentSelectedFilesCtxCmd)
+	{
 		JString rev;
 		GetBaseRevision(&rev);
 		CompareCurrent(rev);
-		}
+	}
 	else if (index == kDiffPrevSelectedFilesCtxCmd)
-		{
+	{
 		JString rev;
 		GetBaseRevision(&rev);
 		ComparePrev(rev);
-		}
+	}
 
 	else if (index == kInfoLogSelectedFilesCtxCmd)
-		{
+	{
 		GetDirector()->ShowInfoLog(this);
-		}
+	}
 	else if (index == kPropSelectedFilesCtxCmd)
-		{
+	{
 		GetDirector()->ShowProperties(this);
-		}
+	}
 
 	else if (index == kIgnoreSelectionCtxCmd)
-		{
+	{
 		Ignore();
-		}
+	}
 
 	else if (index == kShowSelectedFilesCtxCmd)
-		{
+	{
 		ShowFiles();
-		}
+	}
 }
 
 /******************************************************************************
@@ -725,19 +725,19 @@ SVNListBase::UpdateActionsMenu
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	GetSelectedFiles(&list);
 	if (!list.IsEmpty())
-		{
+	{
 		menu->EnableItem(kAddSelectedFilesCmd);
 		menu->EnableItem(kResolveSelectedConflictsCmd);
-		}
+	}
 
 	GetSelectedFiles(&list, true);
 	if (!list.IsEmpty())
-		{
+	{
 		menu->EnableItem(kCommitSelectedChangesCmd);
 		menu->EnableItem(kRemoveSelectedFilesCmd);
 		menu->EnableItem(kForceRemoveSelectedFilesCmd);
 		menu->EnableItem(kRevertSelectedChangesCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -754,7 +754,7 @@ SVNListBase::UpdateInfoMenu
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	GetSelectedFiles(&list, true);
 	if (!list.IsEmpty())
-		{
+	{
 		menu->EnableItem(kInfoLogSelectedFilesCmd);
 		menu->EnableItem(kPropSelectedFilesCmd);
 		menu->EnableItem(kDiffCurrentSelectedFilesCmd);
@@ -762,10 +762,10 @@ SVNListBase::UpdateInfoMenu
 
 		JString rev;
 		if (GetBaseRevision(&rev))
-			{
+		{
 			menu->EnableItem(kDiffEditedSelectedFilesCmd);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -800,15 +800,15 @@ SVNListBase::GetSelectedFiles
 	JPoint cell;
 	const JString& basePath = GetPath();
 	while (iter.Next(&cell))
-		{
+	{
 		const JString* line   = itsLineList->GetElement(cell.y);
 		name                  = ExtractRelativePath(*line);
 		const bool exists = JConvertToAbsolutePath(name, basePath, &fullName);
 		if (exists || includeDeleted)
-			{
+		{
 			fullNameList->Append(fullName);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -863,17 +863,17 @@ SVNListBase::CompareLines::Compare
 
 	const int r = JString::Compare(p1, p2, JString::kIgnoreCase);
 	if (r > 0)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (r < 0)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 JElementComparison<JString*>*

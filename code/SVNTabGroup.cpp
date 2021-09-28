@@ -11,11 +11,12 @@
 
 #include "SVNTabGroup.h"
 #include "SVNBusyTabTask.h"
-#include <JXWindowPainter.h>
-#include <JXImage.h>
-#include <JXImageCache.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXImageCache.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_busy_1_small.xpm>
 #include <jx_busy_2_small.xpm>
@@ -61,9 +62,9 @@ SVNTabGroup::SVNTabGroup
 
 	JXImageCache* cache = enclosure->GetDisplay()->GetImageCache();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
-		{
+	{
 		itsImageList->Append(cache->GetImage(kBusyIcon[i-1]));
-		}
+	}
 
 	itsAnimationTask = jnew SVNBusyTabTask(this);
 	assert( itsAnimationTask != nullptr );
@@ -99,9 +100,9 @@ SVNTabGroup::SetBusyIndex
 	itsSpinnerIndex = 1;
 
 	if (itsBusyIndex > 0)
-		{
+	{
 		SetTabTitlePreMargin(itsBusyIndex, kImageWidth + 2*kMarginWidth);
-		}
+	}
 
 	itsAnimationTask->Start();
 }
@@ -115,9 +116,9 @@ void
 SVNTabGroup::ClearBusyIndex()
 {
 	if (itsBusyIndex > 0)
-		{
+	{
 		SetTabTitlePreMargin(itsBusyIndex, 0);
-		}
+	}
 
 	itsBusyIndex = 0;
 	itsAnimationTask->Stop();
@@ -133,9 +134,9 @@ SVNTabGroup::IncrementSpinnerIndex()
 {
 	itsSpinnerIndex++;
 	if (itsSpinnerIndex > kBusyIconCount)
-		{
+	{
 		itsSpinnerIndex = 1;
-		}
+	}
 
 	Refresh();
 }
@@ -155,11 +156,11 @@ SVNTabGroup::DrawTab
 	)
 {
 	if (index == itsBusyIndex)
-		{
+	{
 		JXImage* image = itsImageList->GetElement(itsSpinnerIndex);
 		p.JPainter::Image(*image, image->GetBounds(),
 						  rect.left + kMarginWidth, rect.ycenter() - (image->GetHeight()/2));
-		}
+	}
 }
 
 /******************************************************************************
@@ -175,7 +176,7 @@ SVNTabGroup::Receive
 	)
 {
 	if (message.Is(JXCardFile::kCardRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
 		assert( info != nullptr );
@@ -183,15 +184,15 @@ SVNTabGroup::Receive
 		JIndex i;
 		const bool hasIndex = info->GetCardIndex(&i);
 		if (hasIndex && i < itsBusyIndex)
-			{
+		{
 			itsBusyIndex--;
-			}
+		}
 		else if (hasIndex && i == itsBusyIndex)
-			{
+		{
 			itsBusyIndex = 0;
 			ClearBusyIndex();
-			}
 		}
+	}
 
 	JXTabGroup::Receive(sender, message);
 }

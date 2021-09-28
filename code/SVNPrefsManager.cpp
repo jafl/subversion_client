@@ -10,10 +10,10 @@
 #include "SVNPrefsManager.h"
 #include "SVNPrefsDialog.h"
 #include "svnGlobals.h"
-#include <JXChooseSaveFile.h>
-#include <JXWindow.h>
-#include <jProcessUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 1;
 
@@ -98,15 +98,15 @@ SVNPrefsManager::GetExpirationTimeStamp
 {
 	std::string data;
 	if (GetData(kSVNExpireTimeStampID, &data))
-		{
+	{
 		std::istringstream input(data);
 		input >> *t;
 		return !input.fail();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -139,18 +139,18 @@ SVNPrefsManager::UpgradeData
 	)
 {
 	if (isNew)
-		{
+	{
 		SetData(kSVNProgramVersionID, SVNGetVersionNumberStr());
-		}
+	}
 
 	if (!isNew && currentVersion < 1)
-		{
+	{
 		Integration type;
 		JString commitEditor, diffCmd, reloadChangedCmd;
 
 		std::string data;
 		if (GetData(kSVNIntegrationID, &data))
-			{
+		{
 			std::istringstream dataStream(data);
 			dataStream >> type;
 			dataStream >> diffCmd;
@@ -158,21 +158,21 @@ SVNPrefsManager::UpgradeData
 
 			const JUtf8Byte* editor = getenv("SVN_EDITOR");
 			if (type == kCodeCrusader)
-				{
+			{
 				commitEditor = kCodeCrusaderCmd[ kCommitEditor ];
-				}
+			}
 			else if (type == kCustom && !JString::IsEmpty(editor))
-				{
+			{
 				commitEditor = editor;
-				}
+			}
 			else	// type == kCmdLine
-				{
+			{
 				commitEditor = kCmdLineCmd[ kCommitEditor ];
-				}
+			}
 
 			SetIntegration(type, commitEditor, diffCmd, reloadChangedCmd);
-			}
 		}
+	}
 
 	// check if Code Crusader is available
 
@@ -181,36 +181,36 @@ SVNPrefsManager::UpgradeData
 	Integration type;
 	JString commitEditor, diffCmd, reloadChangedCmd;
 	if (GetIntegration(&type, &commitEditor, &diffCmd, &reloadChangedCmd))
-		{
+	{
 		bool changed = false;
 		if (hasJCC && type != kCodeCrusader)
-			{
+		{
 			type    = kCodeCrusader;
 			changed = true;
-			}
+		}
 		else if (!hasJCC && type == kCodeCrusader)
-			{
+		{
 			type    = kCmdLine;
 			changed = true;
-			}
+		}
 
 		if (changed)
-			{
+		{
 			SetIntegration(type, commitEditor, diffCmd, reloadChangedCmd);
-			}
+		}
 		else
-			{
+		{
 			GetCommand(kCommitEditor, &type, &commitEditor);
 			setenv("SVN_EDITOR", commitEditor.GetBytes(), 1);
-			}
 		}
+	}
 	else
-		{
+	{
 		SetIntegration(hasJCC ? kCodeCrusader : kCmdLine,
 					   JString(kCmdLineCmd[ kCommitEditor ], JString::kNoCopy),
 					   JString(kCmdLineCmd[ kDiffCmd ], JString::kNoCopy),
 					   JString(kCmdLineCmd[ kReloadChangedCmd ], JString::kNoCopy));
-		}
+	}
 }
 
 /******************************************************************************
@@ -243,18 +243,18 @@ SVNPrefsManager::RestoreProgramState()
 {
 	std::string data;
 	if (GetData(kSVNDocMgrStateID, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		const bool restored =
 			(SVNGetWDManager())->RestoreState(dataStream);
 		RemoveData(kSVNDocMgrStateID);
 
 		return restored;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 void
@@ -262,13 +262,13 @@ SVNPrefsManager::SaveProgramState()
 {
 	std::ostringstream data;
 	if ((SVNGetWDManager())->SaveState(data))
-		{
+	{
 		SetData(kSVNDocMgrStateID, data);
-		}
+	}
 	else
-		{
+	{
 		RemoveData(kSVNDocMgrStateID);
-		}
+	}
 }
 
 void
@@ -316,15 +316,15 @@ SVNPrefsManager::GetWindowSize
 {
 	std::string data;
 	if (GetData(id, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		dataStream >> *desktopLoc >> *width >> *height;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -368,21 +368,21 @@ SVNPrefsManager::GetCommand
 	assert( exists );
 
 	if (*type == kCustom && cmdType == kCommitEditor)
-		{
+	{
 		*cmd = commitEditor;
-		}
+	}
 	else if (*type == kCustom && cmdType == kDiffCmd)
-		{
+	{
 		*cmd = diffCmd;
-		}
+	}
 	else if (*type == kCustom && cmdType == kReloadChangedCmd)
-		{
+	{
 		*cmd = reloadChangedCmd;
-		}
+	}
 	else
-		{
+	{
 		*cmd = kIntegrationCmd[ *type ][ cmdType ];
-		}
+	}
 
 	return !cmd->IsEmpty();
 }
@@ -404,18 +404,18 @@ SVNPrefsManager::GetIntegration
 {
 	std::string data;
 	if (GetData(kSVNIntegrationID, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		dataStream >> *type;
 		dataStream >> *commitEditor;
 		dataStream >> *diffCmd;
 		dataStream >> *reloadChangedCmd;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -459,24 +459,24 @@ SVNPrefsManager::Receive
 	)
 {
 	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			Integration type;
 			JString commitEditor, diffCmd, reloadChangedCmd;
 			itsPrefsDialog->GetData(&type, &commitEditor, &diffCmd, &reloadChangedCmd);
 
 			SetIntegration(type, commitEditor, diffCmd, reloadChangedCmd);
-			}
+		}
 		itsPrefsDialog = nullptr;
-		}
+	}
 	else
-		{
+	{
 		JXPrefsManager::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

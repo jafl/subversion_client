@@ -9,12 +9,12 @@
 
 #include "SVNGetRepoDialog.h"
 #include "svnGlobals.h"
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXInputField.h>
-#include <JXStringHistoryMenu.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXStringHistoryMenu.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kHistoryLength = 20;
 
@@ -133,13 +133,13 @@ SVNGetRepoDialog::Receive
 	)
 {
 	if (sender == itsRepoHistoryMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		itsRepoInput->GetText()->SetText(itsRepoHistoryMenu->GetItemText(message));
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -156,18 +156,18 @@ SVNGetRepoDialog::ReadPrefs
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	if (vers >= 1)
-		{
+	{
 		GetWindow()->ReadGeometry(input);
-		}
+	}
 	else
-		{
+	{
 		GetWindow()->PlaceAsDialogWindow();
-		}
+	}
 
 	itsRepoHistoryMenu->ReadSetup(input);
 }

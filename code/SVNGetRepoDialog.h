@@ -8,8 +8,8 @@
 #ifndef _H_SVNGetRepoDialog
 #define _H_SVNGetRepoDialog
 
-#include <JXDialogDirector.h>
-#include <JPrefObject.h>
+#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class JXInputField;
 class JXStringHistoryMenu;

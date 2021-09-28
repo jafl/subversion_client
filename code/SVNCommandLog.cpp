@@ -9,9 +9,9 @@
 
 #include "SVNCommandLog.h"
 #include "SVNMainDirector.h"
-#include <JProcess.h>
-#include <JStdError.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/JStdError.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -63,10 +63,10 @@ void
 SVNCommandLog::RefreshContent()
 {
 	if (!itsHasRefreshedFlag)
-	{
+{
 		SVNTextBase::RefreshContent();
 		itsHasRefreshedFlag = true;
-	}
+}
 }
 
 /******************************************************************************
@@ -82,31 +82,31 @@ SVNCommandLog::StartProcess
 	)
 {
 	if (!GetDirector()->OKToStartActionProcess())
-		{
+	{
 		return JWouldHaveBlocked();
-		}
+	}
 
 	JError err = JNoError();
 	if (GetDirector()->HasPath())
-		{
+	{
 		err = JProcess::Create(p, GetPath(), itsCmd,
 							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, outFD,
 							   kJAttachToFromFD);
-		}
+	}
 	else
-		{
+	{
 		err = JProcess::Create(p, itsCmd,
 							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, outFD,
 							   kJAttachToFromFD);
-		}
+	}
 
 	if (err.OK())
-		{
+	{
 		GetDirector()->RegisterActionProcess(this, *p, itsRefreshRepoFlag,
 											   itsRefreshStatusFlag, itsReloadOpenFilesFlag);
-		}
+	}
 
 	return err;
 }

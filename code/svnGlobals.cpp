@@ -12,8 +12,8 @@
 #include "SVNPrefsManager.h"
 #include "SVNWDManager.h"
 #include "SVNMDIServer.h"
-#include <JXFSBindingManager.h>
-#include <jAssert.h>
+#include <jx-af/jfs/JXFSBindingManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 static SVNApp*			theApplication  = nullptr;		// owns itself
 static SVNPrefsManager*	thePrefsManager = nullptr;
@@ -89,9 +89,9 @@ SVNCleanUpBeforeSuddenDeath
 	)
 {
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 //		theMDIServer->JPrefObject::WritePrefs();
-		}
+	}
 
 	// must be last to save everything
 
@@ -166,10 +166,10 @@ JString
 SVNGetVersionStr()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	return JGetString("Description::svnGlobals", map, sizeof(map));
 }
 

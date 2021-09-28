@@ -11,9 +11,9 @@
 #include "SVNRepoView.h"
 #include "SVNRepoTreeList.h"
 #include "SVNRepoTreeNode.h"
-#include <jXConstants.h>
-#include <JTableSelection.h>
-#include <jAssert.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -56,10 +56,10 @@ SVNBeginEditingTask::Perform()
 	JPoint cell;
 	if ((itsView->GetTableSelection()).GetSingleSelectedCell(&cell) &&
 		(itsView->GetRepoTreeList())->GetRepoNode(cell.y) == itsNode)
-		{
+	{
 		itsView->BeginEditing(cell);
 		itsView->TableScrollToCell(JPoint(itsView->GetToggleOpenColIndex(), cell.y));
-		}
+	}
 
 	jdelete this;
 }
@@ -77,7 +77,7 @@ SVNBeginEditingTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		Perform();
-		}
+	}
 }

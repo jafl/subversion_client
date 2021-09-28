@@ -8,7 +8,7 @@
 #ifndef _H_SVNTabGroup
 #define _H_SVNTabGroup
 
-#include <JXTabGroup.h>
+#include <jx-af/jx/JXTabGroup.h>
 
 class JXImage;
 class SVNBusyTabTask;

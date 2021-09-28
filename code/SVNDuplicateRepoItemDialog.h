@@ -8,7 +8,7 @@
 #ifndef _H_SVNDuplicateRepoItemDialog
 #define _H_SVNDuplicateRepoItemDialog
 
-#include <JXGetStringDialog.h>
+#include <jx-af/jx/JXGetStringDialog.h>
 
 class SVNRepoTreeNode;
 

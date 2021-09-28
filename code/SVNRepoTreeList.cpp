@@ -10,7 +10,7 @@
 #include "SVNRepoTreeList.h"
 #include "SVNRepoTree.h"
 #include "SVNRepoTreeNode.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

@@ -10,15 +10,15 @@
 #include "SVNInfoLog.h"
 #include "SVNMainDirector.h"
 #include "svnMenus.h"
-#include <JXTextMenu.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <JProcess.h>
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JRegex revisionPattern = "^r([0-9]+)$";
 
@@ -94,11 +94,11 @@ SVNInfoLog::StartProcess
 
 	cmd = "svn --non-interactive log ";
 	if (!itsRevision.IsEmpty())
-		{
+	{
 		cmd += "-v -r ";
 		cmd += JPrepArgForExec(itsRevision);
 		cmd += " ";
-		}
+	}
 	cmd += JPrepArgForExec(itsFullName);
 
 	return JProcess::Create(p, cmd,
@@ -127,10 +127,10 @@ SVNInfoLog::Execute
 						  kJCreatePipe, &outFD,
 						  kJCreatePipe, &errFD);
 	if (!err.OK())
-		{
+	{
 		err.ReportIfError();
 		return;
-		}
+	}
 
 	const JFontStyle red(true, false, 0, false, JColorManager::GetRedColor());
 
@@ -161,9 +161,9 @@ SVNInfoLog::GetSelectedFiles
 
 	JString s;
 	if (GetSelection(&s) && revisionPattern.Match(s))
-		{
+	{
 		fullNameList->Append(itsFullName);
-		}
+	}
 }
 
 /******************************************************************************
@@ -179,14 +179,14 @@ SVNInfoLog::GetBaseRevision
 {
 	JString s;
 	if (GetSelection(&s))
-		{
+	{
 		JStringIterator iter(s);
 		if (iter.Next(revisionPattern))
-			{
+		{
 			*rev = iter.GetLastMatch().GetSubstring(1);
 			return true;
-			}
 		}
+	}
 
 	rev->Clear();
 	return false;
@@ -208,21 +208,21 @@ SVNInfoLog::HandleMouseDown
 	)
 {
 	if (button == kJXRightButton && clickCount == 1)
-		{
+	{
 		JXKeyModifiers emptyMod(GetDisplay());
 		SVNTextBase::HandleMouseDown(pt, kJXLeftButton, 2, buttonStates, emptyMod);
 
 		JString rev;
 		if (GetBaseRevision(&rev))
-			{
+		{
 			CreateContextMenu();
 			itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
-			}
 		}
+	}
 	else
-		{
+	{
 		SVNTextBase::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -238,21 +238,21 @@ SVNInfoLog::Receive
 	)
 {
 	if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateContextMenu();
-		}
+	}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		SVNTextBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -264,14 +264,14 @@ void
 SVNInfoLog::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr)
-		{
+	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNInfoLog");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
 		ListenTo(itsContextMenu);
-		}
+	}
 }
 
 /******************************************************************************
@@ -284,13 +284,13 @@ SVNInfoLog::UpdateContextMenu()
 {
 	JString rev;
 	if (GetBaseRevision(&rev))
-		{
+	{
 		itsContextMenu->EnableItem(kDiffEditedSelectedFilesCtxCmd);
 		itsContextMenu->EnableItem(kDiffCurrentSelectedFilesCtxCmd);
 		itsContextMenu->EnableItem(kDiffPrevSelectedFilesCtxCmd);
 		itsContextMenu->EnableItem(kCommitDetailsCtxCmd);
 		itsContextMenu->EnableItem(kBrowseRepoRevisionCtxCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -306,32 +306,32 @@ SVNInfoLog::HandleContextMenu
 {
 	JString rev;
 	if (!GetBaseRevision(&rev))
-		{
+	{
 		return;
-		}
+	}
 
 	if (index == kDiffEditedSelectedFilesCtxCmd)
-		{
+	{
 		CompareEdited(rev);
-		}
+	}
 	else if (index == kDiffCurrentSelectedFilesCtxCmd)
-		{
+	{
 		CompareCurrent(rev);
-		}
+	}
 	else if (index == kDiffPrevSelectedFilesCtxCmd)
-		{
+	{
 		ComparePrev(rev);
-		}
+	}
 
 	else if (index == kCommitDetailsCtxCmd)
-		{
+	{
 		GetDirector()->ShowInfoLog(itsFullName, rev);
-		}
+	}
 
 	else if (index == kBrowseRepoRevisionCtxCmd)
-		{
+	{
 		GetDirector()->BrowseRepo(rev);
-		}
+	}
 }
 
 /******************************************************************************
@@ -347,11 +347,11 @@ SVNInfoLog::UpdateInfoMenu
 {
 	JString rev;
 	if (GetBaseRevision(&rev))
-		{
+	{
 		menu->EnableItem(kDiffEditedSelectedFilesCmd);
 		menu->EnableItem(kDiffCurrentSelectedFilesCmd);
 		menu->EnableItem(kDiffPrevSelectedFilesCmd);
 		menu->EnableItem(kCommitDetailsCmd);
 		menu->EnableItem(kBrowseSelectedRepoRevisionCmd);
-		}
+	}
 }

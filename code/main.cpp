@@ -1,5 +1,5 @@
 /******************************************************************************
- nps_svn_client.cpp
+ main.cpp
 
 	Copyright (C) 2008 by John Lindal.
 
@@ -9,10 +9,10 @@
 #include "SVNMDIServer.h"
 #include "SVNMainDirector.h"
 #include "svnGlobals.h"
-#include <jCommandLine.h>
-#include <jWebUtil.h>
-#include <jTime.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jCommandLine.h>
+#include <jx-af/jcore/jWebUtil.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Prototypes
 
@@ -34,9 +34,9 @@ main
 	ParseTextOptions(argc, argv);
 
 	if (!SVNMDIServer::WillBeMDIServer(SVNApp::GetAppSignature(), argc, argv))
-		{
+	{
 		return 0;
-		}
+	}
 
 	bool displayAbout;
 	JString prevVersStr;
@@ -45,18 +45,18 @@ main
 
 	if (displayAbout &&
 		!JGetUserNotification()->AcceptLicense())
-		{
+	{
 		return 0;
-		}
+	}
 
 	JCheckForNewerVersion(SVNGetPrefsManager(), kSVNVersionCheckID);
 
 	(SVNGetMDIServer())->HandleCmdLineOptions(argc, argv);
 
 	if (displayAbout)
-		{
+	{
 		app->DisplayAbout(prevVersStr);
-		}
+	}
 
 	app->Run();
 	return 0;
@@ -81,21 +81,21 @@ ParseTextOptions
 {
 	long index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			SVNApp::InitStrings();
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			SVNApp::InitStrings();
 			SVNMDIServer::PrintCommandLineHelp();
 			exit(0);
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************
