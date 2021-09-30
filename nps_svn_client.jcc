@@ -8,136 +8,143 @@ T
 F
 "./code/main.cpp"
 T
-2 "SVNApp.cpp"
+2 "App.cpp"
 F
-"./code/SVNApp.cpp"
+"./code/App.cpp"
 T
-2 "svnGlobals.cpp"
+2 "globals.cpp"
 F
-"./code/svnGlobals.cpp"
+"./code/globals.cpp"
 T
-2 "SVNPrefsManager.cpp"
+2 "PrefsManager.cpp"
 F
-"./code/SVNPrefsManager.cpp"
+"./code/PrefsManager.cpp"
 T
-2 "SVNPrefsDialog.cpp"
+2 "PrefsDialog.cpp"
 F
-"./code/SVNPrefsDialog.cpp"
+"./code/PrefsDialog.cpp"
 T
-2 "SVNWDManager.cpp"
+2 "WDManager.cpp"
 F
-"./code/SVNWDManager.cpp"
+"./code/WDManager.cpp"
 T
-2 "SVNMDIServer.cpp"
+2 "MDIServer.cpp"
 F
-"./code/SVNMDIServer.cpp"
+"./code/MDIServer.cpp"
 T
-2 "SVNAboutDialog.cpp"
+2 "AboutDialog.cpp"
 F
-"./code/SVNAboutDialog.cpp"
+"./code/AboutDialog.cpp"
 F
 T
 1 "directors"
 T
-2 "SVNMainDirector.cpp"
+2 "MainDirector.cpp"
 F
-"./code/SVNMainDirector.cpp"
+"./code/MainDirector.cpp"
 T
-2 "SVNTabGroup.cpp"
+2 "TabGroup.cpp"
 F
-"./code/SVNTabGroup.cpp"
+"./code/TabGroup.cpp"
 T
-2 "SVNTabBase.cpp"
+2 "TabBase.cpp"
 F
-"./code/SVNTabBase.cpp"
+"./code/TabBase.cpp"
 T
-2 "SVNBusyTabTask.cpp"
+2 "BusyTabTask.cpp"
 F
-"./code/SVNBusyTabTask.cpp"
+"./code/BusyTabTask.cpp"
 T
-2 "SVNRefreshStatusTask.cpp"
+2 "RefreshStatusTask.cpp"
 F
-"./code/SVNRefreshStatusTask.cpp"
+"./code/RefreshStatusTask.cpp"
 F
 T
 1 "trees"
 T
-2 "SVNRepoView.cpp"
+2 "RepoView.cpp"
 F
-"./code/SVNRepoView.cpp"
+"./code/RepoView.cpp"
 T
-2 "SVNRepoTreeList.cpp"
+2 "RepoTreeList.cpp"
 F
-"./code/SVNRepoTreeList.cpp"
+"./code/RepoTreeList.cpp"
 T
-2 "SVNRepoTree.cpp"
+2 "RepoTree.cpp"
 F
-"./code/SVNRepoTree.cpp"
+"./code/RepoTree.cpp"
 T
-2 "SVNRepoTreeNode.cpp"
+2 "RepoTreeNode.cpp"
 F
-"./code/SVNRepoTreeNode.cpp"
+"./code/RepoTreeNode.cpp"
 T
-2 "SVNBeginEditingTask.cpp"
+2 "BeginEditingTask.cpp"
 F
-"./code/SVNBeginEditingTask.cpp"
+"./code/BeginEditingTask.cpp"
 T
-2 "SVNRepoDragData.cpp"
+2 "RepoDragData.cpp"
 F
-"./code/SVNRepoDragData.cpp"
+"./code/RepoDragData.cpp"
 T
-2 "SVNDuplicateRepoItemDialog.cpp"
+2 "DuplicateRepoItemDialog.cpp"
 F
-"./code/SVNDuplicateRepoItemDialog.cpp"
+"./code/DuplicateRepoItemDialog.cpp"
 T
-2 "SVNCreateRepoDirectoryDialog.cpp"
+2 "CreateRepoDirectoryDialog.cpp"
 F
-"./code/SVNCreateRepoDirectoryDialog.cpp"
+"./code/CreateRepoDirectoryDialog.cpp"
 T
-2 "SVNGetRepoDialog.cpp"
+2 "GetRepoDialog.cpp"
 F
-"./code/SVNGetRepoDialog.cpp"
+"./code/GetRepoDialog.cpp"
 F
 T
 1 "lists"
 T
-2 "SVNListBase.cpp"
+2 "ListBase.cpp"
 F
-"./code/SVNListBase.cpp"
+"./code/ListBase.cpp"
 T
-2 "SVNStatusList.cpp"
+2 "StatusList.cpp"
 F
-"./code/SVNStatusList.cpp"
+"./code/StatusList.cpp"
 T
-2 "SVNUpdateList.cpp"
+2 "UpdateList.cpp"
 F
-"./code/SVNUpdateList.cpp"
+"./code/UpdateList.cpp"
 T
-2 "SVNPropertiesList.cpp"
+2 "PropertiesList.cpp"
 F
-"./code/SVNPropertiesList.cpp"
+"./code/PropertiesList.cpp"
 F
 T
 1 "text"
 T
-2 "SVNTextBase.cpp"
+2 "TextBase.cpp"
 F
-"./code/SVNTextBase.cpp"
+"./code/TextBase.cpp"
 T
-2 "SVNCommandLog.cpp"
+2 "CommandLog.cpp"
 F
-"./code/SVNCommandLog.cpp"
+"./code/CommandLog.cpp"
 T
-2 "SVNInfoLog.cpp"
+2 "InfoLog.cpp"
 F
-"./code/SVNInfoLog.cpp"
+"./code/InfoLog.cpp"
 F
 T
 1 "strings"
 T
-2 "nps_svn_client_strings"
+2 "strings"
 F
-"./strings/nps_svn_client_strings"
+"./strings/strings"
+F
+T
+1 "layouts"
+T
+2 "nps_svn_client.fd"
+F
+"./nps_svn_client.fd"
 F
 T
 1 "help"
@@ -149,72 +156,6 @@ T
 2 "ChangeLog.html"
 F
 "./release/ChangeLog.html"
-F
-T
-1 "layouts"
-T
-2 "nps_svn_client.fd"
-F
-"./nps_svn_client.fd"
-F
-T
-1 "images"
-T
-2 "svn_about_icon.xpm"
-F
-"./code/svn_about_icon.xpm"
-T
-2 "svn_main_window_icon.xpm"
-F
-"./code/svn_main_window_icon.xpm"
-T
-2 "svn_update.xpm"
-F
-"./code/svn_update.xpm"
-T
-2 "svn_add.xpm"
-F
-"./code/svn_add.xpm"
-T
-2 "svn_remove.xpm"
-F
-"./code/svn_remove.xpm"
-T
-2 "svn_remove_force.xpm"
-F
-"./code/svn_remove_force.xpm"
-T
-2 "svn_resolved.xpm"
-F
-"./code/svn_resolved.xpm"
-T
-2 "svn_commit.xpm"
-F
-"./code/svn_commit.xpm"
-T
-2 "svn_commit_all.xpm"
-F
-"./code/svn_commit_all.xpm"
-T
-2 "svn_revert.xpm"
-F
-"./code/svn_revert.xpm"
-T
-2 "svn_revert_all.xpm"
-F
-"./code/svn_revert_all.xpm"
-T
-2 "svn_info_log.xpm"
-F
-"./code/svn_info_log.xpm"
-T
-2 "svn_repo_error_file_small.xpm"
-F
-"./code/svn_repo_error_file_small.xpm"
-T
-2 "svn_repo_error_selected_small.xpm"
-F
-"./code/svn_repo_error_selected_small.xpm"
 F
 F
 # tasks

@@ -1,0 +1,6 @@
+0
+okButton::GetRepoDialog::shortcuts::JXLayout "^M"
+cancelButton::GetRepoDialog::JXLayout "Cancel"
+cancelButton::GetRepoDialog::shortcuts::JXLayout "^["
+okButton::GetRepoDialog::JXLayout "OK"
+repoUrlLabel::GetRepoDialog::JXLayout "URL of repository:"

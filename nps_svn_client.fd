@@ -7,7 +7,7 @@ Number of forms: 4
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
-Name: SVNPrefsDialog
+Name: PrefsDialog
 Width: 400
 Height: 250
 Number of Objects: 15
@@ -136,7 +136,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsJCCIntegrationRB
 callback: 
-argument: SVNPrefsManager::kCodeCrusader
+argument: PrefsManager::kCodeCrusader
 
 --------------------
 class: FL_CHECKBUTTON
@@ -154,7 +154,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsCustomIntegrationRB
 callback: 
-argument: SVNPrefsManager::kCustom
+argument: PrefsManager::kCustom
 
 --------------------
 class: FL_TEXT
@@ -244,7 +244,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsCmdLineIntegrationRB
 callback: 
-argument: SVNPrefsManager::kCmdLine
+argument: PrefsManager::kCmdLine
 
 --------------------
 class: FL_INPUT
@@ -283,7 +283,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: SVNAboutDialog
+Name: AboutDialog
 Width: 430
 Height: 200
 Number of Objects: 7
@@ -415,7 +415,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: SVNMainDirector
+Name: MainDirector
 Width: 500
 Height: 300
 Number of Objects: 3
@@ -472,10 +472,10 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: SVNGetPrefsManager(), kSVNMainToolBarID, menuBar,
+argument: GetPrefsManager(), kMainToolBarID, menuBar,
 
 =============== FORM ===============
-Name: SVNGetRepoDialog
+Name: GetRepoDialog
 Width: 310
 Height: 110
 Number of Objects: 6
