@@ -1697,23 +1697,23 @@ MainDirector::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 	{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 	}
 	else if (index == kOverviewCmd)
 	{
-		(JXGetHelpManager())->ShowSection("OverviewHelp");
+		JXGetHelpManager()->ShowSection("OverviewHelp");
 	}
 	else if (index == kThisWindowCmd)
 	{
-		(JXGetHelpManager())->ShowSection("MainHelp");
+		JXGetHelpManager()->ShowSection("MainHelp");
 	}
 
 	else if (index == kChangesCmd)
 	{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 	}
 	else if (index == kCreditsCmd)
 	{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 	}
 }
