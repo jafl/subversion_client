@@ -23,18 +23,18 @@ public:
 
 	virtual ~StatusList();
 
-	virtual void	UpdateActionsMenu(JXTextMenu* menu) override;
-	virtual bool	Ignore() override;
+	void	UpdateActionsMenu(JXTextMenu* menu) override;
+	bool	Ignore() override;
 
 protected:
 
-	virtual void	StyleLine(const JIndex index, const JString& line,
+	void	StyleLine(const JIndex index, const JString& line,
 							  const JFontStyle& errorStyle,
 							  const JFontStyle& addStyle,
 							  const JFontStyle& removeStyle) override;
-	virtual JString	ExtractRelativePath(const JString& line) const override;
+	JString	ExtractRelativePath(const JString& line) const override;
 
-	virtual void	UpdateContextMenu(JXTextMenu* menu) override;
+	void	UpdateContextMenu(JXTextMenu* menu) override;
 };
 
 #endif

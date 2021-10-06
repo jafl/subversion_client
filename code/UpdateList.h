@@ -23,18 +23,18 @@ public:
 
 	virtual ~UpdateList();
 
-	virtual void	RefreshContent() override;
+	void	RefreshContent() override;
 
 protected:
 
-	virtual bool	ShouldDisplayLine(JString* line) const override;
-	virtual void		StyleLine(const JIndex index, const JString& line,
+	bool	ShouldDisplayLine(JString* line) const override;
+	void		StyleLine(const JIndex index, const JString& line,
 								  const JFontStyle& errorStyle,
 								  const JFontStyle& addStyle,
 								  const JFontStyle& removeStyle) override;
-	virtual JString		ExtractRelativePath(const JString& line) const override;
+	JString		ExtractRelativePath(const JString& line) const override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

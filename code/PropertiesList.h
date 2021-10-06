@@ -26,24 +26,24 @@ public:
 
 	virtual ~PropertiesList();
 
-	virtual void	UpdateActionsMenu(JXTextMenu* menu) override;
-	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
+	void	UpdateActionsMenu(JXTextMenu* menu) override;
+	void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
 									 const bool includeDeleted = false) override;
-	virtual void	OpenSelectedItems() override;
-	virtual bool	CreateProperty() override;
-	virtual bool	SchedulePropertiesForRemove() override;
+	void	OpenSelectedItems() override;
+	bool	CreateProperty() override;
+	bool	SchedulePropertiesForRemove() override;
 
 protected:
 
-	virtual bool	ShouldDisplayLine(JString* line) const override;
-	virtual void	StyleLine(const JIndex index, const JString& line,
+	bool	ShouldDisplayLine(JString* line) const override;
+	void	StyleLine(const JIndex index, const JString& line,
 							  const JFontStyle& errorStyle,
 							  const JFontStyle& addStyle,
 							  const JFontStyle& removeStyle) override;
-	virtual JString	ExtractRelativePath(const JString& line) const override;
-	virtual void	CopySelectedItems(const bool fullPath) override;
+	JString	ExtractRelativePath(const JString& line) const override;
+	void	CopySelectedItems(const bool fullPath) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

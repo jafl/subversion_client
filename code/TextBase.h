@@ -32,18 +32,18 @@ public:
 
 	virtual ~TextBase();
 
-	virtual void	UpdateActionsMenu(JXTextMenu* menu) override;
-	virtual void	UpdateInfoMenu(JXTextMenu* menu) override;
-	virtual void	RefreshContent() override;
+	void	UpdateActionsMenu(JXTextMenu* menu) override;
+	void	UpdateInfoMenu(JXTextMenu* menu) override;
+	void	RefreshContent() override;
 
 protected:
 
 	virtual JError	StartProcess(JProcess** p, int* outFD) = 0;
 
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

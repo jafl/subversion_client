@@ -27,21 +27,21 @@ public:
 
 	const JString&	GetFullName() const;
 
-	virtual void	UpdateInfoMenu(JXTextMenu* menu) override;
-	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
+	void	UpdateInfoMenu(JXTextMenu* menu) override;
+	void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
 									 const bool includeDeleted = false) override;
-	virtual bool	GetBaseRevision(JString* rev) override;
+	bool	GetBaseRevision(JString* rev) override;
 
 protected:
 
-	virtual JError	StartProcess(JProcess** p, int* outFD) override;
+	JError	StartProcess(JProcess** p, int* outFD) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
