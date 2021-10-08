@@ -176,7 +176,7 @@ PrefsManager::UpgradeData
 
 	// check if Code Crusader is available
 
-	const bool hasJCC = JProgramAvailable(JGetString("CodeCrusaderBinary::Global"));
+	const bool hasJCC = JProgramAvailable(JGetString("CodeCrusaderBinary::global"));
 
 	Integration type;
 	JString commitEditor, diffCmd, reloadChangedCmd;

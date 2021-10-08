@@ -196,7 +196,7 @@ PrefsDialog::BuildWindow
 void
 PrefsDialog::UpdateDisplay()
 {
-	if (JProgramAvailable(JGetString("CodeCrusaderBinary::Global")))
+	if (JProgramAvailable(JGetString("CodeCrusaderBinary::global")))
 	{
 		itsJCCIntegrationRB->Activate();
 	}
