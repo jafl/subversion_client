@@ -19,9 +19,9 @@ public:
 
 	RefreshStatusTask(MainDirector* directory);
 
-	virtual ~RefreshStatusTask();
+	~RefreshStatusTask() override;
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

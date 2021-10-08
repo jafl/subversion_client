@@ -32,15 +32,15 @@ public:
 	MainDirector(JXDirector* supervisor, const JString& path);
 	MainDirector(JXDirector* supervisor, std::istream& input, const JFileVersion vers);
 
-	virtual	~MainDirector();
+	~MainDirector() override;
 
 	const JString&	GetPath() const;	// explodes if !HasPath()
-	bool		HasPath() const;
-	bool		GetPath(JString* path) const;
-	bool		GetRepoPath(JString* path) const;
+	bool			HasPath() const;
+	bool			GetPath(JString* path) const;
+	bool			GetRepoPath(JString* path) const;
 	void			RefreshRepo();
 	void			BrowseRepo(const JString& rev);
-	bool		GetRepoWidget(RepoView** widget);
+	bool			GetRepoWidget(RepoView** widget);
 	void			RefreshStatus();
 	void			ScheduleStatusRefresh();
 	void			UpdateWorkingCopy();
@@ -52,10 +52,10 @@ public:
 	void			ShowProperties(const JString& fullName);
 
 	bool	OKToStartActionProcess() const;
-	void		RegisterActionProcess(TabBase* tab, JProcess* p,
-									  const bool refreshRepo,
-									  const bool refreshStatus,
-									  const bool reload);
+	void	RegisterActionProcess(TabBase* tab, JProcess* p,
+								  const bool refreshRepo,
+								  const bool refreshStatus,
+								  const bool reload);
 
 	static void	CheckOut(const JString& url);
 
@@ -76,9 +76,9 @@ private:
 
 	JProcess*	itsActionProcess;
 	JProcess*	itsCheckOutProcess;
-	bool	itsRefreshRepoFlag;
-	bool	itsRefreshStatusFlag;
-	bool	itsReloadOpenFilesFlag;
+	bool		itsRefreshRepoFlag;
+	bool		itsRefreshStatusFlag;
+	bool		itsReloadOpenFilesFlag;
 
 	TabGroup*			itsTabGroup;
 	RepoView*			itsRepoWidget;		// can be nullptr
@@ -92,9 +92,9 @@ private:
 	JXTextMenu*	itsPrefsMenu;
 	JXTextMenu*	itsHelpMenu;
 
-	GetRepoDialog*	itsBrowseRepoDialog;
+	GetRepoDialog*		itsBrowseRepoDialog;
 	JXGetStringDialog*	itsBrowseRepoRevisionDialog;
-	GetRepoDialog*	itsCheckOutRepoDialog;
+	GetRepoDialog*		itsCheckOutRepoDialog;
 
 	RefreshStatusTask*	itsRefreshStatusTask;
 

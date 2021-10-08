@@ -54,7 +54,7 @@ public:
 
 	PrefsManager(bool* isNew);
 
-	virtual	~PrefsManager();
+	~PrefsManager() override;
 
 	bool	GetExpirationTimeStamp(time_t* t) const;
 	void	SetExpirationTimeStamp(const time_t t);

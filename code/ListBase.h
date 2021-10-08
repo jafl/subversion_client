@@ -21,7 +21,7 @@ class ListBase : public JXStringList, public TabBase
 {
 public:
 
-	typedef JMessageProtocol<ACE_LSOCK_STREAM>	RecordLink;
+	using RecordLink = JMessageProtocol<ACE_LSOCK_STREAM>;
 
 public:
 
@@ -34,7 +34,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~ListBase();
+	~ListBase() override;
 
 	void	UpdateActionsMenu(JXTextMenu* menu) override;
 	void	UpdateInfoMenu(JXTextMenu* menu) override;
@@ -66,11 +66,11 @@ protected:
 	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 
 	virtual bool	ShouldDisplayLine(JString* line) const;
 	virtual void	StyleLine(const JIndex index, const JString& line,
@@ -86,23 +86,6 @@ protected:
 	void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 	static JString	ExtractRelativePath(const JString& line, const JUnsignedOffset offset);
-
-private:
-
-	class CompareLines : public JElementComparison<JString*>
-	{
-	public:
-
-		CompareLines(ListBase* widget);
-		virtual ~CompareLines();
-
-		virtual JListT::CompareResult		Compare(JString* const &, JString* const &) const;
-		virtual JElementComparison<JString*>*	Copy() const;
-
-	private:
-
-		ListBase*	itsWidget;		// not owned
-	};
 
 private:
 

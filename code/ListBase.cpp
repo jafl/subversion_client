@@ -49,13 +49,13 @@ static const JUtf8Byte* kContextMenuStr =
 
 ListBase::ListBase
 	(
-	MainDirector*	director,
+	MainDirector*		director,
 	JXTextMenu*			editMenu,
 	const JString&		cmd,
-	const bool		refreshRepo,
-	const bool		refreshStatus,
-	const bool		reload,
-	const bool		enableContextMenu,
+	const bool			refreshRepo,
+	const bool			refreshStatus,
+	const bool			reload,
+	const bool			enableContextMenu,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,
@@ -84,7 +84,25 @@ ListBase::ListBase
 
 	itsLineList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsLineList != nullptr );
-	itsLineList->SetCompareObject(CompareLines(this));
+	itsLineList->SetCompareFunction([this](JString* const & s1, JString* const & s2)
+	{
+		const JString p1 = ExtractRelativePath(*s1);
+		const JString p2 = ExtractRelativePath(*s2);
+
+		const int r = JString::Compare(p1, p2, JString::kIgnoreCase);
+		if (r > 0)
+		{
+			return JListT::kFirstGreaterSecond;
+		}
+		else if (r < 0)
+		{
+			return JListT::kFirstLessSecond;
+		}
+		else
+		{
+			return JListT::kFirstEqualSecond;
+		}
+	});
 	SetStringList(itsLineList);
 
 	itsErrorList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
@@ -830,59 +848,6 @@ ListBase::ExtractRelativePath
 	JString s = iter.FinishMatch().GetString();
 	s.TrimWhitespace();
 	return s;
-}
-
-/******************************************************************************
- CompareLines class
-
- ******************************************************************************/
-
-ListBase::CompareLines::CompareLines
-	(
-	ListBase* widget
-	)
-	:
-	itsWidget(widget)
-{
-}
-
-ListBase::CompareLines::~CompareLines()
-{
-}
-
-JListT::CompareResult
-ListBase::CompareLines::Compare
-	(
-	JString* const & s1,
-	JString* const & s2
-	)
-	const
-{
-	const JString p1 = itsWidget->ExtractRelativePath(*s1);
-	const JString p2 = itsWidget->ExtractRelativePath(*s2);
-
-	const int r = JString::Compare(p1, p2, JString::kIgnoreCase);
-	if (r > 0)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else if (r < 0)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else
-	{
-		return JListT::kFirstEqualSecond;
-	}
-}
-
-JElementComparison<JString*>*
-ListBase::CompareLines::Copy()
-	const
-{
-	auto* copy = jnew CompareLines(itsWidget);
-	assert( copy != nullptr );
-	return copy;
 }
 
 /******************************************************************************

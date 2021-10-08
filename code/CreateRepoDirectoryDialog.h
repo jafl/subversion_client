@@ -20,13 +20,13 @@ public:
 							const JString& prompt, const JString& initialName,
 							RepoTreeNode* parentNode);
 
-	virtual ~CreateRepoDirectoryDialog();
+	~CreateRepoDirectoryDialog() override;
 
 	RepoTreeNode*	GetParentNode();
 
 protected:
 
-	virtual bool	OKToDeactivate();
+	bool	OKToDeactivate() override;
 
 private:
 

@@ -19,7 +19,7 @@ public:
 
 	RepoTreeList(RepoTree* tree);
 
-	virtual ~RepoTreeList();
+	~RepoTreeList() override;
 
 	RepoTree*		GetRepoTree();
 	const RepoTree*	GetRepoTree() const;

@@ -25,7 +25,7 @@ public:
 				   const JString& diffCmd,
 				   const JString& reloadChangedCmd);
 
-	virtual	~PrefsDialog();
+	~PrefsDialog() override;
 
 	void	GetData(PrefsManager::Integration* type, JString* commitEditor,
 					JString* diffCmd, JString* reloadChangedCmd) const;

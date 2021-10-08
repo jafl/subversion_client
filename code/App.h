@@ -16,7 +16,7 @@ public:
 
 	App(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
-	virtual	~App();
+	~App() override;
 
 	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
@@ -27,8 +27,8 @@ public:
 
 protected:
 
-	virtual bool	Close();
-	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+	bool	Close() override;
+	void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
 };
 
 #endif

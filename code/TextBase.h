@@ -20,7 +20,7 @@ class TextBase : public JXStaticText, public TabBase
 {
 public:
 
-	typedef JAsynchDataReceiver<ACE_LSOCK_STREAM>	DataLink;
+	using DataLink = JAsynchDataReceiver<ACE_LSOCK_STREAM>;
 
 public:
 
@@ -30,7 +30,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~TextBase();
+	~TextBase() override;
 
 	void	UpdateActionsMenu(JXTextMenu* menu) override;
 	void	UpdateInfoMenu(JXTextMenu* menu) override;
@@ -47,8 +47,8 @@ protected:
 
 private:
 
-	JProcess*		itsProcess;		// can be nullptr
-	DataLink*		itsLink;		// can be nullptr
+	JProcess*	itsProcess;		// can be nullptr
+	DataLink*	itsLink;		// can be nullptr
 
 private:
 

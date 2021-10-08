@@ -24,7 +24,7 @@ public:
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
 
-	virtual ~PropertiesList();
+	~PropertiesList() override;
 
 	void	UpdateActionsMenu(JXTextMenu* menu) override;
 	void	GetSelectedFiles(JPtrArray<JString>* fullNameList,

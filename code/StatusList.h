@@ -21,7 +21,7 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~StatusList();
+	~StatusList() override;
 
 	void	UpdateActionsMenu(JXTextMenu* menu) override;
 	bool	Ignore() override;
@@ -29,9 +29,9 @@ public:
 protected:
 
 	void	StyleLine(const JIndex index, const JString& line,
-							  const JFontStyle& errorStyle,
-							  const JFontStyle& addStyle,
-							  const JFontStyle& removeStyle) override;
+					  const JFontStyle& errorStyle,
+					  const JFontStyle& addStyle,
+					  const JFontStyle& removeStyle) override;
 	JString	ExtractRelativePath(const JString& line) const override;
 
 	void	UpdateContextMenu(JXTextMenu* menu) override;

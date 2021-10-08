@@ -21,18 +21,18 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~UpdateList();
+	~UpdateList() override;
 
 	void	RefreshContent() override;
 
 protected:
 
 	bool	ShouldDisplayLine(JString* line) const override;
-	void		StyleLine(const JIndex index, const JString& line,
-								  const JFontStyle& errorStyle,
-								  const JFontStyle& addStyle,
-								  const JFontStyle& removeStyle) override;
-	JString		ExtractRelativePath(const JString& line) const override;
+	void	StyleLine(const JIndex index, const JString& line,
+					  const JFontStyle& errorStyle,
+					  const JFontStyle& addStyle,
+					  const JFontStyle& removeStyle) override;
+	JString	ExtractRelativePath(const JString& line) const override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 

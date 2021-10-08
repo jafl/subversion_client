@@ -22,16 +22,16 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~CommandLog();
+	~CommandLog() override;
 
-	virtual void	UpdateActionsMenu(JXTextMenu* menu);
-	virtual void	RefreshContent();
-	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
-									 const bool includeDeleted = false);
+	void	UpdateActionsMenu(JXTextMenu* menu) override;
+	void	RefreshContent() override;
+	void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
+							 const bool includeDeleted = false) override;
 
 protected:
 
-	virtual JError	StartProcess(JProcess** p, int* outFD);
+	JError	StartProcess(JProcess** p, int* outFD) override;
 
 private:
 

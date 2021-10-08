@@ -20,7 +20,7 @@ public:
 
 	RepoTree(RepoTreeNode* root);
 
-	virtual ~RepoTree();
+	~RepoTree() override;
 
 	const JString&	GetRepoPath() const;
 	void			Update(RepoTreeList* view, const bool fresh = true);
@@ -36,7 +36,7 @@ public:
 
 private:
 
-	RepoTreeList*	itsView;			// latest caller to Update()
+	RepoTreeList*		itsView;			// latest caller to Update()
 	JPtrArray<JString>*	itsSavedOpenNodes;	// repo paths
 
 private:

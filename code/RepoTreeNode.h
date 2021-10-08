@@ -21,7 +21,7 @@ class RepoTreeNode : public JNamedTreeNode
 {
 public:
 
-	typedef JMessageProtocol<ACE_LSOCK_STREAM>	RecordLink;
+	using RecordLink = JMessageProtocol<ACE_LSOCK_STREAM>;
 
 public:
 
@@ -41,7 +41,7 @@ public:
 					const JIndex revision, const time_t modTime,
 					const JString& author, const JSize size);
 
-	virtual ~RepoTreeNode();
+	~RepoTreeNode() override;
 
 	const JString&	GetRepoPath() const;
 	bool			GetRepoRevision(JString* rev) const;
@@ -60,8 +60,8 @@ public:
 
 	RepoTreeNode*		GetRepoParent();
 	const RepoTreeNode*	GetRepoParent() const;
-	bool					GetRepoParent(RepoTreeNode** parent);
-	bool					GetRepoParent(const RepoTreeNode** parent) const;
+	bool				GetRepoParent(RepoTreeNode** parent);
+	bool				GetRepoParent(const RepoTreeNode** parent) const;
 
 	RepoTreeNode*		GetRepoChild(const JIndex index);
 	const RepoTreeNode*	GetRepoChild(const JIndex index) const;

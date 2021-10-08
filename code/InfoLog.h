@@ -23,13 +23,13 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	virtual ~InfoLog();
+	~InfoLog() override;
 
 	const JString&	GetFullName() const;
 
 	void	UpdateInfoMenu(JXTextMenu* menu) override;
 	void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
-									 const bool includeDeleted = false) override;
+							 const bool includeDeleted = false) override;
 	bool	GetBaseRevision(JString* rev) override;
 
 protected:

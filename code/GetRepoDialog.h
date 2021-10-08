@@ -20,7 +20,7 @@ public:
 
 	GetRepoDialog(JXDirector* supervisor, const JString& windowTitle);
 
-	virtual ~GetRepoDialog();
+	~GetRepoDialog() override;
 
 	const JString&	GetRepo() const;
 

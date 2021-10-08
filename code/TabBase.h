@@ -23,7 +23,7 @@ public:
 	virtual ~TabBase();
 
 	MainDirector*	GetDirector();
-	const JString&		GetPath() const;
+	const JString&	GetPath() const;
 
 	virtual void	UpdateActionsMenu(JXTextMenu* menu) = 0;
 	virtual void	UpdateInfoMenu(JXTextMenu* menu) = 0;

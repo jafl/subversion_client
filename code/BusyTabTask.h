@@ -18,9 +18,9 @@ public:
 
 	BusyTabTask(TabGroup* tabGroup);
 
-	virtual ~BusyTabTask();
+	~BusyTabTask() override;
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

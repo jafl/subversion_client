@@ -35,7 +35,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~RepoView();
+	~RepoView() override;
 
 	RepoTree*		GetRepoTree() const;
 	RepoTreeList*	GetRepoTreeList() const;
@@ -44,9 +44,9 @@ public:
 	void	UpdateInfoMenu(JXTextMenu* menu) override;
 	void	RefreshContent() override;
 	void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
-									 const bool includeDeleted = false) override;
+							 const bool includeDeleted = false) override;
 	void	GetSelectedFilesForDiff(JPtrArray<JString>* fullNameList,
-											JArray<JIndex>* revList) override;
+									JArray<JIndex>* revList) override;
 	bool	GetBaseRevision(JString* rev) override;
 	void	OpenFiles() override;
 	void	ShowFiles() override;
@@ -62,8 +62,8 @@ public:
 	void		WriteSetup(std::ostream& output) const;
 
 	bool	IsEditable(const JPoint& cell) const override;
-	void		HandleKeyPress(const JUtf8Character& c,
-									   const int keySym, const JXKeyModifiers& modifiers) override;
+	void	HandleKeyPress(const JUtf8Character& c,
+						   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -74,30 +74,30 @@ protected:
 
 	void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
+							   const JPoint& pt, const Time time,
+							   const JXWidget* source) override;
 	void	HandleDNDEnter() override;
 	void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
 	void	HandleDNDLeave() override;
 	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-								  const Atom action, const Time time,
-								  const JXWidget* source) override;
+						  const Atom action, const Time time,
+						  const JXWidget* source) override;
 
 	Atom	GetDNDAction(const JXContainer* target,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 	void	HandleDNDResponse(const JXContainer* target,
-								  const bool dropAccepted, const Atom action) override;
+							  const bool dropAccepted, const Atom action) override;
 
 	JXInputField*
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,
@@ -113,17 +113,17 @@ private:
 
 	RepoTree*		itsRepoTree;
 	RepoTreeList*	itsRepoTreeList;	// not owned
-	JXTimerTask*		itsRefreshTask;		// refresh every minute to update age
-	JColorID			itsAltRowColor;
-	JXTextMenu*			itsEditMenu;		// not owned
-	JXTextMenu*			itsContextMenu;		// nullptr until first used
+	JXTimerTask*	itsRefreshTask;		// refresh every minute to update age
+	JColorID		itsAltRowColor;
+	JXTextMenu*		itsEditMenu;		// not owned
+	JXTextMenu*		itsContextMenu;		// nullptr until first used
 
 	CreateRepoDirectoryDialog*	itsCreateDirectoryDialog;
-	DuplicateRepoItemDialog*		itsDuplicateItemDialog;
+	DuplicateRepoItemDialog*	itsDuplicateItemDialog;
 
 	JXGetStringDialog*	itsCopyItemDialog;
 	JString				itsCopyItemSrcURI;
-	RepoTreeNode*	itsCopyItemDestNode;
+	RepoTreeNode*		itsCopyItemDestNode;
 
 	// Drag-and-Drop
 
@@ -146,9 +146,9 @@ private:
 
 	// delayed editing
 
-	bool					itsWaitingToEditFlag;
+	bool				itsWaitingToEditFlag;
 	BeginEditingTask*	itsEditTask;	// nullptr unless waiting to edit
-	JPoint					itsEditCell;
+	JPoint				itsEditCell;
 	RepoTreeNode*		itsSortNode;	// sort when mouse released
 
 private:

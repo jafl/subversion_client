@@ -20,13 +20,13 @@ public:
 							   const JString& prompt, const JString& initialName,
 							   RepoTreeNode* srcNode);
 
-	virtual ~DuplicateRepoItemDialog();
+	~DuplicateRepoItemDialog() override;
 
 	RepoTreeNode*	GetSrcNode();
 
 protected:
 
-	virtual bool	OKToDeactivate();
+	bool	OKToDeactivate() override;
 
 private:
 

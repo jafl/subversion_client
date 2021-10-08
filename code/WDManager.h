@@ -18,7 +18,7 @@ public:
 
 	WDManager(JXDisplay* display, const bool wantShortcuts);
 
-	virtual ~WDManager();
+	~WDManager() override;
 
 	bool			NewBrowser(MainDirector** dir);
 	bool			GetBrowser(const JString& path, MainDirector** dir);
