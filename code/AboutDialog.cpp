@@ -52,7 +52,7 @@ AboutDialog::~AboutDialog()
  ******************************************************************************/
 
 #include "svn_about_icon.xpm"
-#include <new_planet_software.xpm>
+#include <jx-af/image/jx/new_planet_software.xpm>
 
 void
 AboutDialog::BuildWindow

@@ -45,10 +45,10 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_folder_small.xpm>
-#include <jx_folder_selected_small.xpm>
-#include <jx_plain_file_small.xpm>
-#include <jx_plain_file_selected_small.xpm>
+#include <jx-af/image/jx/jx_folder_small.xpm>
+#include <jx-af/image/jx/jx_folder_selected_small.xpm>
+#include <jx-af/image/jx/jx_plain_file_small.xpm>
+#include <jx-af/image/jx/jx_plain_file_selected_small.xpm>
 #include <svn_repo_error_small.xpm>
 #include <svn_repo_error_selected_small.xpm>
 #include <svn_repo_busy.xpm>

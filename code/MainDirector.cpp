@@ -301,10 +301,10 @@ MainDirector::StreamOut
 #include "svn_commit_all.xpm"
 #include "svn_revert.xpm"
 #include "svn_revert_all.xpm"
-#include <jx_folder_small.xpm>
+#include <jx-af/image/jx/jx_folder_small.xpm>
 #include "svn_info_log.xpm"
-#include <jx_help_specific.xpm>
-#include <jx_help_toc.xpm>
+#include <jx-af/image/jx/jx_help_specific.xpm>
+#include <jx-af/image/jx/jx_help_toc.xpm>
 
 void
 MainDirector::BuildWindow()
