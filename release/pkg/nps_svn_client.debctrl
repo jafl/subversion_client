@@ -1,7 +1,7 @@
 Package: nps-svn-client
 Version: %VERSION%
-Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
-Homepage: http://www.newplanetsoftware.com/svn_client/
+Maintainer: John Lindal <https://about.me/johnlindal>
+Homepage: https://github.com/jafl/subversion_client
 Section: contrib/vcs
 Priority: optional
 Architecture: i386
