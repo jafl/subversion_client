@@ -18,14 +18,14 @@
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_busy_1_small.xpm>
-#include <jx_busy_2_small.xpm>
-#include <jx_busy_3_small.xpm>
-#include <jx_busy_4_small.xpm>
-#include <jx_busy_5_small.xpm>
-#include <jx_busy_6_small.xpm>
-#include <jx_busy_7_small.xpm>
-#include <jx_busy_8_small.xpm>
+#include <jx-af/image/jx/jx_busy_1_small.xpm>
+#include <jx-af/image/jx/jx_busy_2_small.xpm>
+#include <jx-af/image/jx/jx_busy_3_small.xpm>
+#include <jx-af/image/jx/jx_busy_4_small.xpm>
+#include <jx-af/image/jx/jx_busy_5_small.xpm>
+#include <jx-af/image/jx/jx_busy_6_small.xpm>
+#include <jx-af/image/jx/jx_busy_7_small.xpm>
+#include <jx-af/image/jx/jx_busy_8_small.xpm>
 
 static JXPM kBusyIcon[] =
 {
