@@ -379,7 +379,7 @@ PrefsManager::GetCommand
 	{
 		*cmd = reloadChangedCmd;
 	}
-	else
+	else if (*type != kCustom)
 	{
 		*cmd = kIntegrationCmd[ *type ][ cmdType ];
 	}

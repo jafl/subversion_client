@@ -56,6 +56,7 @@ RefreshStatusTask::Perform
 	if (itsDirector == nullptr)
 	{
 		jdelete this;
+		return;
 	}
 
 	if (TimeToPerform(delta, maxSleepTime) &&
