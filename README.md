@@ -1,3 +1,12 @@
+[![Github CI](https://github.com/jafl/subversion_client/actions/workflows/ci.yml/badge.svg)](https://github.com/jafl/subversion_client/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_subversion_client&metric=alert_status)](https://sonarcloud.io/dashboard?id=jafl_subversion_client&branch=main)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_subversion_client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jafl_subversion_client&branch=main)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_subversion_client&metric=security_rating)](https://sonarcloud.io/dashboard?id=jafl_subversion_client&branch=main)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_subversion_client&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jafl_subversion_client&branch=main)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_subversion_client&metric=ncloc)](https://sonarcloud.io/dashboard?id=jafl_subversion_client&branch=main)
+
 # Subversion Client
 
 This X application provides a simple interface for performing common subversion tasks, e.g., updating from the repository and checking in to the repository.  The [on-line help](http://nps-svnclient.sourceforge.net/help.html) explains all the features of the program.

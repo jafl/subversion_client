@@ -1,0 +1,1 @@
+brew "jx-application-framework"
