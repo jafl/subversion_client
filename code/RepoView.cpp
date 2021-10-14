@@ -905,7 +905,7 @@ RepoView::HandleMouseUp
 	JPainter* p = nullptr;
 	if (GetDragPainter(&p))
 	{
-		const JRect selRect = JRect(itsStartPt, itsPrevPt);
+		const JRect selRect(itsStartPt, itsPrevPt);
 		p->Rect(selRect);		// erase rectangle
 
 		// Pin in bounds so points below bounds don't change but points

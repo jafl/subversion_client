@@ -550,20 +550,17 @@ ListBase::HandleMouseDown
 			OpenSelectedItems();
 		}
 	}
-	else if (button == kJXRightButton && clickCount == 1)
+	else if (button == kJXRightButton && clickCount == 1 && CreateContextMenu())
 	{
-		if (CreateContextMenu())
+		if (!s.IsSelected(cell))
 		{
-			if (!s.IsSelected(cell))
-			{
-				s.ClearSelection();
-				s.SetBoat(cell);
-				s.SetAnchor(cell);
-				s.SelectCell(cell);
-			}
-
-			itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
+			s.ClearSelection();
+			s.SetBoat(cell);
+			s.SetAnchor(cell);
+			s.SelectCell(cell);
 		}
+
+		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
 	}
 }
 

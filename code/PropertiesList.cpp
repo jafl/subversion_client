@@ -34,8 +34,6 @@ static const JUtf8Byte* kSpecialPropertyList[] =
 	"svn:needs-lock"
 };
 
-const JSize kSpecialPropertyCount = sizeof(kSpecialPropertyList) / sizeof(JUtf8Byte*);
-
 /******************************************************************************
  Constructor
 
@@ -137,9 +135,9 @@ PropertiesList::StyleLine
 	const JFontStyle&	removeStyle
 	)
 {
-	for (JUnsignedOffset i=0; i<kSpecialPropertyCount; i++)
+	for (const auto* p : kSpecialPropertyList)
 	{
-		if (line == kSpecialPropertyList[i])
+		if (line == p)
 		{
 			SetStyle(index, theBoldStyle);
 		}
