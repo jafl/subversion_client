@@ -16,7 +16,7 @@ fi
 install -m755 nps_svn_client $BIN
 
 mkdir -p $DOC
-cp README COPYING menu_strings $DOC
+cp README.md COPYING menu_strings $DOC
 
 cp desktop/nps_svn_client.desktop $APP/
 cp desktop/nps_svn_client.xpm     $ICON/
