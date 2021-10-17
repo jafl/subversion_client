@@ -83,7 +83,7 @@ jobs:
       - name: Build release artifacts
         run: |
           make VERBOSE=1 release
-          mv ../nps_svn_client_*.tar.gz ../nps-svn-client_*.deb .
+          mv ../nps_svn_client_*.tar.gz ../nps_svn_client_*.deb .
 
       - name: Store release artifacts
         uses: actions/upload-artifact@v2
@@ -91,4 +91,4 @@ jobs:
           name: release
           path: |
             nps_svn_client_*.tar.gz
-            nps-svn-client_*.deb
+            nps_svn_client_*.deb
