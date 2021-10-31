@@ -4,7 +4,7 @@ Version: %pkg_version
 Release: 1
 License: Copyright John Lindal
 Group: Development/Tools/Version Control
-Source: nps_svn_client_%pkg_version.tar
+Source: %pkg_name
 Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
 
 %description
@@ -21,7 +21,7 @@ NPS Subversion Client provides a simple, graphical Subversion client.
 %define gnome_app_path     /usr/share/applications
 %define gnome_icon_path    /usr/share/pixmaps
 
-./install "$RPM_BUILD_ROOT" nozip
+./install "$RPM_BUILD_ROOT"
 
 %post
 gunzip %svn_client_lib_dir/*.gz
