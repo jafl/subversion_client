@@ -7,7 +7,9 @@ else
   JX_ROOT := /usr/local
 endif
 
-APP_NAME := nps_svn_client
+APP_NAME   := nps_svn_client
+REPO_NAME  := subversion_client
+FORGE_NAME := nps-svnclient
 
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
