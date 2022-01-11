@@ -28,10 +28,13 @@ elif command -v apt-get; then
 
 	# debian
 
-	if [[ $1 != ci && ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
+	if [[ $1 != ci && -z $SNAPCRAFT_BUILD_ENVIRONMENT ]]; then
 		$SUDO apt update;
-		curl -O http://libjx.sourceforge.net/release/jx-application-framework.deb
-		sudo apt install ./jx-application-framework.deb
+
+		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
+			curl -O http://libjx.sourceforge.net/release/jx-application-framework.deb;
+			sudo apt install ./jx-application-framework.deb;
+		fi
 	fi;
 
 fi

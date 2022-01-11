@@ -9,7 +9,6 @@ Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, lib
 
 %description
 NPS Subversion Client provides a simple, graphical Subversion client.
-(http://www.newplanetsoftware.com/svn_client/)
 
 %prep
 %setup
@@ -30,4 +29,4 @@ NPS Subversion Client provides a simple, graphical Subversion client.
 %svn_client_doc_dir
 
 %gnome_app_path/nps_svn_client.desktop
-%gnome_icon_path/nps_svn_client.xpm
+%gnome_icon_path/nps_svn_client.png

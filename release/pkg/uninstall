@@ -1,16 +1,13 @@
 #!/bin/bash
 
 PRE=$1;
-if [[ -z $PRE ]]; then
-	PRE=/usr;
-fi
 
-BIN=$PRE/bin;
-DOC=$PRE/share/doc/nps_svn_client;
-APP=$PRE/share/applications;
-ICON=$PRE/share/pixmaps;
+BIN=$PRE/usr/bin;
+DOC=$PRE/usr/share/doc/nps_svn_client;
+APP=$PRE/usr/share/applications;
+ICON=$PRE/usr/share/pixmaps;
 
 rm -f  $BIN/nps_svn_client;
 rm -rf $DOC;
 rm -f  `find $APP -name 'nps_svn_client*.desktop'`;
-rm -f  `find $ICON -name 'nps_svn_client*.xpm'`;
+rm -f  `find $ICON -name 'nps_svn_client*.png'`;

@@ -1,0 +1,95 @@
+name: nps-svn-client
+title: NPS Subversion Client
+base: core20
+version: "2.0.1"
+#source-code: https://github.com/jafl/subversion_client
+#issues: https://github.com/jafl/subversion_client/issues
+#contact: https://johnlindal.wixsite.com/aboutme/contact-me
+summary: NPS Subversion Client provides a simple, graphical Subversion client.
+description: |
+  NPS Subversion Client provides a simple, graphical Subversion client.
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: ppc64el
+  - build-on: s390x
+
+apps:
+  nps-svn-client:
+    command: bin/desktop-launch bin/nps_svn_client
+    slots: [ home ]
+    plugs:
+      - x11
+      - desktop-legacy
+      - network
+
+parts:
+  nps-svn-client:
+    plugin: autotools
+    source: .
+    disable-parallel: true
+    build-environment:
+      - JX_ROOT: /snap/jx-application-framework/current
+      - PATH: $PATH:$JX_ROOT/bin
+      - LD_LIBRARY_PATH: $SNAPCRAFT_PART_INSTALL/lib:$SNAPCRAFT_PART_INSTALL/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_PART_INSTALL/usr/lib:$SNAPCRAFT_PART_INSTALL/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+    autotools-configure-parameters:
+      - release
+    stage:
+      - bin/nps_svn_client
+    build-packages:
+      - g++
+      - make
+      - pkg-config
+      - libx11-dev
+      - libxinerama-dev
+      - libxft-dev
+      - libxmu-dev
+      - libxi-dev
+      - libx11-xcb-dev
+      - libxcb-xfixes0-dev
+      - libxcb-dri2-0-dev
+      - libxpm-dev
+      - libjpeg-dev
+      - libpng-dev
+      - libgd-dev
+      - libace-dev
+      - libicu-dev
+      - libpcre3-dev
+      - libxml2-dev
+      - xutils-dev
+      - libdrm-dev
+      - aspell
+    build-snaps:
+      - jx-application-framework
+    after: [ libs ]
+  libs:
+    plugin: nil
+    stage-packages:
+      - libace-6.4.5
+      - libfontconfig1
+      - libfreetype6
+      - libgd3
+      - libicu66
+      - libjbig0
+      - libjpeg-turbo8
+      - libpng16-16
+      - libtiff5
+      - libwebp6
+      - libx11-6
+      - libxau6
+      - libxcb1
+      - libxdmcp6
+      - libxext6
+      - libxft2
+      - libxinerama1
+      - libxml2
+      - libxpm4
+      - libxrender1
+  launcher:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: glib-only
+    plugin: make

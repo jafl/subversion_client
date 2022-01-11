@@ -11,6 +11,12 @@
 
 This X application provides a simple interface for performing common subversion tasks, e.g., updating from the repository and checking in to the repository.  The [on-line help](http://nps-svnclient.sourceforge.net/help.html) explains all the features of the program.
 
+[![Download from Github](http://libjx.sourceforge.net/github.png)](https://github.com/jafl/subversion_client/releases/latest)
+
+<a href="https://sourceforge.net/p/nps-svnclient/"><img alt="Download NPS Subversion Client" src="https://sourceforge.net/sflogo.php?type=17&group_id=170488" width="250"></a>
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/nps-svn-client)
+
 
 ## Building from source
 
