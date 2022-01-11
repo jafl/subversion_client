@@ -15,7 +15,7 @@ NPS Subversion Client provides a simple, graphical Subversion client.
 
 %install
 
-%define svn_client_doc_dir /usr/share/doc/nps_svn_client
+%define svn_client_doc_dir /usr/share/doc/nps-svn-client
 %define gnome_app_path     /usr/share/applications
 %define gnome_icon_path    /usr/share/pixmaps
 
@@ -25,8 +25,8 @@ NPS Subversion Client provides a simple, graphical Subversion client.
 
 %docdir %svn_client_doc_dir
 
-/usr/bin/nps_svn_client
+/usr/bin/nps-svn-client
 %svn_client_doc_dir
 
-%gnome_app_path/nps_svn_client.desktop
-%gnome_icon_path/nps_svn_client.png
+%gnome_app_path/nps-svn-client.desktop
+%gnome_icon_path/nps-svn-client.png

@@ -130,7 +130,7 @@ Because this program fully supports the Multiple Document concept,
 it can be safely invoked from the command line or via a file manager
 as often as you like.
 
-Usage:  nps_svn_client [options] (path|url[@rev])
+Usage:  nps-svn-client [options] (path|url[@rev])
 
 --help           prints this help
 --version        prints version information

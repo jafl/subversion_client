@@ -31,7 +31,7 @@ For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
 
     brew install --cask xquartz
     brew tap jafl/jx
-    brew install jafl/jx/nps_svn_client
+    brew install jafl/jx/nps-svn-client
 
 For all other systems, download a package from:
 
@@ -39,7 +39,7 @@ For all other systems, download a package from:
 
 If you download the tar, unpack it, cd into the directory, and run `sudo ./install`.
 
-Otherwise, put the program (`nps_svn_client`) in a directory that is on your execution path.  `~/bin` is typically good choices.
+Otherwise, put the program (`nps-svn-client`) in a directory that is on your execution path.  `~/bin` is typically good choices.
 
 ### Requirements
 

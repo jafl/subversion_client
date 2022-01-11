@@ -9,7 +9,7 @@ ifndef JX_ROOT
   endif
 endif
 
-APP_NAME   := nps_svn_client
+APP_NAME   := nps-svn-client
 REPO_NAME  := subversion_client
 FORGE_NAME := nps-svnclient
 

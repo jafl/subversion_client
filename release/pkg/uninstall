@@ -3,11 +3,11 @@
 PRE=$1;
 
 BIN=$PRE/usr/bin;
-DOC=$PRE/usr/share/doc/nps_svn_client;
+DOC=$PRE/usr/share/doc/nps-svn-client;
 APP=$PRE/usr/share/applications;
 ICON=$PRE/usr/share/pixmaps;
 
-rm -f  $BIN/nps_svn_client;
+rm -f  $BIN/nps-svn-client;
 rm -rf $DOC;
-rm -f  `find $APP -name 'nps_svn_client*.desktop'`;
-rm -f  `find $ICON -name 'nps_svn_client*.png'`;
+rm -f  `find $APP -name 'nps-svn-client*.desktop'`;
+rm -f  `find $ICON -name 'nps-svn-client*.png'`;

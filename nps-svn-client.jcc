@@ -1,4 +1,4 @@
-jx_browser_data 89
+jx_browser_data 90
 # project tree
 0 "root"
 T
@@ -142,9 +142,9 @@ F
 T
 1 "layouts"
 T
-2 "nps_svn_client.fd"
+2 "nps-svn-client.fd"
 F
-"./nps_svn_client.fd"
+"./nps-svn-client.fd"
 F
 T
 1 "help"
@@ -166,7 +166,7 @@ F
 # build settings
 1
 F
-"nps_svn_client"
+"nps-svn-client"
 "${LIB_DEPS}"
 "make -k all"
 # search paths

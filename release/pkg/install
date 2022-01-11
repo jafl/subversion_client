@@ -5,12 +5,12 @@
 PRE=$1;
 
 BIN=$PRE/usr/bin;
-DOC=$PRE/usr/share/doc/nps_svn_client;
+DOC=$PRE/usr/share/doc/nps-svn-client;
 APP=$PRE/usr/share/applications;
 ICON=$PRE/usr/share/pixmaps;
 
 mkdir -p $BIN;
-install -m755 nps_svn_client $BIN;
+install -m755 nps-svn-client $BIN;
 
 mkdir -p $DOC;
 cp README.md COPYING menu_strings $DOC;

@@ -1,8 +1,8 @@
-nps_svn_client
+nps-svn-client
 Makefile
 *.o
 *.bak
 code/stringData.h
 strings/version
-strings/nps_svn_client_menu_strings
+strings/menu_strings
 .jcc

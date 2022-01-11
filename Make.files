@@ -2,7 +2,7 @@
 # Do not edit it directly!
 # Any changes you make will be silently overwritten.
 
-@nps_svn_client
+@nps-svn-client
 
 .cpp ./code/main
 .cpp ./code/App
