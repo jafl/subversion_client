@@ -20,7 +20,7 @@ architectures:
 
 apps:
   nps-svn-client:
-    command: bin/desktop-launch bin/nps_svn_client
+    command: bin/desktop-launch nps_svn_client
     plugs:
       - x11
       - desktop-legacy
