@@ -21,11 +21,11 @@ architectures:
 apps:
   nps-svn-client:
     command: bin/desktop-launch bin/nps_svn_client
-    slots: [ home ]
     plugs:
       - x11
       - desktop-legacy
       - network
+      - home
 
 parts:
   nps-svn-client:
