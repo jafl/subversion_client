@@ -19,7 +19,7 @@ architectures:
   - build-on: s390x
 
 apps:
-  nps-svn-client:
+  nps_svn_client:
     command: bin/desktop-launch nps_svn_client
     plugs:
       - x11
@@ -28,7 +28,7 @@ apps:
       - home
 
 parts:
-  nps-svn-client:
+  nps_svn_client:
     plugin: autotools
     source: .
     disable-parallel: true
