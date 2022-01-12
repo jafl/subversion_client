@@ -83,14 +83,14 @@ jobs:
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
           make release
-          mv ../nps_svn_client_* .
+          mv ../nps-svn-client_* .
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v2
         with:
           name: release
-          path: nps_svn_client_*
+          path: nps-svn-client_*
 
   build-macos:
     name: Build & Package MacOS
@@ -124,14 +124,14 @@ jobs:
         run: |
           export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
           make release
-          mv ../nps_svn_client_* .
+          mv ../nps-svn-client_* .
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v2
         with:
           name: release
-          path: nps_svn_client_*
+          path: nps-svn-client_*
 
   release:
     name: Upload releases
@@ -147,6 +147,6 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: nps_svn_client_*
+          file: nps-svn-client_*
           tag: ${{ github.ref }}
           file_glob: true
