@@ -11,18 +11,10 @@
 
 This X application provides a simple interface for performing common subversion tasks, e.g., updating from the repository and checking in to the repository.  The [on-line help](http://nps-svnclient.sourceforge.net/help.html) explains all the features of the program.
 
-[![Download from Github](http://libjx.sourceforge.net/github.png)](https://github.com/jafl/subversion_client/releases/latest)
 
-<a href="https://sourceforge.net/p/nps-svnclient/"><img alt="Download NPS Subversion Client" src="https://sourceforge.net/sflogo.php?type=17&group_id=170488" width="250"></a>
+## Requirements
 
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/nps-svn-client)
-
-
-## Building from source
-
-1. Install the [JX Application Framework](https://github.com/jafl/jx_application_framework),  and set the `JX_ROOT` environment variable to point to its `include` directory.
-1. `./configure`
-1. `make`
+On MacOS, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
 
 
 ## Installing a binary
@@ -33,17 +25,24 @@ For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
     brew tap jafl/jx
     brew install jafl/jx/nps-svn-client
 
-For all other systems, download a package from:
+For all other systems, download a package:
 
-* https://github.com/jafl/subversion_client/releases
+[![Download from Github](http://libjx.sourceforge.net/github.png)](https://github.com/jafl/subversion_client/releases/latest)
+
+<a href="https://sourceforge.net/p/nps-svnclient/"><img alt="Download NPS Subversion Client" src="https://sourceforge.net/sflogo.php?type=17&group_id=170488" width="250"></a>
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/nps-svn-client)
 
 If you download the tar, unpack it, cd into the directory, and run `sudo ./install`.
 
-Otherwise, put the program (`nps-svn-client`) in a directory that is on your execution path.  `~/bin` is typically good choices.
+Otherwise, put the program (`nps-svn-client`) in a directory that is on your execution path.  `~/bin` is typically a good choice.
 
-### Requirements
 
-On MacOS, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
+## Building from source
+
+1. Install the [JX Application Framework](https://github.com/jafl/jx_application_framework),  and set the `JX_ROOT` environment variable to point to its `include` directory.
+1. `./configure`
+1. `make`
 
 
 ## FAQ
