@@ -274,7 +274,7 @@ PropertiesList::Receive
 
 		if (info->Successful())
 		{
-			CreateProperty1();
+			FinishCreateProperty();
 		}
 
 		itsCreatePropertyDialog = nullptr;
@@ -321,12 +321,12 @@ PropertiesList::CreateProperty()
 }
 
 /******************************************************************************
- CreateProperty1 (private)
+ FinishCreateProperty (private)
 
  ******************************************************************************/
 
 bool
-PropertiesList::CreateProperty1()
+PropertiesList::FinishCreateProperty()
 {
 	assert( itsCreatePropertyDialog != nullptr );
 

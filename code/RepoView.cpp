@@ -455,7 +455,7 @@ RepoView::Receive
 
 		if (info->Successful())
 		{
-			CreateDirectory1();
+			FinishCreateDirectory();
 		}
 
 		itsCreateDirectoryDialog = nullptr;
@@ -469,7 +469,7 @@ RepoView::Receive
 
 		if (info->Successful())
 		{
-			DuplicateItem1();
+			FinishDuplicateItem();
 		}
 
 		itsDuplicateItemDialog = nullptr;
@@ -1611,14 +1611,14 @@ RepoView::CreateDirectory()
 }
 
 /******************************************************************************
- CreateDirectory1 (private)
+ FinishCreateDirectory (private)
 
  ******************************************************************************/
 
 static const JString kCreateDirCmd("svn mkdir $path");
 
 bool
-RepoView::CreateDirectory1()
+RepoView::FinishCreateDirectory()
 {
 	assert( itsCreateDirectoryDialog != nullptr );
 
@@ -1679,14 +1679,14 @@ RepoView::DuplicateItem()
 }
 
 /******************************************************************************
- DuplicateItem1 (private)
+ FinishDuplicateItem (private)
 
  ******************************************************************************/
 
 static const JString kDuplicateItemCmd("svn copy $rev $src $dst");
 
 bool
-RepoView::DuplicateItem1()
+RepoView::FinishDuplicateItem()
 {
 	RepoTreeNode* srcNode = itsDuplicateItemDialog->GetSrcNode();
 	const JString& newName   = itsDuplicateItemDialog->GetString();

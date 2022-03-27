@@ -168,8 +168,8 @@ private:
 	void	HandleContextMenu(const JIndex index);
 
 	void	CopySelectedFiles(const bool fullPath);
-	bool	CreateDirectory1();
-	bool	DuplicateItem1();
+	bool	FinishCreateDirectory();
+	bool	FinishDuplicateItem();
 	bool	CopyItem();
 };
 

@@ -56,7 +56,7 @@ private:
 
 	static JString	GetCommand(const JString& fullName);
 
-	bool	CreateProperty1();
+	bool	FinishCreateProperty();
 	bool	RemoveNextProperty();
 };
 
