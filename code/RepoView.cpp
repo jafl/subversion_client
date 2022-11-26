@@ -1287,13 +1287,13 @@ void
 RepoView::UpdateContextMenu()
 {
 	JString rev;
-	itsContextMenu->SetItemEnable(kDiffEditedSelectedFilesCtxCmd,
+	itsContextMenu->SetItemEnabled(kDiffEditedSelectedFilesCtxCmd,
 		GetDirector()->HasPath() && GetBaseRevision(&rev));
 
-	itsContextMenu->SetItemEnable(kDiffCurrentSelectedFilesCtxCmd,
+	itsContextMenu->SetItemEnabled(kDiffCurrentSelectedFilesCtxCmd,
 		(itsRepoTree->GetRepoRoot())->GetRepoRevision(&rev));
 
-	itsContextMenu->SetItemEnable(kCheckOutSelectedDirCtxCmd, CanCheckOutSelection());
+	itsContextMenu->SetItemEnabled(kCheckOutSelectedDirCtxCmd, CanCheckOutSelection());
 }
 
 /******************************************************************************

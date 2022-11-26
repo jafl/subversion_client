@@ -155,7 +155,7 @@ StatusList::UpdateContextMenu
 		canIgnore = true;
 	}
 
-	menu->SetItemEnable(kIgnoreSelectionCtxCmd, canIgnore);
+	menu->SetItemEnabled(kIgnoreSelectionCtxCmd, canIgnore);
 }
 
 /******************************************************************************

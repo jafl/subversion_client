@@ -669,7 +669,7 @@ ListBase::UpdateContextMenu
 	)
 {
 	JString rev;
-	menu->SetItemEnable(kDiffEditedSelectedFilesCtxCmd, GetBaseRevision(&rev));
+	menu->SetItemEnabled(kDiffEditedSelectedFilesCtxCmd, GetBaseRevision(&rev));
 }
 
 /******************************************************************************
