@@ -10,8 +10,6 @@
 
 #include "ListBase.h"
 
-class JXGetStringDialog;
-
 class PropertiesList : public ListBase
 {
 
@@ -30,7 +28,7 @@ public:
 	void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
 									 const bool includeDeleted = false) override;
 	void	OpenSelectedItems() override;
-	bool	CreateProperty() override;
+	void	CreateProperty() override;
 	bool	SchedulePropertiesForRemove() override;
 
 protected:
@@ -48,7 +46,6 @@ protected:
 private:
 
 	const JString			itsFullName;
-	JXGetStringDialog*		itsCreatePropertyDialog;
 	JPtrArray<JString>*		itsRemovePropertyCmdList;
 	JPtrArray<JProcess>*	itsProcessList;
 
@@ -56,7 +53,6 @@ private:
 
 	static JString	GetCommand(const JString& fullName);
 
-	bool	FinishCreateProperty();
 	bool	RemoveNextProperty();
 };
 

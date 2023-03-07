@@ -23,7 +23,7 @@
 BeginEditingTask::BeginEditingTask
 	(
 	RepoView*		view,
-	const JPoint&		cell
+	const JPoint&	cell
 	)
 	:
 	JXIdleTask(kJXDoubleClickTime),
@@ -65,19 +65,15 @@ BeginEditingTask::Perform()
 }
 
 /******************************************************************************
- Perform (virtual)
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 BeginEditingTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
-	{
-		Perform();
-	}
+	Perform();
 }

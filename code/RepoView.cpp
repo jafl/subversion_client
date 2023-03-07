@@ -29,7 +29,7 @@
 #include <jx-af/jx/JXDragPainter.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXTimerTask.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXCSFDialogBase.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <X11/keysym.h>
 #include <jx-af/jcore/JTreeList.h>
@@ -116,10 +116,6 @@ RepoView::RepoView
 	TabBase(director),
 	itsEditMenu(editMenu),
 	itsContextMenu(nullptr),
-	itsCreateDirectoryDialog(nullptr),
-	itsDuplicateItemDialog(nullptr),
-	itsCopyItemDialog(nullptr),
-	itsCopyItemDestNode(nullptr),
 	itsEditTask(nullptr),
 	itsSortNode(nullptr)
 {
@@ -247,8 +243,8 @@ RepoView::TableDrawCell
 		}
 
 		p.String(r, str,
-				 cell.x == kRevColIndex ? JPainter::kHAlignRight : JPainter::kHAlignLeft,
-				 JPainter::kVAlignCenter);
+				 cell.x == kRevColIndex ? JPainter::HAlign::kRight : JPainter::HAlign::kLeft,
+				 JPainter::VAlign::kCenter);
 	}
 }
 
@@ -445,49 +441,6 @@ RepoView::Receive
 	else if (sender == itsRefreshTask && message.Is(JXTimerTask::kTimerWentOff))
 	{
 		Refresh();
-	}
-
-	else if (sender == itsCreateDirectoryDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		if (info->Successful())
-		{
-			FinishCreateDirectory();
-		}
-
-		itsCreateDirectoryDialog = nullptr;
-	}
-
-	else if (sender == itsDuplicateItemDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		if (info->Successful())
-		{
-			FinishDuplicateItem();
-		}
-
-		itsDuplicateItemDialog = nullptr;
-	}
-
-	else if (sender == itsCopyItemDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		if (info->Successful())
-		{
-			CopyItem();
-		}
-
-		itsCopyItemDialog   = nullptr;
-		itsCopyItemDestNode = nullptr;
 	}
 
 	else
@@ -1082,6 +1035,8 @@ RepoView::HandleDNDLeave()
 
  ******************************************************************************/
 
+static const JString kCopyItemCmd("svn copy $src $dst");
+
 void
 RepoView::HandleDNDDrop
 	(
@@ -1106,11 +1061,11 @@ RepoView::HandleDNDDrop
 	{
 		if (returnType == XA_STRING)
 		{
-			itsCopyItemSrcURI.Set((char*) data, dataLength);
+			JString srcURI((char*) data, dataLength);
 
 			JString path, initialName;
-			JStripTrailingDirSeparator(&itsCopyItemSrcURI);
-			JSplitPathAndName(itsCopyItemSrcURI, &path, &initialName);
+			JStripTrailingDirSeparator(&srcURI);
+			JSplitPathAndName(srcURI, &path, &initialName);
 
 			JStringIterator iter(&initialName);
 			if (iter.Next("@"))
@@ -1121,23 +1076,35 @@ RepoView::HandleDNDDrop
 			}
 			iter.Invalidate();
 
-			assert( itsCopyItemDestNode == nullptr );
-
-			itsCopyItemDestNode =
+			auto* destNode =
 				GetDNDTargetIndex(&dndIndex) ?
 				itsRepoTreeList->GetRepoNode(dndIndex) :
 				itsRepoTree->GetRepoRoot();
 
-			assert( itsCopyItemDialog == nullptr );
-
-			itsCopyItemDialog =
+			auto* dlog =
 				jnew JXGetStringDialog(
-					GetDirector(), JGetString("CopyItemWindowTitle::RepoView"),
+					JGetString("CopyItemWindowTitle::RepoView"),
 					JGetString("CopyItemPrompt::RepoView"), initialName);
-			assert( itsCopyItemDialog != nullptr );
-			itsCopyItemDialog->GetInputField()->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-			ListenTo(itsCopyItemDialog);
-			itsCopyItemDialog->BeginDialog();
+			assert( dlog != nullptr );
+			dlog->GetInputField()->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
+
+			if (dlog->DoDialog())
+			{
+				const JString src = JPrepArgForExec(srcURI);
+
+				JString dst = JCombinePathAndName(destNode->GetRepoPath(), dlog->GetString());
+				dst         = JPrepArgForExec(dst);
+
+				JSubstitute subst;
+				subst.DefineVariable("src", src);
+				subst.DefineVariable("dst", dst);
+
+				JString cmd = kCopyItemCmd;
+				subst.Substitute(&cmd);
+
+				GetDirector()->Execute("CopyItemTab::MainDirector", cmd,
+									   true, false, false);
+			}
 		}
 
 		selManager->DeleteData(&data, delMethod);
@@ -1574,12 +1541,14 @@ RepoView::ScheduleForRemove()
 
  ******************************************************************************/
 
-bool
+static const JString kCreateDirCmd("svn mkdir $path");
+
+void
 RepoView::CreateDirectory()
 {
 	RepoTreeNode* parentNode;
 	JPoint cell;
-	if ((GetTableSelection()).GetSingleSelectedCell(&cell))
+	if (GetTableSelection().GetSingleSelectedCell(&cell))
 	{
 		parentNode = itsRepoTreeList->GetRepoNode(cell.y);
 
@@ -1590,7 +1559,7 @@ RepoView::CreateDirectory()
 		}
 		else if (type != RepoTreeNode::kDirectory)
 		{
-			return false;
+			return;
 		}
 	}
 	else
@@ -1598,45 +1567,29 @@ RepoView::CreateDirectory()
 		parentNode = itsRepoTree->GetRepoRoot();
 	}
 
-	assert( itsCreateDirectoryDialog == nullptr );
-
-	itsCreateDirectoryDialog =
+	auto* dlog =
 		jnew CreateRepoDirectoryDialog(
-			GetDirector(), JGetString("CreateDirectoryWindowTitle::RepoView"),
+			JGetString("CreateDirectoryWindowTitle::RepoView"),
 			JGetString("CreateDirectoryPrompt::RepoView"), JString::empty, parentNode);
-	assert( itsCreateDirectoryDialog != nullptr );
-	ListenTo(itsCreateDirectoryDialog);
-	itsCreateDirectoryDialog->BeginDialog();
-	return true;
-}
+	assert( dlog != nullptr );
 
-/******************************************************************************
- FinishCreateDirectory (private)
+	if (dlog->DoDialog())
+	{
+		RepoTreeNode* parentNode = dlog->GetParentNode();
+		const JString& newName   = dlog->GetString();
 
- ******************************************************************************/
+		const JString path = JPrepArgForExec(
+			JCombinePathAndName(parentNode->GetRepoPath(), newName));
 
-static const JString kCreateDirCmd("svn mkdir $path");
+		JSubstitute subst;
+		subst.DefineVariable("path", path);
 
-bool
-RepoView::FinishCreateDirectory()
-{
-	assert( itsCreateDirectoryDialog != nullptr );
+		JString cmd = kCreateDirCmd;
+		subst.Substitute(&cmd);
 
-	RepoTreeNode* parentNode = itsCreateDirectoryDialog->GetParentNode();
-	const JString& newName      = itsCreateDirectoryDialog->GetString();
-
-	const JString path = JPrepArgForExec(
-		JCombinePathAndName(parentNode->GetRepoPath(), newName));
-
-	JSubstitute subst;
-	subst.DefineVariable("path", path);
-
-	JString cmd = kCreateDirCmd;
-	subst.Substitute(&cmd);
-
-	GetDirector()->Execute("CreateDirectoryTab::MainDirector", cmd,
-							 true, false, false);
-	return true;
+		GetDirector()->Execute("CreateDirectoryTab::MainDirector", cmd,
+								 true, false, false);
+	}
 }
 
 /******************************************************************************
@@ -1644,13 +1597,15 @@ RepoView::FinishCreateDirectory()
 
  ******************************************************************************/
 
-bool
+static const JString kDuplicateItemCmd("svn copy $rev $src $dst");
+
+void
 RepoView::DuplicateItem()
 {
 	JPoint cell;
 	if (!(GetTableSelection()).GetSingleSelectedCell(&cell))
 	{
-		return false;
+		return;
 	}
 
 	RepoTreeNode* srcNode  = itsRepoTreeList->GetRepoNode(cell.y);
@@ -1666,83 +1621,42 @@ RepoView::DuplicateItem()
 		initialName = srcNode->GetName() + JGetString("DuplicateItemSuffix::RepoView");
 	}
 
-	assert( itsDuplicateItemDialog == nullptr );
-
-	itsDuplicateItemDialog =
+	auto* dlog =
 		jnew DuplicateRepoItemDialog(
-			GetDirector(), JGetString("DuplicateItemWindowTitle::RepoView"),
+			JGetString("DuplicateItemWindowTitle::RepoView"),
 			JGetString("DuplicateItemPrompt::RepoView"), initialName, srcNode);
-	assert( itsDuplicateItemDialog != nullptr );
-	ListenTo(itsDuplicateItemDialog);
-	itsDuplicateItemDialog->BeginDialog();
-	return true;
-}
+	assert( dlog != nullptr );
 
-/******************************************************************************
- FinishDuplicateItem (private)
-
- ******************************************************************************/
-
-static const JString kDuplicateItemCmd("svn copy $rev $src $dst");
-
-bool
-RepoView::FinishDuplicateItem()
-{
-	RepoTreeNode* srcNode = itsDuplicateItemDialog->GetSrcNode();
-	const JString& newName   = itsDuplicateItemDialog->GetString();
-
-	JString rev;
-	if (srcNode->GetRepoRevision(&rev))
+	if (dlog->DoDialog())
 	{
-		rev.Prepend("-r ");
+		RepoTreeNode* srcNode  = dlog->GetSrcNode();
+		const JString& newName = dlog->GetString();
+
+		JString rev;
+		if (srcNode->GetRepoRevision(&rev))
+		{
+			rev.Prepend("-r ");
+		}
+
+		const JString src = JPrepArgForExec(srcNode->GetRepoPath());
+
+		JString path, name;
+		JSplitPathAndName(srcNode->GetRepoPath(), &path, &name);
+		name = JCombinePathAndName(path, newName);
+
+		const JString dst = JPrepArgForExec(name);
+
+		JSubstitute subst;
+		subst.DefineVariable("rev", rev);
+		subst.DefineVariable("src", src);
+		subst.DefineVariable("dst", dst);
+
+		JString cmd = kDuplicateItemCmd;
+		subst.Substitute(&cmd);
+
+		GetDirector()->Execute("DuplicateItemTab::MainDirector", cmd,
+							   true, false, false);
 	}
-
-	const JString src = JPrepArgForExec(srcNode->GetRepoPath());
-
-	JString path, name;
-	JSplitPathAndName(srcNode->GetRepoPath(), &path, &name);
-	name = JCombinePathAndName(path, newName);
-
-	const JString dst = JPrepArgForExec(name);
-
-	JSubstitute subst;
-	subst.DefineVariable("rev", rev);
-	subst.DefineVariable("src", src);
-	subst.DefineVariable("dst", dst);
-
-	JString cmd = kDuplicateItemCmd;
-	subst.Substitute(&cmd);
-
-	GetDirector()->Execute("DuplicateItemTab::MainDirector", cmd,
-						   true, false, false);
-	return true;
-}
-
-/******************************************************************************
- CopyItem (private)
-
- ******************************************************************************/
-
-static const JString kCopyItemCmd("svn copy $src $dst");
-
-bool
-RepoView::CopyItem()
-{
-	const JString src = JPrepArgForExec(itsCopyItemSrcURI);
-
-	JString dst = JCombinePathAndName(itsCopyItemDestNode->GetRepoPath(), itsCopyItemDialog->GetString());
-	dst         = JPrepArgForExec(dst);
-
-	JSubstitute subst;
-	subst.DefineVariable("src", src);
-	subst.DefineVariable("dst", dst);
-
-	JString cmd = kCopyItemCmd;
-	subst.Substitute(&cmd);
-
-	GetDirector()->Execute("CopyItemTab::MainDirector", cmd,
-						   true, false, false);
-	return true;
 }
 
 /******************************************************************************
@@ -1755,7 +1669,7 @@ RepoView::CanCheckOutSelection()
 	const
 {
 	JPoint cell;
-	if ((GetTableSelection()).GetSingleSelectedCell(&cell))
+	if (GetTableSelection().GetSingleSelectedCell(&cell))
 	{
 		RepoTreeNode* node = itsRepoTreeList->GetRepoNode(cell.y);
 		if (node->GetType() == RepoTreeNode::kDirectory)

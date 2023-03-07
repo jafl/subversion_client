@@ -1,7 +1,7 @@
 /******************************************************************************
  GetRepoDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2011 by John Lindal.
 
@@ -29,14 +29,12 @@ const JFileVersion kCurrentPrefsVersion = 1;
 
 GetRepoDialog::GetRepoDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	windowTitle
+	const JString& windowTitle
 	)
 	:
-	JXDialogDirector(supervisor, true),
+	JXModalDialogDirector(),
 	JPrefObject(GetPrefsManager(), kGetRepoDialogID)
 {
-	UseModalPlacement(false);
 	BuildWindow(windowTitle);
 
 	JPrefObject::ReadPrefs();
@@ -138,7 +136,7 @@ GetRepoDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -163,10 +161,6 @@ GetRepoDialog::ReadPrefs
 	if (vers >= 1)
 	{
 		GetWindow()->ReadGeometry(input);
-	}
-	else
-	{
-		GetWindow()->PlaceAsDialogWindow();
 	}
 
 	itsRepoHistoryMenu->ReadSetup(input);

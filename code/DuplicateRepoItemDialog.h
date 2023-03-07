@@ -16,9 +16,8 @@ class DuplicateRepoItemDialog : public JXGetStringDialog
 {
 public:
 
-	DuplicateRepoItemDialog(JXDirector* supervisor, const JString& windowTitle,
-							   const JString& prompt, const JString& initialName,
-							   RepoTreeNode* srcNode);
+	DuplicateRepoItemDialog(const JString& windowTitle, const JString& prompt,
+							const JString& initialName, RepoTreeNode* srcNode);
 
 	~DuplicateRepoItemDialog() override;
 

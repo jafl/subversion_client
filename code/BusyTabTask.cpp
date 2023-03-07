@@ -38,19 +38,15 @@ BusyTabTask::~BusyTabTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 BusyTabTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
-	{
-		itsTabGroup->IncrementSpinnerIndex();
-	}
+	itsTabGroup->IncrementSpinnerIndex();
 }

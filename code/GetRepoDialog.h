@@ -8,17 +8,17 @@
 #ifndef _H_GetRepoDialog
 #define _H_GetRepoDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jcore/JPrefObject.h>
 
 class JXInputField;
 class JXStringHistoryMenu;
 
-class GetRepoDialog : public JXDialogDirector, public JPrefObject
+class GetRepoDialog : public JXModalDialogDirector, public JPrefObject
 {
 public:
 
-	GetRepoDialog(JXDirector* supervisor, const JString& windowTitle);
+	GetRepoDialog(const JString& windowTitle);
 
 	~GetRepoDialog() override;
 

@@ -42,25 +42,21 @@ RefreshStatusTask::~RefreshStatusTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 RefreshStatusTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
 	if (itsDirector == nullptr)
 	{
 		jdelete this;
-		return;
 	}
-
-	if (TimeToPerform(delta, maxSleepTime) &&
-		itsDirector->OKToStartActionProcess())
+	else if (itsDirector->OKToStartActionProcess())
 	{
 		itsDirector->RefreshStatus();	// deletes us
 	}

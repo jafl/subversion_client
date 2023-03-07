@@ -10,7 +10,7 @@
 #include "CreateRepoDirectoryDialog.h"
 #include "RepoTreeNode.h"
 #include <jx-af/jx/JXInputField.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXCSFDialogBase.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -22,19 +22,18 @@
 
 CreateRepoDirectoryDialog::CreateRepoDirectoryDialog
 	(
-	JXDirector*			supervisor,
-	const JString&		windowTitle,
-	const JString&		prompt,
-	const JString&		initialName,
+	const JString&	windowTitle,
+	const JString&	prompt,
+	const JString&	initialName,
 	RepoTreeNode*	parentNode
 	)
 	:
-	JXGetStringDialog(supervisor, windowTitle, prompt, initialName),
+	JXGetStringDialog(windowTitle, prompt, initialName),
 	itsParentNode(parentNode)
 {
 	assert( itsParentNode != nullptr );
 
-	GetInputField()->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 }
 
 /******************************************************************************

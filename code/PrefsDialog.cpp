@@ -1,7 +1,7 @@
 /******************************************************************************
  PrefsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2008 by John Lindal.
 
@@ -26,14 +26,13 @@
 
 PrefsDialog::PrefsDialog
 	(
-	JXDirector*							supervisor,
 	const PrefsManager::Integration	type,
-	const JString&						commitEditor,
-	const JString&						diffCmd,
-	const JString&						reloadChangedCmd
+	const JString&					commitEditor,
+	const JString&					diffCmd,
+	const JString&					reloadChangedCmd
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(type, commitEditor,diffCmd, reloadChangedCmd);
 }
@@ -56,9 +55,9 @@ void
 PrefsDialog::GetData
 	(
 	PrefsManager::Integration*	type,
-	JString*						commitEditor,
-	JString*						diffCmd,
-	JString*						reloadChangedCmd
+	JString*					commitEditor,
+	JString*					diffCmd,
+	JString*					reloadChangedCmd
 	)
 	const
 {
@@ -243,6 +242,6 @@ PrefsDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }

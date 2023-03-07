@@ -20,7 +20,9 @@
 class MDIServer;
 
 App*			GetApplication();
+bool			HasPrefsManager();
 PrefsManager*	GetPrefsManager();
+void			ForgetPrefsManager();
 WDManager*		GetWDManager();
 MDIServer*		GetMDIServer();
 

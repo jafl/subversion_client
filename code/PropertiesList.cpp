@@ -56,8 +56,7 @@ PropertiesList::PropertiesList
 	:
 	ListBase(director, editMenu, GetCommand(fullName), false, false, false, false,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
-	itsFullName(fullName),
-	itsCreatePropertyDialog(nullptr)
+	itsFullName(fullName)
 {
 	itsRemovePropertyCmdList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsRemovePropertyCmdList != nullptr );
@@ -266,21 +265,7 @@ PropertiesList::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsCreatePropertyDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		if (info->Successful())
-		{
-			FinishCreateProperty();
-		}
-
-		itsCreatePropertyDialog = nullptr;
-	}
-
-	else if (message.Is(JProcess::kFinished))
+	if (message.Is(JProcess::kFinished))
 	{
 		const JSize count = itsProcessList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -305,53 +290,38 @@ PropertiesList::Receive
 
  ******************************************************************************/
 
-bool
+void
 PropertiesList::CreateProperty()
 {
-	assert( itsCreatePropertyDialog == nullptr );
-
-	itsCreatePropertyDialog =
+	auto* dlog =
 		jnew JXGetStringDialog(
-			GetDirector(), JGetString("CreatePropertyWindowTitle::PropertiesList"),
+			JGetString("CreatePropertyWindowTitle::PropertiesList"),
 			JGetString("CreatePropertyPrompt::PropertiesList"), JString::empty);
-	assert( itsCreatePropertyDialog != nullptr );
-	ListenTo(itsCreatePropertyDialog);
-	itsCreatePropertyDialog->BeginDialog();
-	return true;
-}
+	assert( dlog != nullptr );
 
-/******************************************************************************
- FinishCreateProperty (private)
-
- ******************************************************************************/
-
-bool
-PropertiesList::FinishCreateProperty()
-{
-	assert( itsCreatePropertyDialog != nullptr );
-
-	const JString prop = JPrepArgForExec(itsCreatePropertyDialog->GetString());
-	const JString file = JPrepArgForExec(itsFullName);
-
-	JSubstitute subst;
-	subst.DefineVariable("prop_name", prop);
-	subst.DefineVariable("file_name", file);
-
-	JString cmd = kPropEditCmd;
-	subst.Substitute(&cmd);
-
-	JSimpleProcess* p;
-	const JError err = JSimpleProcess::Create(&p, cmd, true);
-	if (err.OK())
+	if (dlog->DoDialog())
 	{
-		itsProcessList->Append(p);
-		ListenTo(p);
-		return true;
-	}
-	else
-	{
-		err.ReportIfError();
-		return false;
+		const JString prop = JPrepArgForExec(dlog->GetString());
+		const JString file = JPrepArgForExec(itsFullName);
+
+		JSubstitute subst;
+		subst.DefineVariable("prop_name", prop);
+		subst.DefineVariable("file_name", file);
+
+		JString cmd = kPropEditCmd;
+		subst.Substitute(&cmd);
+
+		JSimpleProcess* p;
+		const JError err = JSimpleProcess::Create(&p, cmd, true);
+		if (err.OK())
+		{
+			itsProcessList->Append(p);
+			ListenTo(p);
+		}
+		else
+		{
+			err.ReportIfError();
+		}
 	}
 }
 

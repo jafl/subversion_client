@@ -18,7 +18,10 @@ public:
 
 	~App() override;
 
-	void	DisplayAbout(const JString& prevVersStr = JString::empty);
+	void	Quit() override;
+
+	void	DisplayAbout(const bool showLicense = false,
+						 const JString& prevVersStr = JString::empty);
 
 	void	ReloadOpenFilesInIDE();
 
@@ -27,7 +30,6 @@ public:
 
 protected:
 
-	bool	Close() override;
 	void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
 };
 

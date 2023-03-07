@@ -20,7 +20,7 @@ public:
 
 	~WDManager() override;
 
-	bool			NewBrowser(MainDirector** dir);
+	void			NewBrowser();
 	bool			GetBrowser(const JString& path, MainDirector** dir);
 	bool			GetBrowserForExactURL(const JString& url, MainDirector** dir);
 	MainDirector*	OpenDirectory(const JString& path, bool* wasOpen = nullptr);

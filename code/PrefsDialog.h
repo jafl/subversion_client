@@ -8,22 +8,21 @@
 #ifndef _H_PrefsDialog
 #define _H_PrefsDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 #include "PrefsManager.h"	// need defn of Integration
 
 class JXRadioGroup;
 class JXTextRadioButton;
 class JXInputField;
 
-class PrefsDialog : public JXDialogDirector
+class PrefsDialog : public JXModalDialogDirector
 {
 public:
 
-	PrefsDialog(JXDirector* supervisor,
-				   const PrefsManager::Integration type,
-				   const JString& commitEditor,
-				   const JString& diffCmd,
-				   const JString& reloadChangedCmd);
+	PrefsDialog(const PrefsManager::Integration type,
+				const JString& commitEditor,
+				const JString& diffCmd,
+				const JString& reloadChangedCmd);
 
 	~PrefsDialog() override;
 

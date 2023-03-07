@@ -12,6 +12,7 @@
 #include "stringData.h"
 #include "globals.h"
 #include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/jWebUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "nps_svn_client";
@@ -25,7 +26,7 @@ App::App
 	(
 	int*		argc,
 	char*		argv[],
-	bool*	displayAbout,
+	bool*		displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -62,22 +63,19 @@ App::~App()
 }
 
 /******************************************************************************
- Close (virtual protected)
+ Quit (virtual)
 
  ******************************************************************************/
 
-bool
-App::Close()
+void
+App::Quit()
 {
-	(GetPrefsManager())->SaveProgramState();
-
-	const bool success = JXApplication::Close();	// deletes us if successful
-	if (!success)
+	if (!IsQuitting() && HasPrefsManager())
 	{
-		(GetPrefsManager())->ForgetProgramState();
+		GetPrefsManager()->SaveProgramState();
 	}
 
-	return success;
+	JXApplication::Quit();
 }
 
 /******************************************************************************
@@ -90,12 +88,26 @@ App::Close()
 void
 App::DisplayAbout
 	(
-	const JString& prevVersStr
+	const bool		showLicense,
+	const JString&	prevVersStr
 	)
 {
-	auto* dlog = jnew AboutDialog(this, prevVersStr);
-	assert( dlog != nullptr );
-	dlog->BeginDialog();
+	StartFiber([showLicense, prevVersStr]()
+	{
+		if (!showLicense || JGetUserNotification()->AcceptLicense())
+		{
+			auto* dlog = jnew AboutDialog(prevVersStr);
+			assert( dlog != nullptr );
+			dlog->DoDialog();
+
+			JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
+		}
+		else
+		{
+			ForgetPrefsManager();
+			JXGetApplication()->Quit();
+		}
+	});
 }
 
 /******************************************************************************
@@ -108,7 +120,7 @@ App::ReloadOpenFilesInIDE()
 {
 	PrefsManager::Integration type;
 	JString cmd;
-	if ((GetPrefsManager())->GetCommand(PrefsManager::kReloadChangedCmd, &type, &cmd))
+	if (GetPrefsManager()->GetCommand(PrefsManager::kReloadChangedCmd, &type, &cmd))
 	{
 		JSimpleProcess::Create(cmd, true);
 	}
@@ -131,7 +143,7 @@ App::CleanUpBeforeSuddenDeath
 
 	if (reason != JXDocumentManager::kAssertFired)
 	{
-		(GetPrefsManager())->SaveProgramState();
+		GetPrefsManager()->SaveProgramState();
 	}
 
 	::CleanUpBeforeSuddenDeath(reason);		// must be last call

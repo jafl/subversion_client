@@ -17,11 +17,9 @@ class JXContainer;
 class JXScrollbarSet;
 class JXTextMenu;
 class JXToolBar;
-class JXGetStringDialog;
 class TabGroup;
 class TabBase;
 class RepoView;
-class GetRepoDialog;
 class StatusList;
 class RefreshStatusTask;
 
@@ -91,10 +89,6 @@ private:
 	JXTextMenu*	itsInfoMenu;
 	JXTextMenu*	itsPrefsMenu;
 	JXTextMenu*	itsHelpMenu;
-
-	GetRepoDialog*		itsBrowseRepoDialog;
-	JXGetStringDialog*	itsBrowseRepoRevisionDialog;
-	GetRepoDialog*		itsCheckOutRepoDialog;
 
 	RefreshStatusTask*	itsRefreshStatusTask;
 

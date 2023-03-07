@@ -16,9 +16,8 @@ class CreateRepoDirectoryDialog : public JXGetStringDialog
 {
 public:
 
-	CreateRepoDirectoryDialog(JXDirector* supervisor, const JString& windowTitle,
-							const JString& prompt, const JString& initialName,
-							RepoTreeNode* parentNode);
+	CreateRepoDirectoryDialog(const JString& windowTitle, const JString& prompt,
+							  const JString& initialName, RepoTreeNode* parentNode);
 
 	~CreateRepoDirectoryDialog() override;
 

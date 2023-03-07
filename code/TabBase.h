@@ -46,9 +46,9 @@ public:
 	virtual bool	Resolved();
 	virtual void	Commit();
 	virtual bool	Revert();
-	virtual bool	CreateDirectory();
-	virtual bool	DuplicateItem();
-	virtual bool	CreateProperty();
+	virtual void	CreateDirectory();
+	virtual void	DuplicateItem();
+	virtual void	CreateProperty();
 	virtual bool	SchedulePropertiesForRemove();
 	virtual bool	Ignore();
 

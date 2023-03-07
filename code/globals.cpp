@@ -15,10 +15,10 @@
 #include <jx-af/jfs/JXFSBindingManager.h>
 #include <jx-af/jcore/jAssert.h>
 
-static App*			theApplication  = nullptr;		// owns itself
+static App*				theApplication  = nullptr;		// owns itself
 static PrefsManager*	thePrefsManager = nullptr;
-static WDManager*	theWDManager    = nullptr;		// owned by JX
-static MDIServer*	theMDIServer    = nullptr;
+static WDManager*		theWDManager    = nullptr;		// owned by JX
+static MDIServer*		theMDIServer    = nullptr;
 
 /******************************************************************************
  CreateGlobals
@@ -111,6 +111,17 @@ GetApplication()
 }
 
 /******************************************************************************
+ HasPrefsManager
+
+ ******************************************************************************/
+
+bool
+HasPrefsManager()
+{
+	return thePrefsManager != nullptr;
+}
+
+/******************************************************************************
  GetPrefsManager
 
  ******************************************************************************/
@@ -120,6 +131,19 @@ GetPrefsManager()
 {
 	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
+}
+
+/******************************************************************************
+ ForgetPrefsManager
+
+	Called when license is not accepted, to avoid writing prefs file.
+
+ ******************************************************************************/
+
+void
+ForgetPrefsManager()
+{
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************

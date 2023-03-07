@@ -10,7 +10,6 @@
 #include "PrefsManager.h"
 #include "PrefsDialog.h"
 #include "globals.h"
-#include <jx-af/jx/JXChooseSaveFile.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jcore/jProcessUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -51,14 +50,9 @@ PrefsManager::PrefsManager
 	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, true),
-	itsPrefsDialog(nullptr)
+	JXPrefsManager(kCurrentPrefsFileVersion, true, kgCSFSetupID)
 {
 	*isNew = JPrefsManager::UpgradeData();
-
-	JXChooseSaveFile* csf = JXGetChooseSaveFile();
-	csf->SetPrefInfo(this, kgCSFSetupID);
-	csf->JPrefObject::ReadPrefs();
 }
 
 /******************************************************************************
@@ -285,18 +279,22 @@ PrefsManager::ForgetProgramState()
 void
 PrefsManager::EditPrefs()
 {
-	assert( itsPrefsDialog == nullptr );
-
 	Integration type;
 	JString commitEditor, diffCmd, reloadChangedCmd;
 	const bool exists = GetIntegration(&type, &commitEditor, &diffCmd, &reloadChangedCmd);
 	assert( exists );
 
-	itsPrefsDialog =
-		new PrefsDialog(JXGetApplication(), type, commitEditor, diffCmd, reloadChangedCmd);
-	assert( itsPrefsDialog != nullptr );
-	ListenTo(itsPrefsDialog);
-	itsPrefsDialog->BeginDialog();
+	auto* dlog = jnew PrefsDialog(type, commitEditor, diffCmd, reloadChangedCmd);
+	assert( dlog != nullptr );
+
+	if (dlog->DoDialog())
+	{
+		Integration type;
+		JString commitEditor, diffCmd, reloadChangedCmd;
+		dlog->GetData(&type, &commitEditor, &diffCmd, &reloadChangedCmd);
+
+		SetIntegration(type, commitEditor, diffCmd, reloadChangedCmd);
+	}
 }
 
 /******************************************************************************
@@ -444,39 +442,6 @@ PrefsManager::SetIntegration
 	JString e;
 	GetCommand(kCommitEditor, &t, &e);
 	setenv("_EDITOR", e.GetBytes(), 1);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-PrefsManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			Integration type;
-			JString commitEditor, diffCmd, reloadChangedCmd;
-			itsPrefsDialog->GetData(&type, &commitEditor, &diffCmd, &reloadChangedCmd);
-
-			SetIntegration(type, commitEditor, diffCmd, reloadChangedCmd);
-		}
-		itsPrefsDialog = nullptr;
-	}
-	else
-	{
-		JXPrefsManager::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

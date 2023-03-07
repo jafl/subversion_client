@@ -13,13 +13,10 @@
 
 class JXTextMenu;
 class JXTimerTask;
-class JXGetStringDialog;
 class RepoTree;
 class RepoTreeNode;
 class RepoTreeList;
 class BeginEditingTask;
-class CreateRepoDirectoryDialog;
-class DuplicateRepoItemDialog;
 
 class RepoView : public JXNamedTreeListWidget, public TabBase
 {
@@ -51,8 +48,8 @@ public:
 	void	OpenFiles() override;
 	void	ShowFiles() override;
 	bool	ScheduleForRemove() override;
-	bool	CreateDirectory() override;
-	bool	DuplicateItem() override;
+	void	CreateDirectory() override;
+	void	DuplicateItem() override;
 
 	bool	CanCheckOutSelection() const override;
 	void	CheckOutSelection() override;
@@ -118,13 +115,6 @@ private:
 	JXTextMenu*		itsEditMenu;		// not owned
 	JXTextMenu*		itsContextMenu;		// nullptr until first used
 
-	CreateRepoDirectoryDialog*	itsCreateDirectoryDialog;
-	DuplicateRepoItemDialog*	itsDuplicateItemDialog;
-
-	JXGetStringDialog*	itsCopyItemDialog;
-	JString				itsCopyItemSrcURI;
-	RepoTreeNode*		itsCopyItemDestNode;
-
 	// Drag-and-Drop
 
 	enum CursorType
@@ -168,9 +158,6 @@ private:
 	void	HandleContextMenu(const JIndex index);
 
 	void	CopySelectedFiles(const bool fullPath);
-	bool	FinishCreateDirectory();
-	bool	FinishDuplicateItem();
-	bool	CopyItem();
 };
 
 

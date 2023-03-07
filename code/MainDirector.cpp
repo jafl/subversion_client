@@ -26,7 +26,7 @@
 #include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jx/JXGetStringDialog.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXSaveFileDialog.h>
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -220,14 +220,11 @@ MainDirector::MainDirector
 void
 MainDirector::MainDirectorX()
 {
-	itsRepoWidget               = nullptr;
-	itsStatusWidget             = nullptr;
-	itsActionProcess            = nullptr;
-	itsCheckOutProcess          = nullptr;
-	itsBrowseRepoDialog         = nullptr;
-	itsBrowseRepoRevisionDialog = nullptr;
-	itsCheckOutRepoDialog       = nullptr;
-	itsRefreshStatusTask        = nullptr;
+	itsRepoWidget        = nullptr;
+	itsStatusWidget      = nullptr;
+	itsActionProcess     = nullptr;
+	itsCheckOutProcess   = nullptr;
+	itsRefreshStatusTask = nullptr;
 
 	itsTabList = jnew JPtrArray<TabBase>(JPtrArrayT::kForgetAll);
 	assert( itsTabList != nullptr );
@@ -720,58 +717,6 @@ MainDirector::Receive
 		}
 	}
 
-	else if (sender == itsBrowseRepoDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		if (info->Successful())
-		{
-			const JString& url = itsBrowseRepoDialog->GetRepo();
-
-			bool wasOpen;
-			MainDirector* dir =
-				(GetWDManager())->OpenDirectory(url, &wasOpen);
-			if (wasOpen)
-			{
-				dir->RefreshRepo();
-				(dir->itsRepoWidget->GetRepoTree())->SavePathToOpen(url);
-				dir->RefreshStatus();
-			}
-		}
-
-		itsBrowseRepoDialog = nullptr;
-	}
-
-	else if (sender == itsBrowseRepoRevisionDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		if (info->Successful())
-		{
-			BrowseRepo(itsBrowseRepoRevisionDialog->GetString());
-		}
-
-		itsBrowseRepoRevisionDialog = nullptr;
-	}
-
-	else if (sender == itsCheckOutRepoDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		if (info->Successful())
-		{
-			CheckOut(itsCheckOutRepoDialog->GetRepo());
-		}
-
-		itsCheckOutRepoDialog = nullptr;
-	}
-
 	else if (message.Is(JXCardFile::kCardRemoved))
 	{
 		const auto* info =
@@ -873,31 +818,35 @@ MainDirector::HandleFileMenu
 {
 	if (index == kOpenDirectoryCmd)
 	{
-		MainDirector* dir;
-		(GetWDManager())->NewBrowser(&dir);
+		GetWDManager()->NewBrowser();
 	}
 	else if (index == kBrowseRepoCmd)
 	{
-		assert( itsBrowseRepoDialog == nullptr );
+		auto* dlog = jnew GetRepoDialog(JGetString("BrowseRepoWindowTitle::MainDirector"));
+		assert( dlog != nullptr );
+		if (dlog->DoDialog())
+		{
+			const JString& url = dlog->GetRepo();
 
-		itsBrowseRepoDialog =
-			jnew GetRepoDialog(
-				JXGetPersistentWindowOwner(), JGetString("BrowseRepoWindowTitle::MainDirector"));
-		assert( itsBrowseRepoDialog != nullptr );
-		ListenTo(itsBrowseRepoDialog);
-		itsBrowseRepoDialog->BeginDialog();
+			bool wasOpen;
+			MainDirector* dir = GetWDManager()->OpenDirectory(url, &wasOpen);
+			if (wasOpen)
+			{
+				dir->RefreshRepo();
+				dir->itsRepoWidget->GetRepoTree()->SavePathToOpen(url);
+				dir->RefreshStatus();
+			}
+		}
 	}
 
 	else if (index == kCheckOutRepoCmd)
 	{
-		assert( itsCheckOutRepoDialog == nullptr );
-
-		itsCheckOutRepoDialog =
-			jnew GetRepoDialog(
-				JXGetPersistentWindowOwner(), JGetString("CheckOutRepoWindowTitle::MainDirector"));
-		assert( itsCheckOutRepoDialog != nullptr );
-		ListenTo(itsCheckOutRepoDialog);
-		itsCheckOutRepoDialog->BeginDialog();
+		auto* dlog = jnew GetRepoDialog(JGetString("CheckOutRepoWindowTitle::MainDirector"));
+		assert( dlog != nullptr );
+		if (dlog->DoDialog())
+		{
+			CheckOut(dlog->GetRepo());
+		}
 	}
 	else if (index == kCheckOutCurrentRepoCmd)
 	{
@@ -985,28 +934,27 @@ MainDirector::CheckOut()
 	JString path, name;
 	JSplitPathAndName(repoPath, &path, &name);
 
-	if (!(JXGetChooseSaveFile())->SaveFile(
-			JGetString("CheckOutDirectoryPrompt::MainDirector"), JString::empty, name, &path))
+	auto* dlog = JXSaveFileDialog::Create(JGetString("CheckOutDirectoryPrompt::MainDirector"), name);
+	if (dlog->DoDialog())
 	{
-		return;
+		const JString fullName = dlog->GetFullName();
+
+		if (JFileExists(fullName))
+		{
+			JRemoveFile(fullName);
+		}
+
+		JString repoCmd("svn co ");
+		repoCmd += JPrepArgForExec(repoPath);
+		repoCmd += " ";
+		repoCmd += JPrepArgForExec(fullName);
+		Execute("CheckOutTab::MainDirector", repoCmd, false, true, false);
+
+		itsPath            = fullName;
+		itsCheckOutProcess = itsActionProcess;
+
+		UpdateWindowTitle(JConvertToHomeDirShortcut(fullName));
 	}
-
-	if (JFileExists(path))
-	{
-		JRemoveFile(path);
-	}
-
-	JString repoCmd("svn co ");
-	repoCmd += JPrepArgForExec(repoPath);
-	repoCmd += " ";
-	repoCmd += JPrepArgForExec(path);
-	Execute("CheckOutTab::MainDirector", repoCmd, false, true, false);
-
-	itsPath            = path;
-	itsCheckOutProcess = itsActionProcess;
-
-	path = JConvertToHomeDirShortcut(path);
-	UpdateWindowTitle(path);
 }
 
 /******************************************************************************
@@ -1086,7 +1034,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->RefreshContent();
+			itsTabList->GetElement(i)->RefreshContent();
 		}
 	}
 	else if (index == kCloseTabCmd)
@@ -1112,7 +1060,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->ScheduleForAdd();
+			itsTabList->GetElement(i)->ScheduleForAdd();
 		}
 	}
 	else if (index == kRemoveSelectedFilesCmd)
@@ -1120,7 +1068,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->ScheduleForRemove();
+			itsTabList->GetElement(i)->ScheduleForRemove();
 		}
 	}
 	else if (index == kForceRemoveSelectedFilesCmd)
@@ -1128,7 +1076,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->ForceScheduleForRemove();
+			itsTabList->GetElement(i)->ForceScheduleForRemove();
 		}
 	}
 
@@ -1137,7 +1085,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->Resolved();
+			itsTabList->GetElement(i)->Resolved();
 		}
 	}
 
@@ -1146,7 +1094,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->Commit();
+			itsTabList->GetElement(i)->Commit();
 		}
 	}
 	else if (index == kCommitAllChangesCmd)
@@ -1159,7 +1107,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->Revert();
+			itsTabList->GetElement(i)->Revert();
 		}
 	}
 	else if (index == kRevertAllChangesCmd)
@@ -1172,7 +1120,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->CreateDirectory();
+			itsTabList->GetElement(i)->CreateDirectory();
 		}
 	}
 	else if (index == kDuplicateSelectedItemCmd)
@@ -1180,7 +1128,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->DuplicateItem();
+			itsTabList->GetElement(i)->DuplicateItem();
 		}
 	}
 
@@ -1189,7 +1137,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->CreateProperty();
+			itsTabList->GetElement(i)->CreateProperty();
 		}
 	}
 	else if (index == kRemoveSelectedPropertiesCmd)
@@ -1198,7 +1146,7 @@ MainDirector::HandleActionsMenu
 		if (itsTabGroup->GetCurrentTabIndex(&i) &&
 			JGetUserNotification()->AskUserNo(JGetString("WarnRemoveProperties::MainDirector")))
 		{
-			(itsTabList->GetElement(i))->SchedulePropertiesForRemove();
+			itsTabList->GetElement(i)->SchedulePropertiesForRemove();
 		}
 	}
 	else if (index == kIgnoreSelectionCmd)
@@ -1206,7 +1154,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			(itsTabList->GetElement(i))->Ignore();
+			itsTabList->GetElement(i)->Ignore();
 		}
 	}
 }
@@ -1485,15 +1433,15 @@ MainDirector::HandleInfoMenu
 
 	else if (index == kBrowseRepoRevisionCmd)
 	{
-		assert( itsBrowseRepoRevisionDialog == nullptr );
-
-		itsBrowseRepoRevisionDialog =
+		auto* dlog =
 			jnew JXGetStringDialog(
-				this, JGetString("BrowseRepoRevWindowTitle::MainDirector"),
-				JGetString("BrowseRepoRevPrompt::MainDirector"), JString::empty);
-		assert( itsBrowseRepoRevisionDialog != nullptr );
-		ListenTo(itsBrowseRepoRevisionDialog);
-		itsBrowseRepoRevisionDialog->BeginDialog();
+				JGetString("BrowseRepoRevWindowTitle::MainDirector"),
+				JGetString("BrowseRepoRevPrompt::MainDirector"));
+		assert( dlog != nullptr );
+		if (dlog->DoDialog())
+		{
+			BrowseRepo(dlog->GetString());
+		}
 	}
 	else if (index == kBrowseSelectedRepoRevisionCmd)
 	{

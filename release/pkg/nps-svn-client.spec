@@ -5,7 +5,7 @@ Release: 1
 License: Copyright John Lindal
 Group: Development/Tools/Version Control
 Source: %pkg_name
-Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre, curl
+Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre, boost-devel, curl
 
 %description
 NPS Subversion Client provides a simple, graphical Subversion client.

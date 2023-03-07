@@ -9,7 +9,7 @@
 
 #include "WDManager.h"
 #include "MainDirector.h"
-#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXChoosePathDialog.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jWebUtil.h>
@@ -28,7 +28,7 @@ const JFileVersion kCurrentStateVersion = 1;
 
 WDManager::WDManager
 	(
-	JXDisplay*		display,
+	JXDisplay*	display,
 	const bool	wantShortcuts
 	)
 	:
@@ -50,23 +50,13 @@ WDManager::~WDManager()
 
  *****************************************************************************/
 
-bool
-WDManager::NewBrowser
-	(
-	MainDirector** dir
-	)
+void
+WDManager::NewBrowser()
 {
-	JString path;
-	if ((JXGetChooseSaveFile())->ChooseRWPath(JString::empty, JGetString("NewBrowserInstr::WDManager"),
-											  JString::empty, &path))
+	auto* dlog = JXChoosePathDialog::Create(JXChoosePathDialog::kRequireWritable, JString::empty, JString::empty, JGetString("NewBrowserInstr::WDManager"));
+	if (dlog->DoDialog())
 	{
-		*dir = OpenDirectory(path);
-		return true;
-	}
-	else
-	{
-		*dir = nullptr;
-		return false;
+		OpenDirectory(dlog->GetPath());
 	}
 }
 
@@ -78,7 +68,7 @@ WDManager::NewBrowser
 bool
 WDManager::GetBrowser
 	(
-	const JString&		path,
+	const JString&	path,
 	MainDirector**	dir
 	)
 {

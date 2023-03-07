@@ -71,7 +71,7 @@ MDIServer::HandleMDIRequest
 	bool failedRefresh = false;
 	for (JIndex i=2; i<=argCount; i++)
 	{
-		const JString& arg = *(argList.GetElement(i));
+		const JString& arg = *argList.GetElement(i);
 		if (arg == "--status")
 		{
 			action = kStatus;
@@ -177,7 +177,7 @@ MDIServer::HandleMDIRequest
 				}
 
 				bool wasOpen;
-				MainDirector* dir1 = (GetWDManager())->OpenDirectory(path, &wasOpen);
+				MainDirector* dir1 = GetWDManager()->OpenDirectory(path, &wasOpen);
 				if (action != kStatus && action != kInfoLog &&
 					!dir1->OKToStartActionProcess())
 				{
@@ -207,7 +207,7 @@ MDIServer::HandleMDIRequest
 					RepoView* widget;
 					if (isURL && dir1->GetRepoWidget(&widget))
 					{
-						(widget->GetRepoTree())->SavePathToOpen(path);
+						widget->GetRepoTree()->SavePathToOpen(path);
 					}
 				}
 
@@ -222,10 +222,12 @@ MDIServer::HandleMDIRequest
 	{
 		exit(0);	// don't lose state
 	}
-	else if (restore && !(GetPrefsManager())->RestoreProgramState())
+	else if (restore && !GetPrefsManager()->RestoreProgramState())
 	{
-		MainDirector* dir1;
-		GetWDManager()->NewBrowser(&dir1);
+		JScheduleTask([]()
+		{
+			GetWDManager()->NewBrowser();
+		});
 	}
 }
 
