@@ -61,7 +61,7 @@ public:
 					const bool refreshRepo, const bool refreshStatus,
 					const bool reloadOpenFiles);
 
-	void	StreamOut(std::ostream& output);
+	void	StreamOut(std::ostream& output) const;
 
 protected:
 

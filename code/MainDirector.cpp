@@ -254,6 +254,7 @@ MainDirector::StreamOut
 	(
 	std::ostream& output
 	)
+	const
 {
 	// before BuildWindow()
 
@@ -1592,7 +1593,7 @@ MainDirector::HandlePrefsMenu
 {
 	if (index == kIntegrationPrefsCmd)
 	{
-		(GetPrefsManager())->EditPrefs();
+		GetPrefsManager()->EditPrefs();
 	}
 	else if (index == kEditToolBarCmd)
 	{
@@ -1600,11 +1601,11 @@ MainDirector::HandlePrefsMenu
 	}
 	else if (index == kEditBindingsCmd)
 	{
-		(JXFSBindingManager::Instance())->EditBindings();
+		JXFSBindingManager::EditBindings();
 	}
 	else if (index == kWebBrowserCmd)
 	{
-		(JXGetWebBrowser())->EditPrefs();
+		JXGetWebBrowser()->EditPrefs();
 	}
 	else if (index == kEditMacWinPrefsCmd)
 	{
@@ -1613,7 +1614,7 @@ MainDirector::HandlePrefsMenu
 
 	else if (index == kSaveWindSizeCmd)
 	{
-		(GetPrefsManager())->SaveWindowSize(kMainDirectorWindSizeID, GetWindow());
+		GetPrefsManager()->SaveWindowSize(kMainDirectorWindSizeID, GetWindow());
 	}
 }
 
