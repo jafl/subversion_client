@@ -118,7 +118,7 @@ RepoTree::SavePathToOpen
 
 	JString baseUrl = GetRepoRoot()->GetRepoPath();
 	JAppendDirSeparator(&baseUrl);
-	if (!url.BeginsWith(baseUrl))
+	if (!url.StartsWith(baseUrl))
 	{
 		return;
 	}

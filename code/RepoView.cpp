@@ -1443,7 +1443,7 @@ RepoView::GetSelectedFilesForDiff
 			type == RepoTreeNode::kDirectory)
 		{
 			const JString& url = node->GetRepoPath();
-			if (hasCheckout && url.BeginsWith(baseURL))
+			if (hasCheckout && url.StartsWith(baseURL))
 			{
 				JStringIterator iter(url);
 				iter.SkipNext(baseURL.GetCharacterCount());

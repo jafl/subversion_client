@@ -102,7 +102,7 @@ WDManager::GetBrowser
 		if (isURL && d->GetRepoPath(&p2))
 		{
 			JAppendDirSeparator(&p2);
-			if (p1.BeginsWith(p2))
+			if (p1.StartsWith(p2))
 			{
 				*dir = d;
 				break;
@@ -110,7 +110,7 @@ WDManager::GetBrowser
 		}
 		else if (!isURL && d->GetPath(&p3) &&
 				 (JSameDirEntry(p1, p3) ||
-				  (JGetTrueName(p3, &p2) && p1.BeginsWith(p2))))
+				  (JGetTrueName(p3, &p2) && p1.StartsWith(p2))))
 		{
 			*dir = d;
 			break;

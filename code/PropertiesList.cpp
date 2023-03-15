@@ -106,7 +106,7 @@ PropertiesList::ShouldDisplayLine
 	)
 	const
 {
-	if (line->BeginsWith(" "))
+	if (line->StartsWith(" "))
 	{
 		line->TrimWhitespace();
 		return true;
