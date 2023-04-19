@@ -12,7 +12,7 @@
 #include "TabBase.h"
 
 class JXTextMenu;
-class JXTimerTask;
+class JXFunctionTask;
 class RepoTree;
 class RepoTreeNode;
 class RepoTreeList;
@@ -110,7 +110,7 @@ private:
 
 	RepoTree*		itsRepoTree;
 	RepoTreeList*	itsRepoTreeList;	// not owned
-	JXTimerTask*	itsRefreshTask;		// refresh every minute to update age
+	JXFunctionTask*	itsRefreshTask;		// refresh every minute to update age
 	JColorID		itsAltRowColor;
 	JXTextMenu*		itsEditMenu;		// not owned
 	JXTextMenu*		itsContextMenu;		// nullptr until first used

@@ -28,7 +28,7 @@
 #include <jx-af/jx/JXImageCache.h>
 #include <jx-af/jx/JXDragPainter.h>
 #include <jx-af/jx/JXColorManager.h>
-#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXFunctionTask.h>
 #include <jx-af/jx/JXCSFDialogBase.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <X11/keysym.h>
@@ -124,10 +124,12 @@ RepoView::RepoView
 
 	itsRepoTree = itsRepoTreeList->GetRepoTree();
 
-	itsRefreshTask = jnew JXTimerTask(kRefreshInterval);
+	itsRefreshTask = jnew JXFunctionTask(kRefreshInterval, [this]()
+	{
+		Refresh();	// virtual
+	});
 	assert( itsRefreshTask != nullptr );
 	itsRefreshTask->Start();
-	ListenTo(itsRefreshTask);
 
 	AppendCols(kExtraColCount);
 	SetSelectionBehavior(true, true);
@@ -436,11 +438,6 @@ RepoView::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsRefreshTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		Refresh();
 	}
 
 	else
