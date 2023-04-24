@@ -9,7 +9,7 @@
 #define _H_PrefsDialog
 
 #include <jx-af/jx/JXModalDialogDirector.h>
-#include "PrefsManager.h"	// need defn of Integration
+#include "PrefsManager.h"	// for Integration
 
 class JXRadioGroup;
 class JXTextRadioButton;
