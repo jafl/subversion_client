@@ -86,22 +86,9 @@ ListBase::ListBase
 	assert( itsLineList != nullptr );
 	itsLineList->SetCompareFunction([this](JString* const & s1, JString* const & s2)
 	{
-		const JString p1 = ExtractRelativePath(*s1);
-		const JString p2 = ExtractRelativePath(*s2);
-
-		const int r = JString::Compare(p1, p2, JString::kIgnoreCase);
-		if (r > 0)
-		{
-			return JListT::kFirstGreaterSecond;
-		}
-		else if (r < 0)
-		{
-			return JListT::kFirstLessSecond;
-		}
-		else
-		{
-			return JListT::kFirstEqualSecond;
-		}
+		JString p1 = ExtractRelativePath(*s1);
+		JString p2 = ExtractRelativePath(*s2);
+		return JCompareStringsCaseInsensitive(&p1, &p2);
 	});
 	SetStringList(itsLineList);
 
