@@ -101,7 +101,9 @@ ListBase::ListBase
 
 	FitToEnclosure();
 
-	ListenTo(itsEditMenu);
+	itsEditMenu->AttachHandlers(this,
+		&ListBase::UpdateEditMenu,
+		&ListBase::HandleEditMenu);
 }
 
 /******************************************************************************
@@ -210,24 +212,6 @@ ListBase::Receive
 	else if (sender == itsErrorLink && message.Is(JMessageProtocolT::kMessageReady))
 	{
 		ReceiveErrorLine();
-	}
-
-	else if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		if (HasFocus())
-		{
-			UpdateEditMenu();
-		}
-	}
-	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-	{
-		if (HasFocus())
-		{
-			const auto* selection =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != nullptr );
-			HandleEditMenu(selection->GetIndex());
-		}
 	}
 
 	else if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -376,6 +360,11 @@ ListBase::DisplayErrors()
 void
 ListBase::UpdateEditMenu()
 {
+	if (!HasFocus())
+	{
+		return;
+	}
+
 	const JSize count = itsEditMenu->GetItemCount();
 	const JString* id;
 	for (JIndex i=1; i<=count; i++)
@@ -402,7 +391,7 @@ ListBase::HandleEditMenu
 	)
 {
 	const JString* id;
-	if (!itsEditMenu->GetItemID(index, &id))
+	if (!HasFocus() || !itsEditMenu->GetItemID(index, &id))
 	{
 		return;
 	}

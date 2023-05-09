@@ -348,7 +348,9 @@ MainDirector::BuildWindow()
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "MainDirector");
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		&MainDirector::UpdateFileMenu,
+		&MainDirector::HandleFileMenu);
 
 	itsEditMenu = JXTEBase::StaticAppendEditMenu(menuBar, false, false, false, false, false, false, false, false);
 
@@ -365,7 +367,9 @@ MainDirector::BuildWindow()
 
 	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::MainDirector"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr, "MainDirector");
-	ListenTo(itsActionsMenu);
+	itsActionsMenu->AttachHandlers(this,
+		&MainDirector::UpdateActionsMenu,
+		&MainDirector::HandleActionsMenu);
 
 	itsActionsMenu->SetItemImage(kUpdateWorkingCopyCmd,        svn_update);
 	itsActionsMenu->SetItemImage(kAddSelectedFilesCmd,         svn_add);
@@ -380,7 +384,9 @@ MainDirector::BuildWindow()
 
 	itsInfoMenu = menuBar->AppendTextMenu(JGetString("InfoMenuTitle::MainDirector"));
 	itsInfoMenu->SetMenuItems(kInfoMenuStr, "MainDirector");
-	ListenTo(itsInfoMenu);
+	itsInfoMenu->AttachHandlers(this,
+		&MainDirector::UpdateInfoMenu,
+		&MainDirector::HandleInfoMenu);
 
 	itsInfoMenu->SetItemImage(kInfoLogSelectedFilesCmd, svn_info_log);
 
@@ -393,12 +399,12 @@ MainDirector::BuildWindow()
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MainDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPrefsMenu);
+	itsPrefsMenu->AttachHandler(this, &MainDirector::HandlePrefsMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "MainDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
+	itsHelpMenu->AttachHandler(this, &MainDirector::HandleHelpMenu);
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -617,67 +623,7 @@ MainDirector::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateActionsMenu();
-	}
-	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleActionsMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsInfoMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateInfoMenu();
-	}
-	else if (sender == itsInfoMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleInfoMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdatePrefsMenu();
-	}
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePrefsMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateHelpMenu();
-	}
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHelpMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsActionProcess && message.Is(JProcess::kFinished))
+	if (sender == itsActionProcess && message.Is(JProcess::kFinished))
 	{
 		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
@@ -1364,7 +1310,7 @@ MainDirector::UpdateInfoMenu()
 	JIndex i;
 	if (itsTabGroup->GetCurrentTabIndex(&i))
 	{
-		(itsTabList->GetElement(i))->UpdateInfoMenu(itsInfoMenu);
+		itsTabList->GetElement(i)->UpdateInfoMenu(itsInfoMenu);
 	}
 }
 
@@ -1571,16 +1517,6 @@ MainDirector::ShowProperties
 }
 
 /******************************************************************************
- UpdatePrefsMenu (private)
-
- ******************************************************************************/
-
-void
-MainDirector::UpdatePrefsMenu()
-{
-}
-
-/******************************************************************************
  HandlePrefsMenu (private)
 
  ******************************************************************************/
@@ -1616,16 +1552,6 @@ MainDirector::HandlePrefsMenu
 	{
 		GetPrefsManager()->SaveWindowSize(kMainDirectorWindSizeID, GetWindow());
 	}
-}
-
-/******************************************************************************
- UpdateHelpMenu (private)
-
- ******************************************************************************/
-
-void
-MainDirector::UpdateHelpMenu()
-{
 }
 
 /******************************************************************************

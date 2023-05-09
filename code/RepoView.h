@@ -104,8 +104,6 @@ protected:
 
 	bool	ExtractInputData(const JPoint& cell) override;
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	RepoTree*		itsRepoTree;

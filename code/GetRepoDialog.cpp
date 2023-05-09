@@ -115,29 +115,10 @@ GetRepoDialog::BuildWindow
 	SetButtons(okButton, cancelButton);
 
 	itsRepoInput->SetIsRequired();
-	ListenTo(itsRepoHistoryMenu);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-GetRepoDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsRepoHistoryMenu && message.Is(JXMenu::kItemSelected))
+	ListenTo(itsRepoHistoryMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
-		itsRepoInput->GetText()->SetText(itsRepoHistoryMenu->GetItemText(message));
-	}
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+		itsRepoInput->GetText()->SetText(itsRepoHistoryMenu->GetItemText(msg));
+	}));
 }
 
 /******************************************************************************

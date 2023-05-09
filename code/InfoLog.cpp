@@ -226,36 +226,6 @@ InfoLog::HandleMouseDown
 }
 
 /******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-InfoLog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateContextMenu();
-	}
-	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleContextMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		TextBase::Receive(sender, message);
-	}
-}
-
-/******************************************************************************
  CreateContextMenu (private)
 
  ******************************************************************************/
@@ -270,7 +240,9 @@ InfoLog::CreateContextMenu()
 		itsContextMenu->SetMenuItems(kContextMenuStr, "InfoLog");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
-		ListenTo(itsContextMenu);
+		itsContextMenu->AttachHandlers(this,
+			&InfoLog::UpdateContextMenu,
+			&InfoLog::HandleContextMenu);
 	}
 }
 

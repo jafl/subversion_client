@@ -126,7 +126,7 @@ StatusList::UpdateActionsMenu
 	JTableSelection& s = GetTableSelection();
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
-		((GetStringList()).GetElement(cell.y))->GetFirstCharacter() == '?')
+		GetStringList().GetElement(cell.y)->GetFirstCharacter() == '?')
 	{
 		menu->EnableItem(kIgnoreSelectionCmd);
 	}
@@ -150,7 +150,7 @@ StatusList::UpdateContextMenu
 	JTableSelection& s = GetTableSelection();
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
-		((GetStringList()).GetElement(cell.y))->GetFirstCharacter() == '?')
+		GetStringList().GetElement(cell.y)->GetFirstCharacter() == '?')
 	{
 		canIgnore = true;
 	}
@@ -169,7 +169,7 @@ StatusList::Ignore()
 	JTableSelection& s = GetTableSelection();
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
-		((GetStringList()).GetElement(cell.y))->GetFirstCharacter() == '?')
+		GetStringList().GetElement(cell.y)->GetFirstCharacter() == '?')
 	{
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 		GetSelectedFiles(&list);

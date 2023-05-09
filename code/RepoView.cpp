@@ -141,7 +141,9 @@ RepoView::RepoView
 
 	FitToEnclosure();
 
-	ListenTo(itsEditMenu);
+	itsEditMenu->AttachHandlers(this,
+		&RepoView::UpdateEditMenu,
+		&RepoView::HandleEditMenu);
 }
 
 /******************************************************************************
@@ -399,54 +401,6 @@ RepoView::AdjustToTree()
 }
 
 /******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-RepoView::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		if (HasFocus())
-		{
-			UpdateEditMenu();
-		}
-	}
-	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-	{
-		if (HasFocus())
-		{
-			const auto* selection =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != nullptr );
-			HandleEditMenu(selection->GetIndex());
-		}
-	}
-
-	else if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateContextMenu();
-	}
-	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleContextMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXNamedTreeListWidget::Receive(sender, message);
-	}
-}
-
-/******************************************************************************
  UpdateEditMenu (private)
 
  ******************************************************************************/
@@ -454,6 +408,11 @@ RepoView::Receive
 void
 RepoView::UpdateEditMenu()
 {
+	if (!HasFocus())
+	{
+		return;
+	}
+
 	const JSize count = itsEditMenu->GetItemCount();
 	const JString* id;
 	for (JIndex i=1; i<=count; i++)
@@ -480,7 +439,7 @@ RepoView::HandleEditMenu
 	)
 {
 	const JString* id;
-	if (!itsEditMenu->GetItemID(index, &id))
+	if (!HasFocus() || !itsEditMenu->GetItemID(index, &id))
 	{
 		return;
 	}
@@ -495,7 +454,7 @@ RepoView::HandleEditMenu
 	}
 	else if (*id == kJXSelectAllAction)
 	{
-		(GetTableSelection()).SelectAll();
+		GetTableSelection().SelectAll();
 	}
 }
 
@@ -1238,7 +1197,9 @@ RepoView::CreateContextMenu()
 
 		itsContextMenu->SetItemImage(kInfoLogSelectedFilesCtxCmd, svn_info_log);
 
-		ListenTo(itsContextMenu);
+		itsContextMenu->AttachHandlers(this,
+			&RepoView::UpdateContextMenu,
+			&RepoView::HandleContextMenu);
 	}
 }
 
@@ -1255,7 +1216,7 @@ RepoView::UpdateContextMenu()
 		GetDirector()->HasPath() && GetBaseRevision(&rev));
 
 	itsContextMenu->SetItemEnabled(kDiffCurrentSelectedFilesCtxCmd,
-		(itsRepoTree->GetRepoRoot())->GetRepoRevision(&rev));
+		itsRepoTree->GetRepoRoot()->GetRepoRevision(&rev));
 
 	itsContextMenu->SetItemEnabled(kCheckOutSelectedDirCtxCmd, CanCheckOutSelection());
 }
@@ -1282,7 +1243,7 @@ RepoView::HandleContextMenu
 	else if (index == kDiffCurrentSelectedFilesCtxCmd)
 	{
 		JString rev;
-		if ((itsRepoTree->GetRepoRoot())->GetRepoRevision(&rev))
+		if (itsRepoTree->GetRepoRoot()->GetRepoRevision(&rev))
 		{
 			CompareCurrent(rev);
 		}
