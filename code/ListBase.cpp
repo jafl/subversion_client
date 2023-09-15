@@ -817,7 +817,7 @@ ListBase::ExtractRelativePath
 	JStringIterator iter(line);
 	iter.SkipNext(offset);
 	iter.BeginMatch();
-	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 	JString s = iter.FinishMatch().GetString();
 	s.TrimWhitespace();
 	return s;

@@ -1406,7 +1406,7 @@ RepoView::GetSelectedFilesForDiff
 				JStringIterator iter(url);
 				iter.SkipNext(baseURL.GetCharacterCount());
 				iter.BeginMatch();
-				iter.MoveTo(kJIteratorStartAtEnd, 0);
+				iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 				path = iter.FinishMatch().GetString();
 				iter.Invalidate();
 

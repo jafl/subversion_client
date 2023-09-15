@@ -104,7 +104,7 @@ MDIServer::HandleMDIRequest
 			{
 				fullPath = arg;
 
-				JStringIterator iter(&fullPath, kJIteratorStartAtEnd);
+				JStringIterator iter(&fullPath, JStringIterator::kStartAtEnd);
 				iter.BeginMatch();
 				if (iter.Prev("@"))
 				{
