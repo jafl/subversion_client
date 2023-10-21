@@ -17,14 +17,12 @@ architectures:
   - build-on: amd64
   - build-on: arm64
   - build-on: ppc64el
-  - build-on: s390x
 
 apps:
   nps-svn-client:
     command: bin/desktop-launch nps-svn-client
     plugs:
-      - x11
-      - desktop-legacy
+      - unity7
       - network
       - home
 
@@ -34,7 +32,8 @@ parts:
     source: .
     override-pull: |
       snapcraftctl pull
-      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
+      sudo locale-gen en_US.UTF-8
+      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
     build-environment:
       - JX_ROOT: /snap/jx-application-framework/current
       - PATH: $PATH:$JX_ROOT/bin
@@ -67,6 +66,7 @@ parts:
       - xutils-dev
       - libdrm-dev
       - aspell
+      - locales
     build-snaps:
       - jx-application-framework
     after: [ libs ]
