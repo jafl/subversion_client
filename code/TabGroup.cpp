@@ -158,7 +158,7 @@ TabGroup::DrawTab
 	if (index == itsBusyIndex)
 	{
 		JXImage* image = itsImageList->GetElement(itsSpinnerIndex);
-		p.JPainter::Image(*image, image->GetBounds(),
+		p.Image(*image, image->GetBounds(),
 						  rect.left + kMarginWidth, rect.ycenter() - (image->GetHeight()/2));
 	}
 }
