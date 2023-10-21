@@ -39,11 +39,32 @@ elif command -v apt-get; then
 		$SUDO apt update;
 
 		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
-			curl -LO https://libjx.sourceforge.net/${MODE:-release}/jx-application-framework.deb;
+			curl -LO https://libjx.sourceforge.net/ci/re-flex.deb
+			curl -LO https://libjx.sourceforge.net/ci/jx-application-framework.deb;
 			$SUDO apt -y remove nginx libgd3;	# hack
-			$SUDO apt install ./jx-application-framework.deb;
+			$SUDO apt install ./re-flex.deb ./jx-application-framework.deb;
 		fi
-	fi;
+	fi
+
+elif command -v dnf; then
+
+	# redhat
+
+	if [[ -z $SNAPCRAFT_BUILD_ENVIRONMENT ]]; then
+		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
+			$SUDO dnf install -y \
+				https://libjx.sourceforge.net/ci/jx-application-framework-fedora.rpm \
+				https://libjx.sourceforge.net/ci/re-flex-fedora.rpm \
+				https://libjx.sourceforge.net/ci/ace-fedora.rpm;
+		fi
+	fi
+
+fi
+
+if [[ ! -d $INSTALL_ROOT/include/reflex/ && -z $SNAPCRAFT_PART_INSTALL ]]; then
+
+	echo "Please install RE/flex library.";
+	exit 1;
 
 fi
 
