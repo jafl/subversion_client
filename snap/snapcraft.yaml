@@ -1,7 +1,7 @@
 name: nps-svn-client
 title: NPS Subversion Client
 base: core20
-version: "2.0.1"
+version: "2.0.2"
 license: GPL-3.0-or-later
 source-code: https://github.com/jafl/subversion_client
 issues: https://github.com/jafl/subversion_client/issues
