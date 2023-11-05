@@ -284,7 +284,6 @@ ListBase::ReceiveMessageLine()
 	const JFontStyle strike(false, false, 0, true);
 
 	auto* temp = jnew JString(line);
-	assert( temp != nullptr );
 
 	JIndex i;
 	itsLineList->InsertSorted(temp, true, &i);
@@ -620,7 +619,6 @@ ListBase::CreateContextMenu()
 	if (itsContextMenu == nullptr && itsEnableContextMenuFlag)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "ListBase");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();

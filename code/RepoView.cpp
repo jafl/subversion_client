@@ -173,13 +173,10 @@ RepoView::BuildTreeList
 	auto* root =
 		jnew RepoTreeNode(nullptr, repoPath, repoRevision, JString::empty,
 							RepoTreeNode::kDirectory, 0, 0, JString::empty, 0);
-	assert( root != nullptr );
 
 	auto* tree = jnew RepoTree(root);
-	assert( tree != nullptr );
 
 	auto* list = jnew RepoTreeList(tree);
-	assert( list != nullptr );
 
 	return list;
 }
@@ -863,7 +860,6 @@ RepoView::HandleMouseUp
 
 			assert( itsEditTask == nullptr );
 			itsEditTask = jnew BeginEditingTask(this, itsEditCell);
-			assert( itsEditTask != nullptr );
 			itsEditTask->Start();
 		}
 	}
@@ -1190,7 +1186,6 @@ RepoView::CreateContextMenu()
 	if (itsContextMenu == nullptr)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "RepoView");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();

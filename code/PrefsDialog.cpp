@@ -85,7 +85,6 @@ PrefsDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,250, JString::empty);
-	assert( window != nullptr );
 
 	itsCommitEditor =
 		jnew JXInputField(window,

@@ -39,15 +39,12 @@ CreateGlobals
 
 	bool isNew;
 	thePrefsManager	= jnew PrefsManager(&isNew);
-	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theWDManager = jnew WDManager(display, true);
-	assert( theWDManager != nullptr );
 
 	theMDIServer = jnew MDIServer;
-	assert( theMDIServer != nullptr );
 
 	return isNew;
 }

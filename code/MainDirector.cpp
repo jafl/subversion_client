@@ -310,7 +310,6 @@ MainDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,300, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -502,7 +501,6 @@ MainDirector::BuildScrollbarSet
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(widget, JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 	return scrollbarSet;
 }
@@ -606,7 +604,6 @@ MainDirector::ScheduleStatusRefresh()
 	if (itsRefreshStatusTask == nullptr)
 	{
 		itsRefreshStatusTask = jnew RefreshStatusTask(this);
-		assert( itsRefreshStatusTask != nullptr );
 		itsRefreshStatusTask->Start();
 	}
 }

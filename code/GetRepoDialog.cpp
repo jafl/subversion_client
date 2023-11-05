@@ -78,7 +78,6 @@ GetRepoDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 310,110, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GetRepoDialog::JXLayout"), window,

@@ -285,7 +285,6 @@ PrefsManager::EditPrefs()
 	assert( exists );
 
 	auto* dlog = jnew PrefsDialog(type, commitEditor, diffCmd, reloadChangedCmd);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{

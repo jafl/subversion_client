@@ -67,7 +67,6 @@ TabGroup::TabGroup
 	}
 
 	itsAnimationTask = jnew BusyTabTask(this);
-	assert( itsAnimationTask != nullptr );
 
 	ListenTo(GetCardEnclosure());
 }

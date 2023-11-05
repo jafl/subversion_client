@@ -128,7 +128,6 @@ RepoTree::SavePathToOpen
 	while (url.GetCharacterCount() > baseUrl.GetCharacterCount())
 	{
 		auto* s = jnew JString(url);
-		assert( s != nullptr );
 		itsSavedOpenNodes->InsertSorted(s);
 
 		JSplitPathAndName(url, &path, &name);

@@ -41,7 +41,6 @@ main
 	bool displayAbout;
 	JString prevVersStr;
 	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != nullptr );
 
 	JXApplication::StartFiber([argc, argv]()
 	{
