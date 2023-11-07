@@ -81,14 +81,14 @@ TabBase::OpenFiles()
 
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		JString* s = list.GetElement(i);
+		JString* s = list.GetItem(i);
 		if (JDirectoryExists(*s))
 		{
 			pathList.Append(s);
-			list.RemoveElement(i);
+			list.RemoveItem(i);
 		}
 	}
 
@@ -256,16 +256,16 @@ TabBase::ExecuteDiff
 	subst.DefineVariable("rev_option", rev);
 	const bool customPrev = isPrev && !revList.IsEmpty();
 
-	const JSize count = fileList.GetElementCount();
+	const JSize count = fileList.GetItemCount();
 	JString cmd, fullName, r;
 	for (JIndex i=1; i<=count; i++)
 	{
 		cmd      = origCmd;
-		fullName = JPrepArgForExec(*(fileList.GetElement(i)));
+		fullName = JPrepArgForExec(*(fileList.GetItem(i)));
 
 		if (customPrev)
 		{
-			const JIndex j = revList.GetElement(i);
+			const JIndex j = revList.GetItem(i);
 			r  = JString((JUInt64) j-1);
 			r += ":";
 			r += JString((JUInt64) j);
@@ -310,14 +310,14 @@ TabBase::ExecuteJCCDiff
 
 	const bool customPrev = isPrev && !revList.IsEmpty();
 
-	const JSize count = fileList.GetElementCount();
+	const JSize count = fileList.GetItemCount();
 	JString cmd, s, fullName;
 	JSubstitute subst;
 	for (JIndex i=1; i<=count; i++)
 	{
 		if (customPrev)
 		{
-			const JIndex j = revList.GetElement(i);
+			const JIndex j = revList.GetItem(i);
 			s  = JString((JUInt64) j-1);
 			s += ":";
 			s += JString((JUInt64) j);
@@ -328,7 +328,7 @@ TabBase::ExecuteJCCDiff
 		}
 		s += " $file_name";
 
-		fullName = JPrepArgForExec(*(fileList.GetElement(i)));
+		fullName = JPrepArgForExec(*(fileList.GetItem(i)));
 		subst.DefineVariable("file_name", fullName);
 		subst.Substitute(&s);
 
@@ -568,11 +568,11 @@ TabBase::Prepare
 		return false;
 	}
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	JString fileList;
 	for (JIndex i=1; i<=count; i++)
 	{
-		fileList += JPrepArgForExec(*(list.GetElement(i)));
+		fileList += JPrepArgForExec(*(list.GetItem(i)));
 		fileList += " ";
 	}
 

@@ -62,7 +62,7 @@ MDIServer::HandleMDIRequest
 	const JPtrArray<JString>&	argList
 	)
 {
-	const JSize argCount = argList.GetElementCount();
+	const JSize argCount = argList.GetItemCount();
 
 	JString s, fullPath;
 	Action action = kStatus;
@@ -71,7 +71,7 @@ MDIServer::HandleMDIRequest
 	bool failedRefresh = false;
 	for (JIndex i=2; i<=argCount; i++)
 	{
-		const JString& arg = *argList.GetElement(i);
+		const JString& arg = *argList.GetItem(i);
 		if (arg == "--status")
 		{
 			action = kStatus;

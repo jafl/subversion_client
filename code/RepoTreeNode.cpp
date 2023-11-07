@@ -415,12 +415,12 @@ RepoTreeNode::ParseResponse()
 void
 RepoTreeNode::DisplayErrors()
 {
-	const JSize count = itsErrorList->GetElementCount();
+	const JSize count = itsErrorList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		auto* node =
 			jnew RepoTreeNode(GetTree(), JString::empty, JString::empty,
-								 *(itsErrorList->GetElement(i)),
+								 *(itsErrorList->GetItem(i)),
 								 kError, 0, 0, JString::empty, 0);
 		assert( node != nullptr );
 		this->InsertAtIndex(i, node);

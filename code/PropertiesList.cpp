@@ -158,7 +158,7 @@ PropertiesList::OpenSelectedItems()
 	JSubstitute subst;
 	while (iter.Next(&cell))
 	{
-		const JString* line = (GetStringList()).GetElement(cell.y);
+		const JString* line = (GetStringList()).GetItem(cell.y);
 
 		prop = JPrepArgForExec(*line);
 
@@ -193,7 +193,7 @@ PropertiesList::CopySelectedItems
 	JPoint cell;
 	while (iter.Next(&cell))
 	{
-		list.Append(*((GetStringList()).GetElement(cell.y)));
+		list.Append(*((GetStringList()).GetItem(cell.y)));
 	}
 
 	auto* data = jnew JXTextSelection(GetDisplay(), list);
@@ -267,12 +267,12 @@ PropertiesList::Receive
 {
 	if (message.Is(JProcess::kFinished))
 	{
-		const JSize count = itsProcessList->GetElementCount();
+		const JSize count = itsProcessList->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			if (sender == itsProcessList->GetElement(i))
+			if (sender == itsProcessList->GetItem(i))
 			{
-				itsProcessList->RemoveElement(i);
+				itsProcessList->RemoveItem(i);
 				RemoveNextProperty();
 				break;
 			}
@@ -340,7 +340,7 @@ PropertiesList::SchedulePropertiesForRemove()
 	JSubstitute subst;
 	while (iter.Next(&cell))
 	{
-		const JString* line = (GetStringList()).GetElement(cell.y);
+		const JString* line = (GetStringList()).GetItem(cell.y);
 
 		prop = JPrepArgForExec(*line);
 
@@ -366,8 +366,8 @@ PropertiesList::RemoveNextProperty()
 {
 	if (!itsRemovePropertyCmdList->IsEmpty())
 	{
-		const JString cmd = *itsRemovePropertyCmdList->GetFirstElement();
-		itsRemovePropertyCmdList->DeleteElement(1);
+		const JString cmd = *itsRemovePropertyCmdList->GetFirstItem();
+		itsRemovePropertyCmdList->DeleteItem(1);
 
 		JSimpleProcess* p;
 		const JError err = JSimpleProcess::Create(&p, cmd, true);

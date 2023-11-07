@@ -149,13 +149,13 @@ UpdateList::Receive
 	if (message.Is(JProcess::kFinished))
 	{
 		JPtrArray<JString>*	list = GetLineList();
-		const JSize count        = list->GetElementCount();
+		const JSize count        = list->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			const JString* line = list->GetElement(i);
+			const JString* line = list->GetItem(i);
 			if (revisionPattern.Match(*line))
 			{
-				list->MoveElementToIndex(i, 1);
+				list->MoveItemToIndex(i, 1);
 				SetStyle(1, JFontStyle(true, false, 0, false));
 				break;
 			}

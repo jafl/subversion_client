@@ -475,11 +475,11 @@ RepoView::CopySelectedFiles
 
 	if (!fullPath)
 	{
-		const JSize count = list.GetElementCount();
+		const JSize count = list.GetItemCount();
 		JString path, name;
 		for (JIndex i=1; i<=count; i++)
 		{
-			JString* s = list.GetElement(i);
+			JString* s = list.GetItem(i);
 			if (JSplitPathAndName(*s, &path, &name))
 			{
 				*s = name;
@@ -907,10 +907,10 @@ RepoView::WillAcceptDrop
 		return false;
 	}
 
-	const JSize typeCount = typeList.GetElementCount();
+	const JSize typeCount = typeList.GetItemCount();
 	for (JIndex i=1; i<=typeCount; i++)
 	{
-		const Atom type = typeList.GetElement(i);
+		const Atom type = typeList.GetItem(i);
 		if (type == itsDNDDataType)
 		{
 			HandleDNDHere(pt, source);
@@ -1293,7 +1293,7 @@ RepoView::UpdateActionsMenu
 	{
 		menu->EnableItem(kRemoveSelectedFilesCmd);
 
-		if (list.GetElementCount() == 1)
+		if (list.GetItemCount() == 1)
 		{
 			menu->EnableItem(kCreateDirectoryCmd);
 			menu->EnableItem(kDuplicateSelectedItemCmd);
@@ -1411,7 +1411,7 @@ RepoView::GetSelectedFilesForDiff
 			else if (!hasCheckout)
 			{
 				fullNameList->Append(url);
-				revList->AppendElement(node->GetRevision());
+				revList->AppendItem(node->GetRevision());
 			}
 		}
 	}

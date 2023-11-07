@@ -88,7 +88,7 @@ RepoTree::SaveOpenNodes()
 	if (itsView != nullptr)
 	{
 		JPtrArray<JString> paths(JPtrArrayT::kDeleteAll);
-		const JSize count = itsView->GetElementCount();
+		const JSize count = itsView->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
 			if (itsView->IsOpen(i))

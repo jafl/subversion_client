@@ -89,11 +89,11 @@ WDManager::GetBrowser
 	JPtrArray<JXWindowDirector> windowList(JPtrArrayT::kForgetAll);
 	GetDirectors(&windowList);
 
-	const JSize windowCount = windowList.GetElementCount();
+	const JSize windowCount = windowList.GetItemCount();
 	JString p2, p3;
 	for (JIndex i=1; i<=windowCount; i++)
 	{
-		auto* d = dynamic_cast<MainDirector*>(windowList.GetElement(i));
+		auto* d = dynamic_cast<MainDirector*>(windowList.GetItem(i));
 		if (d == nullptr)
 		{
 			continue;
@@ -140,11 +140,11 @@ WDManager::GetBrowserForExactURL
 	JPtrArray<JXWindowDirector> windowList(JPtrArrayT::kForgetAll);
 	GetDirectors(&windowList);
 
-	const JSize windowCount = windowList.GetElementCount();
+	const JSize windowCount = windowList.GetItemCount();
 	JString p2;
 	for (JIndex i=1; i<=windowCount; i++)
 	{
-		auto* d = dynamic_cast<MainDirector*>(windowList.GetElement(i));
+		auto* d = dynamic_cast<MainDirector*>(windowList.GetItem(i));
 		if (d != nullptr && d->GetRepoPath(&p2) && p1 == p2)
 		{
 			*dir = d;
@@ -246,12 +246,12 @@ WDManager::SaveState
 
 	output << kCurrentStateVersion;
 
-	const JSize windowCount = windowList.GetElementCount();
+	const JSize windowCount = windowList.GetItemCount();
 	output << ' ' << windowCount;
 
 	for (JIndex i=1; i<=windowCount; i++)
 	{
-		auto* dir = dynamic_cast<MainDirector*>(windowList.GetElement(i));
+		auto* dir = dynamic_cast<MainDirector*>(windowList.GetItem(i));
 
 		output << ' ';
 		dir->StreamOut(output);

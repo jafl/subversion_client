@@ -126,7 +126,7 @@ StatusList::UpdateActionsMenu
 	JTableSelection& s = GetTableSelection();
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
-		GetStringList().GetElement(cell.y)->GetFirstCharacter() == '?')
+		GetStringList().GetItem(cell.y)->GetFirstCharacter() == '?')
 	{
 		menu->EnableItem(kIgnoreSelectionCmd);
 	}
@@ -150,7 +150,7 @@ StatusList::UpdateContextMenu
 	JTableSelection& s = GetTableSelection();
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
-		GetStringList().GetElement(cell.y)->GetFirstCharacter() == '?')
+		GetStringList().GetItem(cell.y)->GetFirstCharacter() == '?')
 	{
 		canIgnore = true;
 	}
@@ -169,13 +169,13 @@ StatusList::Ignore()
 	JTableSelection& s = GetTableSelection();
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
-		GetStringList().GetElement(cell.y)->GetFirstCharacter() == '?')
+		GetStringList().GetItem(cell.y)->GetFirstCharacter() == '?')
 	{
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 		GetSelectedFiles(&list);
 
 		JString path, name;
-		JSplitPathAndName(*list.GetFirstElement(), &path, &name);
+		JSplitPathAndName(*list.GetFirstItem(), &path, &name);
 
 		auto* data = jnew JXTextSelection(GetDisplay(), name);
 		assert( data != nullptr );

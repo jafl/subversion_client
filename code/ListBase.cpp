@@ -153,7 +153,7 @@ ListBase::RefreshContent()
 		JPoint cell;
 		while (iter.Next(&cell))
 		{
-			const JString* line = itsLineList->GetElement(cell.y);
+			const JString* line = itsLineList->GetItem(cell.y);
 			itsSavedSelection->InsertSorted(jnew JString(ExtractRelativePath(*line)));
 		}
 	}
@@ -341,10 +341,10 @@ ListBase::DisplayErrors()
 {
 	const JFontStyle red(true, false, 0, false, JColorManager::GetRedColor());
 
-	const JSize count = itsErrorList->GetElementCount();
+	const JSize count = itsErrorList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		itsLineList->InsertAtIndex(i, itsErrorList->GetElement(i));
+		itsLineList->InsertAtIndex(i, itsErrorList->GetItem(i));
 		SetStyle(i, red);
 	}
 
@@ -429,11 +429,11 @@ ListBase::CopySelectedItems
 
 	if (!fullPath)
 	{
-		const JSize count       = list.GetElementCount();
+		const JSize count       = list.GetItemCount();
 		const JString& basePath = GetPath();
 		for (JIndex i=1; i<=count; i++)
 		{
-			JString* path = list.GetElement(i);
+			JString* path = list.GetItem(i);
 			*path         = JConvertToRelativePath(*path, basePath);
 		}
 	}
@@ -790,7 +790,7 @@ ListBase::GetSelectedFiles
 	const JString& basePath = GetPath();
 	while (iter.Next(&cell))
 	{
-		const JString* line   = itsLineList->GetElement(cell.y);
+		const JString* line   = itsLineList->GetItem(cell.y);
 		name                  = ExtractRelativePath(*line);
 		const bool exists = JConvertToAbsolutePath(name, basePath, &fullName);
 		if (exists || includeDeleted)

@@ -670,7 +670,7 @@ MainDirector::Receive
 		JIndex i;
 		if (info->GetCardIndex(&i))
 		{
-			itsTabList->RemoveElement(i);
+			itsTabList->RemoveItem(i);
 		}
 	}
 
@@ -734,7 +734,7 @@ MainDirector::UpdateFileMenu()
 	if (itsTabGroup->GetCurrentTabIndex(&i))
 	{
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-		(itsTabList->GetElement(i))->GetSelectedFiles(&list);
+		(itsTabList->GetItem(i))->GetSelectedFiles(&list);
 
 		if (!list.IsEmpty() && itsStatusWidget != nullptr)
 		{
@@ -742,7 +742,7 @@ MainDirector::UpdateFileMenu()
 			itsFileMenu->EnableItem(kShowFilesCmd);
 		}
 
-		if ((itsTabList->GetElement(i))->CanCheckOutSelection())
+		if ((itsTabList->GetItem(i))->CanCheckOutSelection())
 		{
 			itsFileMenu->EnableItem(kCheckOutSelectionCmd);
 		}
@@ -801,7 +801,7 @@ MainDirector::HandleFileMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			TabBase* tab = itsTabList->GetElement(i);
+			TabBase* tab = itsTabList->GetItem(i);
 			tab->CheckOutSelection();
 		}
 	}
@@ -811,7 +811,7 @@ MainDirector::HandleFileMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			TabBase* tab = itsTabList->GetElement(i);
+			TabBase* tab = itsTabList->GetItem(i);
 			tab->OpenFiles();
 		}
 	}
@@ -820,7 +820,7 @@ MainDirector::HandleFileMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			TabBase* tab = itsTabList->GetElement(i);
+			TabBase* tab = itsTabList->GetItem(i);
 			tab->ShowFiles();
 		}
 	}
@@ -957,7 +957,7 @@ MainDirector::UpdateActionsMenu()
 
 		if (hasTab)
 		{
-			(itsTabList->GetElement(i))->UpdateActionsMenu(itsActionsMenu);
+			(itsTabList->GetItem(i))->UpdateActionsMenu(itsActionsMenu);
 		}
 	}
 }
@@ -978,7 +978,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->RefreshContent();
+			itsTabList->GetItem(i)->RefreshContent();
 		}
 	}
 	else if (index == kCloseTabCmd)
@@ -1004,7 +1004,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->ScheduleForAdd();
+			itsTabList->GetItem(i)->ScheduleForAdd();
 		}
 	}
 	else if (index == kRemoveSelectedFilesCmd)
@@ -1012,7 +1012,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->ScheduleForRemove();
+			itsTabList->GetItem(i)->ScheduleForRemove();
 		}
 	}
 	else if (index == kForceRemoveSelectedFilesCmd)
@@ -1020,7 +1020,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->ForceScheduleForRemove();
+			itsTabList->GetItem(i)->ForceScheduleForRemove();
 		}
 	}
 
@@ -1029,7 +1029,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->Resolved();
+			itsTabList->GetItem(i)->Resolved();
 		}
 	}
 
@@ -1038,7 +1038,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->Commit();
+			itsTabList->GetItem(i)->Commit();
 		}
 	}
 	else if (index == kCommitAllChangesCmd)
@@ -1051,7 +1051,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->Revert();
+			itsTabList->GetItem(i)->Revert();
 		}
 	}
 	else if (index == kRevertAllChangesCmd)
@@ -1064,7 +1064,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->CreateDirectory();
+			itsTabList->GetItem(i)->CreateDirectory();
 		}
 	}
 	else if (index == kDuplicateSelectedItemCmd)
@@ -1072,7 +1072,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->DuplicateItem();
+			itsTabList->GetItem(i)->DuplicateItem();
 		}
 	}
 
@@ -1081,7 +1081,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->CreateProperty();
+			itsTabList->GetItem(i)->CreateProperty();
 		}
 	}
 	else if (index == kRemoveSelectedPropertiesCmd)
@@ -1090,7 +1090,7 @@ MainDirector::HandleActionsMenu
 		if (itsTabGroup->GetCurrentTabIndex(&i) &&
 			JGetUserNotification()->AskUserNo(JGetString("WarnRemoveProperties::MainDirector")))
 		{
-			itsTabList->GetElement(i)->SchedulePropertiesForRemove();
+			itsTabList->GetItem(i)->SchedulePropertiesForRemove();
 		}
 	}
 	else if (index == kIgnoreSelectionCmd)
@@ -1098,7 +1098,7 @@ MainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			itsTabList->GetElement(i)->Ignore();
+			itsTabList->GetItem(i)->Ignore();
 		}
 	}
 }
@@ -1307,7 +1307,7 @@ MainDirector::UpdateInfoMenu()
 	JIndex i;
 	if (itsTabGroup->GetCurrentTabIndex(&i))
 	{
-		itsTabList->GetElement(i)->UpdateInfoMenu(itsInfoMenu);
+		itsTabList->GetItem(i)->UpdateInfoMenu(itsInfoMenu);
 	}
 }
 
@@ -1327,7 +1327,7 @@ MainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			ShowInfoLog(itsTabList->GetElement(i));
+			ShowInfoLog(itsTabList->GetItem(i));
 		}
 	}
 	else if (index == kPropSelectedFilesCmd)
@@ -1335,7 +1335,7 @@ MainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			ShowProperties(itsTabList->GetElement(i));
+			ShowProperties(itsTabList->GetItem(i));
 		}
 	}
 
@@ -1344,7 +1344,7 @@ MainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			TabBase* tab = itsTabList->GetElement(i);
+			TabBase* tab = itsTabList->GetItem(i);
 			JString rev;
 			if (tab->GetBaseRevision(&rev))
 			{
@@ -1357,7 +1357,7 @@ MainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			TabBase* tab = itsTabList->GetElement(i);
+			TabBase* tab = itsTabList->GetItem(i);
 			JString rev;
 			tab->GetBaseRevision(&rev);
 			tab->CompareCurrent(rev);
@@ -1368,7 +1368,7 @@ MainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			TabBase* tab = itsTabList->GetElement(i);
+			TabBase* tab = itsTabList->GetItem(i);
 			JString rev;
 			tab->GetBaseRevision(&rev);
 			tab->ComparePrev(rev);
@@ -1392,7 +1392,7 @@ MainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-			TabBase* tab = itsTabList->GetElement(i);
+			TabBase* tab = itsTabList->GetItem(i);
 			JString rev;
 			if (tab->GetBaseRevision(&rev))
 			{
@@ -1416,10 +1416,10 @@ MainDirector::ShowInfoLog
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	tab->GetSelectedFiles(&list, true);
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		ShowInfoLog(*(list.GetElement(i)));
+		ShowInfoLog(*(list.GetItem(i)));
 	}
 }
 
@@ -1472,10 +1472,10 @@ MainDirector::ShowProperties
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	tab->GetSelectedFiles(&list, true);
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		ShowProperties(*(list.GetElement(i)));
+		ShowProperties(*(list.GetItem(i)));
 	}
 }
 
