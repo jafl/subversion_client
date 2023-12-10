@@ -3,7 +3,7 @@ static const char * svn_repo_error_selected_small[] = {
 "15 15 3 1",
 " 	c None",
 ".	c black",
-"X	c darkred",
+"X	c #999900000000",
 "               ",
 "  ...........  ",
 "  .XXXXXXXXX.  ",
