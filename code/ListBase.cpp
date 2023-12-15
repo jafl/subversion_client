@@ -9,13 +9,13 @@
 
 #include "ListBase.h"
 #include "MainDirector.h"
-#include "menus.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXDeleteObjectTask.h>
 #include <jx-af/jx/JXTextSelection.h>
 #include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jx/jXActionDefs.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JProcess.h>

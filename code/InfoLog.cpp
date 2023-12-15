@@ -9,7 +9,6 @@
 
 #include "InfoLog.h"
 #include "MainDirector.h"
-#include "menus.h"
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/jXGlobals.h>

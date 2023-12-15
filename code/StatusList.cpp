@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "StatusList.h"
-#include "menus.h"
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXTextSelection.h>
 #include <jx-af/jx/JXColorManager.h>

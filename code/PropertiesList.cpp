@@ -9,7 +9,6 @@
 
 #include "PropertiesList.h"
 #include "MainDirector.h"
-#include "menus.h"
 #include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXTextSelection.h>
 #include <jx-af/jx/JXTextMenu.h>

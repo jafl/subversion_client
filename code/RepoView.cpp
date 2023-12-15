@@ -16,7 +16,6 @@
 #include "BeginEditingTask.h"
 #include "CreateRepoDirectoryDialog.h"
 #include "DuplicateRepoItemDialog.h"
-#include "menus.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXInputField.h>
@@ -31,6 +30,7 @@
 #include <jx-af/jx/JXFunctionTask.h>
 #include <jx-af/jx/JXCSFDialogBase.h>
 #include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jx/jXActionDefs.h>
 #include <X11/keysym.h>
 #include <jx-af/jcore/JTreeList.h>
 #include <jx-af/jcore/JTreeNode.h>

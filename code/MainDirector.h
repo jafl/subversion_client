@@ -12,6 +12,8 @@
 #include <jx-af/jcore/JPrefObject.h>
 #include <jx-af/jcore/JString.h>
 
+#define kCopyFullPathAction "CopyFullPath::SVNMainDirector"
+
 class JProcess;
 class JXContainer;
 class JXScrollbarSet;

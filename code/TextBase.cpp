@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "TextBase.h"
-#include "menus.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXColorManager.h>
