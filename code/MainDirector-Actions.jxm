@@ -1,0 +1,186 @@
+jx_menu_editor 0
+1000 500
+"MainDirector"
+"Actions"
+'a
+40
+40
+205
+100
+40
+275
+205
+75
+
+0
+1
+0
+0 ""
+"Refresh display"
+"F5"
+'y
+"RefreshStatus::SVNMainDirector"
+"kRefreshCmd"
+0
+
+1
+0
+0 ""
+"Close tab"
+"Meta-W"
+'t
+"CloseTab::SVNMainDirector"
+"kCloseTabCmd"
+1
+
+1
+0
+0 "svn_update.xpm"
+"Update working copy"
+"Ctrl-@"
+'u
+"UpdateWorkingCopy::SVNMainDirector"
+"kUpdateWorkingCopyCmd"
+0
+
+1
+0
+0 ""
+"Clean up working copy"
+""
+'w
+"CleanUpWorkingCopy::SVNMainDirector"
+"kCleanUpWorkingCopyCmd"
+1
+
+1
+0
+0 "svn_add.xpm"
+"Add selected files"
+"Ctrl-!"
+'a
+"AddFiles:SVNMainDirector"
+"kAddSelectedFilesCmd"
+0
+
+1
+0
+0 "svn_remove.xpm"
+"Remove selected files"
+""
+'r
+"RemoveFiles:SVNMainDirector"
+"kRemoveSelectedFilesCmd"
+0
+
+1
+0
+0 "svn_remove_force.xpm"
+"Remove selected files (force)"
+""
+'f
+"ForceRemoveFiles:SVNMainDirector"
+"kForceRemoveSelectedFilesCmd"
+1
+
+1
+0
+0 "svn_resolved.xpm"
+"Resolve selected conflicts"
+"Ctrl-`"
+'e
+"ResolveSelectedConflicts::SVNMainDirector"
+"kResolveSelectedConflictsCmd"
+1
+
+1
+0
+0 "svn_commit.xpm"
+"Commit selected changes"
+"Ctrl-~"
+'c
+"CommitSelectedFiles::SVNMainDirector"
+"kCommitSelectedChangesCmd"
+0
+
+1
+0
+0 "svn_commit_all.xpm"
+"Commit all changes"
+""
+'l
+"CommitAllFiles::SVNMainDirector"
+"kCommitAllChangesCmd"
+1
+
+1
+0
+0 "svn_revert.xpm"
+"Revert selected changes"
+""
+'h
+"RevertSelectedFiles::SVNMainDirector"
+"kRevertSelectedChangesCmd"
+0
+
+1
+0
+0 "svn_revert_all.xpm"
+"Revert all changes"
+""
+'g
+"RevertAllFiles::SVNMainDirector"
+"kRevertAllChangesCmd"
+1
+
+1
+0
+1 "jx_folder_small.xpm"
+"New directory..."
+""
+'n
+"CreateDirectory::SVNMainDirector"
+"kCreateDirectoryCmd"
+0
+
+1
+0
+0 ""
+"Duplicate selected file/directory..."
+""
+'d
+"DuplicateSelectedItem::SVNMainDirector"
+"kDuplicateSelectedItemCmd"
+1
+
+1
+0
+0 ""
+"New property..."
+""
+'p
+"CreateProperty::SVNMainDirector"
+"kCreatePropertyCmd"
+0
+
+1
+0
+0 ""
+"Remove selected properties..."
+""
+'m
+"RemoveProperties::SVNMainDirector"
+"kRemoveSelectedPropertiesCmd"
+1
+
+1
+0
+0 ""
+"Ignore selected item..."
+""
+'i
+"IgnoreSelection::SVNMainDirector"
+"kIgnoreSelectionCmd"
+0
+
+0

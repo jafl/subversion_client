@@ -1,0 +1,66 @@
+jx_menu_editor 0
+852 252
+"InfoLog"
+"Context"
+' 
+40
+40
+154
+100
+40
+162
+215
+75
+
+0
+1
+0
+0 ""
+"Compare with edited"
+""
+' 
+"__CompareWithEdited"
+"kDiffEditedSelectedFilesCtxCmd"
+0
+
+1
+0
+0 ""
+"Compare with current"
+""
+' 
+"__CompareWithCurrent"
+"kDiffCurrentSelectedFilesCtxCmd"
+0
+
+1
+0
+0 ""
+"Compare with previous"
+""
+' 
+"__CompareWithPrevious"
+"kDiffPrevSelectedFilesCtxCmd"
+1
+
+1
+0
+0 ""
+"Details"
+""
+' 
+"__Details"
+"kCommitDetailsCtxCmd"
+1
+
+1
+0
+0 ""
+"Browse this revision"
+""
+' 
+"__BrowseThisRevision"
+"kBrowseRepoRevisionCtxCmd"
+0
+
+0

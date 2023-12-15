@@ -1,0 +1,86 @@
+jx_menu_editor 0
+863 297
+"RepoView"
+"Context"
+' 
+40
+40
+156
+100
+40
+161
+212
+75
+
+0
+1
+0
+0 ""
+"Compare with edited"
+""
+' 
+"__CompareWithEdited"
+"kDiffEditedSelectedFilesCtxCmd"
+0
+
+1
+0
+0 ""
+"Compare with current"
+""
+' 
+"__CompareWithCurrent"
+"kDiffCurrentSelectedFilesCtxCmd"
+0
+
+1
+0
+0 ""
+"Compare with previous"
+""
+' 
+"__CompareWithPrevious"
+"kDiffPrevSelectedFilesCtxCmd"
+1
+
+1
+0
+0 "svn_info_log.xpm"
+"Info & Log"
+""
+' 
+"__InfoLog"
+"kInfoLogSelectedFilesCtxCmd"
+0
+
+1
+0
+0 ""
+"Properties"
+""
+' 
+"__Properties"
+"kPropSelectedFilesCtxCmd"
+1
+
+1
+0
+0 ""
+"Check out..."
+""
+' 
+"__CheckOut"
+"kCheckOutSelectedDirCtxCmd"
+1
+
+1
+0
+0 ""
+"Show in file manager"
+""
+' 
+"__ShowInFileManager"
+"kShowSelectedFilesCtxCmd"
+0
+
+0

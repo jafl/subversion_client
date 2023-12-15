@@ -48,19 +48,6 @@ public:
 
 protected:
 
-	enum
-	{
-		kDiffEditedSelectedFilesCtxCmd = 1,
-		kDiffCurrentSelectedFilesCtxCmd,
-		kDiffPrevSelectedFilesCtxCmd,
-		kInfoLogSelectedFilesCtxCmd,
-		kPropSelectedFilesCtxCmd,
-		kIgnoreSelectionCtxCmd,
-		kShowSelectedFilesCtxCmd
-	};
-
-protected:
-
 	JPtrArray<JString>*	GetLineList();
 
 	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;

@@ -40,9 +40,6 @@ DuplicateItemTab::MainDirector		"Duplicate"
 CopyItemTab::MainDirector			"Copy"
 CheckOutTab::MainDirector			"Check out"
 
-ActionsMenuTitle::MainDirector	"Actions"
-InfoMenuTitle::MainDirector		"Info"
-
 WarnRevertAll::MainDirector			"Are you sure you want to revert all changes?"
 WarnRemoveProperties::MainDirector	"Are you sure you want to remove the selected properties?"
 

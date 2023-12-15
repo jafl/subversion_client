@@ -19,7 +19,6 @@
 #include "CommandLog.h"
 #include "RefreshStatusTask.h"
 #include "MDIServer.h"
-#include "menus.h"
 #include "globals.h"
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jfs/JXFSBindingManager.h>
@@ -36,121 +35,12 @@
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/jXActionDefs.h>
 #include <jx-af/jcore/JProcess.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jWebUtil.h>
 #include <jx-af/jcore/jVCSUtil.h>
 #include <jx-af/jcore/jAssert.h>
-
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"    Open directory...                   %k Meta-O                   %i" kOpenDirectoryAction
-	"  | Browse repository...                %k Meta-Shift-O             %i" kBrowseRepoAction
-	"%l| Check out repository...                                         %i" kCheckOutRepoAction
-	"  | Check out current repository...                                 %i" kCheckOutCurrentRepoAction
-	"  | Check out selected directory...                                 %i" kCheckOutSelectionAction
-	"%l| Open selected files                 %k Left-dbl-click or Return %i" kOpenFilesAction
-	"  | Show selected files in file manager                             %i" kShowFilesAction
-	"%l| Close                               %k Meta-W                   %i" kJXCloseWindowAction
-	"%l| Quit                                %k Meta-Q                   %i" kJXQuitAction;
-
-enum
-{
-	kOpenDirectoryCmd = 1,
-	kBrowseRepoCmd,
-	kCheckOutRepoCmd,
-	kCheckOutCurrentRepoCmd,
-	kCheckOutSelectionCmd,
-	kOpenFilesCmd,
-	kShowFilesCmd,
-	kCloseCmd,
-	kQuitCmd
-};
-
-// Edit menu additions
-
-static const JUtf8Byte* kEditMenuAddStr =
-	"Copy full path %k Meta-Shift-C %i" kCopyFullPathAction;
-
-// Actions menu
-
-static const JUtf8Byte* kActionsMenuStr =
-	"    Refresh display            %k F5     %i" kRefreshStatusAction
-	"  | Close tab                  %k Ctrl-W %i" kCloseTabAction
-	"%l| Update working copy        %k Meta-@ %i" kUpdateWorkingCopyAction
-	"  | Clean up working copy                %i" kCleanUpWorkingCopyAction
-	"%l| Add selected files         %k Meta-! %i" kAddFilesAction
-	"  | Remove selected files                %i" kRemoveFilesAction
-	"  | Remove selected files (force)        %i" kForceRemoveFilesAction
-	"%l| Resolve selected conflicts %k Meta-` %i" kResolveSelectedConflictsAction
-	"%l| Commit selected changes    %k Meta-~ %i" kCommitSelectedFilesAction
-	"  | Commit all changes                   %i" kCommitAllFilesAction
-	"%l| Revert selected changes              %i" kRevertSelectedFilesAction
-	"  | Revert all changes                   %i" kRevertAllFilesAction
-	"%l| New directory...                     %i" kCreateDirectoryAction
-	"  | Duplicate selected file/directory... %i" kDuplicateSelectedItemAction
-	"%l| New property...                      %i" kCreatePropertyAction
-	"  | Remove selected properties...        %i" kRemovePropertiesAction
-	"%l| Ignore selected item...              %i" kIgnoreSelectionAction;
-
-	/*
-	 * Remember to keeup menus.h in sync
-	 */
-
-// Info menu
-
-static const JUtf8Byte* kInfoMenuStr =
-	"    Info & Log %k Meta-I     %i" kInfoLogSelectedFilesAction
-	"  | Properties               %i" kPropSelectedFilesAction
-	"%l| Compare with edited      %i" kDiffEditedSelectedFilesAction
-	"  | Compare with current     %i" kDiffCurrentSelectedFilesAction
-	"  | Compare with previous    %i" kDiffPrevSelectedFilesAction
-	"%l| Commit details           %i" kCommitDetailsAction
-	"%l| Browse revision...       %i" kBrowseRevisionAction
-	"  | Browse selected revision %i" kBrowseSelectedRevisionAction;
-
-	/*
-	 * Remember to keeup menus.h in sync
-	 */
-
-// Misc menus
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"    Integration..."
-	"  | Edit tool bar..."
-	"  | File bindings..."
-	"  | File manager & web browser..."
-	"  | Mac/Win/X emulation..."
-	"%l| Save window setup as default";
-
-enum
-{
-	kIntegrationPrefsCmd = 1,
-	kEditToolBarCmd,
-	kEditBindingsCmd,
-	kWebBrowserCmd,
-	kEditMacWinPrefsCmd,
-	kSaveWindSizeCmd
-};
-
-static const JUtf8Byte* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kOverviewCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
-};
 
 /******************************************************************************
  Constructor
@@ -289,20 +179,13 @@ MainDirector::StreamOut
 
  ******************************************************************************/
 
+#include "MainDirector-File.h"
+#include "MainDirector-Edit.h"
+#include "MainDirector-Actions.h"
+#include "MainDirector-Info.h"
+#include "MainDirector-Preferences.h"
+#include "MainDirector-Help.h"
 #include "svn_main_window_icon.xpm"
-#include "svn_update.xpm"
-#include "svn_add.xpm"
-#include "svn_remove.xpm"
-#include "svn_remove_force.xpm"
-#include "svn_resolved.xpm"
-#include "svn_commit.xpm"
-#include "svn_commit_all.xpm"
-#include "svn_revert.xpm"
-#include "svn_revert_all.xpm"
-#include <jx-af/image/jx/jx_folder_small.xpm>
-#include "svn_info_log.xpm"
-#include <jx-af/image/jx/jx_help_specific.xpm>
-#include <jx-af/image/jx/jx_help_toc.xpm>
 
 void
 MainDirector::BuildWindow()
@@ -345,11 +228,12 @@ MainDirector::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "MainDirector");
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_File"));
+	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
 		&MainDirector::UpdateFileMenu,
 		&MainDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
 	itsEditMenu = JXTEBase::StaticAppendEditMenu(menuBar, false, false, false, false, false, false, false, false);
 
@@ -359,54 +243,47 @@ MainDirector::BuildWindow()
 		const JString* id;
 		if (itsEditMenu->GetItemID(i, &id) && *id == kJXCopyAction)
 		{
-			itsEditMenu->InsertMenuItems(i+1, kEditMenuAddStr, "MainDirector");
+			itsEditMenu->InsertMenuItems(i+1, kEditMenuStr);
+			ConfigureEditMenu(itsEditMenu, i);
 			break;
 		}
 	}
 
-	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::MainDirector"));
-	itsActionsMenu->SetMenuItems(kActionsMenuStr, "MainDirector");
+	itsActionsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Actions"));
+	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->AttachHandlers(this,
 		&MainDirector::UpdateActionsMenu,
 		&MainDirector::HandleActionsMenu);
+	ConfigureActionsMenu(itsActionsMenu);
 
-	itsActionsMenu->SetItemImage(kUpdateWorkingCopyCmd,        svn_update);
-	itsActionsMenu->SetItemImage(kAddSelectedFilesCmd,         svn_add);
-	itsActionsMenu->SetItemImage(kRemoveSelectedFilesCmd,      svn_remove);
-	itsActionsMenu->SetItemImage(kForceRemoveSelectedFilesCmd, svn_remove_force);
-	itsActionsMenu->SetItemImage(kResolveSelectedConflictsCmd, svn_resolved);
-	itsActionsMenu->SetItemImage(kCommitSelectedChangesCmd,    svn_commit);
-	itsActionsMenu->SetItemImage(kCommitAllChangesCmd,         svn_commit_all);
-	itsActionsMenu->SetItemImage(kRevertSelectedChangesCmd,    svn_revert);
-	itsActionsMenu->SetItemImage(kRevertAllChangesCmd,         svn_revert_all);
-	itsActionsMenu->SetItemImage(kCreateDirectoryCmd,          jx_folder_small);
-
-	itsInfoMenu = menuBar->AppendTextMenu(JGetString("InfoMenuTitle::MainDirector"));
-	itsInfoMenu->SetMenuItems(kInfoMenuStr, "MainDirector");
+	itsInfoMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Info"));
+	itsInfoMenu->SetMenuItems(kInfoMenuStr);
 	itsInfoMenu->AttachHandlers(this,
 		&MainDirector::UpdateInfoMenu,
 		&MainDirector::HandleInfoMenu);
-
-	itsInfoMenu->SetItemImage(kInfoLogSelectedFilesCmd, svn_info_log);
+	ConfigureInfoMenu(itsInfoMenu);
 
 	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
+	{
+		wdMenu->SetShortcuts(JGetString("WindowsMenuShortcut::JXGlobal"));
+	}
 
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MainDirector");
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MainDirector::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr, "MainDirector");
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Help"));
+	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsHelpMenu->AttachHandler(this, &MainDirector::HandleHelpMenu);
-
-	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
+	ConfigureHelpMenu(itsHelpMenu);
 
 	// tab group
 
@@ -465,7 +342,7 @@ MainDirector::BuildWindow()
 
 	// must be done after creating widgets
 
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(nullptr);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsActionsMenu, kUpdateWorkingCopyCmd);

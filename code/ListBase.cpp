@@ -25,20 +25,9 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
-// Context menu
-
-static const JUtf8Byte* kContextMenuStr =
-	"    Compare with edited"
-	"  | Compare with current"
-	"  | Compare with previous"
-	"%l| Info & Log"
-	"  | Properties"
-	"%l| Ignore..."
-	"%l| Show in file manager";
-
-	/*
-	 * Remember to keep enum in ListBase.h sync
-	 */
+#include "MainDirector-Actions.h"
+#include "MainDirector-Info.h"
+#include "ListBase-Context.h"
 
 /******************************************************************************
  Constructor
@@ -293,7 +282,7 @@ ListBase::ReceiveMessageLine()
 	JIndex j;
 	if (itsSavedSelection->SearchSorted(&relPath, JListT::kAnyMatch, &j))
 	{
-		(GetTableSelection()).SelectRow(i);
+		GetTableSelection().SelectRow(i);
 	}
 }
 
@@ -370,7 +359,7 @@ ListBase::UpdateEditMenu()
 	{
 		if (itsEditMenu->GetItemID(i, &id) &&
 			(((*id == kJXCopyAction || *id == kCopyFullPathAction) &&
-			  (GetTableSelection()).HasSelection()) ||
+			  GetTableSelection().HasSelection()) ||
 			 *id == kJXSelectAllAction))
 		{
 			itsEditMenu->EnableItem(i);
@@ -405,7 +394,7 @@ ListBase::HandleEditMenu
 	}
 	else if (*id == kJXSelectAllAction)
 	{
-		(GetTableSelection()).SelectAll();
+		GetTableSelection().SelectAll();
 	}
 }
 
@@ -559,7 +548,7 @@ ListBase::HandleMouseDrag
 		JPoint cell;
 		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
-		(GetTableSelection()).ExtendSelection(cell);
+		GetTableSelection().ExtendSelection(cell);
 	}
 }
 
@@ -611,15 +600,13 @@ ListBase::HandleKeyPress
 
  ******************************************************************************/
 
-#include "svn_info_log.xpm"
-
 bool
 ListBase::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr && itsEnableContextMenuFlag)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		itsContextMenu->SetMenuItems(kContextMenuStr, "ListBase");
+		itsContextMenu->SetMenuItems(kContextMenuStr);
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
 

@@ -45,7 +45,10 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_folder_small.xpm>
+#include "MainDirector-Actions.h"
+#include "MainDirector-Info.h"
+#include "RepoView-Context.h"
+
 #include <jx-af/image/jx/jx_folder_selected_small.xpm>
 #include <jx-af/image/jx/jx_plain_file_small.xpm>
 #include <jx-af/image/jx/jx_plain_file_selected_small.xpm>
@@ -68,28 +71,6 @@ enum
 };
 
 const JSize kExtraColCount = 4;
-
-// Context menu
-
-static const JUtf8Byte* kContextMenuStr =
-	"    Compare with edited"
-	"  | Compare with current"
-	"  | Compare with previous"
-	"%l| Info & Log"
-	"  | Properties"
-	"%l| Check out..."
-	"%l| Show in file manager";
-
-enum
-{
-	kDiffEditedSelectedFilesCtxCmd = 1,
-	kDiffCurrentSelectedFilesCtxCmd,
-	kDiffPrevSelectedFilesCtxCmd,
-	kInfoLogSelectedFilesCtxCmd,
-	kPropSelectedFilesCtxCmd,
-	kCheckOutSelectedDirCtxCmd,
-	kShowSelectedFilesCtxCmd
-};
 
 /******************************************************************************
  Constructor
@@ -263,7 +244,7 @@ RepoView::GetImage
 	const
 {
 	JXImageCache* c         = JXGetApplication()->GetDisplay(1)->GetImageCache();
-	const bool selected = (GetTableSelection()).IsSelected(index, GetNodeColIndex());
+	const bool selected = GetTableSelection().IsSelected(index, GetNodeColIndex());
 
 	const RepoTreeNode* node      = itsRepoTreeList->GetRepoNode(index);
 	const RepoTreeNode::Type type = node->GetType();
@@ -416,7 +397,7 @@ RepoView::UpdateEditMenu()
 	{
 		if (itsEditMenu->GetItemID(i, &id) &&
 			(((*id == kJXCopyAction || *id == kCopyFullPathAction) &&
-			  (GetTableSelection()).HasSelection()) ||
+			  GetTableSelection().HasSelection()) ||
 			 *id == kJXSelectAllAction))
 		{
 			itsEditMenu->EnableItem(i);
@@ -717,7 +698,7 @@ RepoView::StartDragRect
 	{
 		if (!modifiers.shift())
 		{
-			(GetTableSelection()).ClearSelection();
+			GetTableSelection().ClearSelection();
 		}
 
 		JPainter* p = CreateDragInsidePainter();
@@ -753,7 +734,7 @@ RepoView::HandleMouseDrag
 	}
 	else if (itsWaitingForDragFlag)
 	{
-		assert( (GetTableSelection()).HasSelection() );
+		assert( GetTableSelection().HasSelection() );
 
 		if (JMouseMoved(itsStartPt, pt))
 		{
@@ -762,7 +743,7 @@ RepoView::HandleMouseDrag
 			itsWaitingToEditFlag  = false;
 
 			JPoint cell;
-			(GetTableSelection()).GetSingleSelectedCell(&cell);
+			GetTableSelection().GetSingleSelectedCell(&cell);
 
 			RepoTreeNode* node      = itsRepoTreeList->GetRepoNode(cell.y);
 			RepoTreeNode::Type type = node->GetType();
@@ -1151,7 +1132,7 @@ RepoView::HandleKeyPress
 
 	else if ((c == kJUpArrow || c == kJDownArrow) && !IsEditing())
 	{
-		const bool hasSelection = (GetTableSelection()).HasSelection();
+		const bool hasSelection = GetTableSelection().HasSelection();
 		if (!hasSelection && c == kJUpArrow && GetRowCount() > 0)
 		{
 			SelectSingleCell(JPoint(GetNodeColIndex(), GetRowCount()));
@@ -1178,19 +1159,16 @@ RepoView::HandleKeyPress
 
  ******************************************************************************/
 
-#include "svn_info_log.xpm"
-
 void
 RepoView::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		itsContextMenu->SetMenuItems(kContextMenuStr, "RepoView");
+		itsContextMenu->SetMenuItems(kContextMenuStr);
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
-
-		itsContextMenu->SetItemImage(kInfoLogSelectedFilesCtxCmd, svn_info_log);
+		ConfigureContextMenu(itsContextMenu);
 
 		itsContextMenu->AttachHandlers(this,
 			&RepoView::UpdateContextMenu,
@@ -1556,7 +1534,7 @@ void
 RepoView::DuplicateItem()
 {
 	JPoint cell;
-	if (!(GetTableSelection()).GetSingleSelectedCell(&cell))
+	if (!GetTableSelection().GetSingleSelectedCell(&cell))
 	{
 		return;
 	}
@@ -1643,7 +1621,7 @@ void
 RepoView::CheckOutSelection()
 {
 	JPoint cell;
-	if ((GetTableSelection()).GetSingleSelectedCell(&cell))
+	if (GetTableSelection().GetSingleSelectedCell(&cell))
 	{
 		RepoTreeNode* node = itsRepoTreeList->GetRepoNode(cell.y);
 		if (node->GetType() == RepoTreeNode::kDirectory)

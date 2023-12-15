@@ -1,0 +1,76 @@
+jx_menu_editor 0
+875 271
+"MainDirector"
+"Preferences"
+'p
+40
+40
+200
+100
+40
+200
+157
+75
+
+0
+1
+0
+0 ""
+"Integration..."
+""
+'i
+"__Integration"
+"kIntegrationPrefsCmd"
+0
+
+1
+0
+0 ""
+"Toolbar buttons..."
+""
+'t
+"__EditToolBar"
+"kEditToolBarCmd"
+0
+
+1
+0
+0 ""
+"File bindings..."
+""
+'f
+"__FileBindings"
+"kEditBindingsCmd"
+0
+
+1
+0
+0 ""
+"File manager & web browser..."
+""
+'w
+"__FileManagerWebBrowser"
+"kWebBrowserCmd"
+0
+
+1
+0
+0 ""
+"Mac/Win/X emulation..."
+""
+'e
+"__MacWinXEmulation"
+"kEditMacWinPrefsCmd"
+1
+
+1
+0
+0 ""
+"Save window setup as default"
+""
+'s
+"__SaveWindowSetupAsDefault"
+"kSaveWindSizeCmd"
+0
+
+0

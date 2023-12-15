@@ -115,6 +115,8 @@ StatusList::ExtractRelativePath
 
  ******************************************************************************/
 
+#include "MainDirector-Actions.h"
+
 void
 StatusList::UpdateActionsMenu
 	(
@@ -136,6 +138,8 @@ StatusList::UpdateActionsMenu
  UpdateContextMenu (virtual protected)
 
  ******************************************************************************/
+
+#include "ListBase-Context.h"
 
 void
 StatusList::UpdateContextMenu

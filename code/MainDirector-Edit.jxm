@@ -1,0 +1,26 @@
+jx_menu_editor 0
+750 170
+"MainDirector"
+"Edit"
+' 
+40
+40
+90
+100
+40
+200
+140
+75
+
+0
+1
+0
+0 ""
+"Copy full path"
+"Ctrl-Shift-C"
+'f
+"CopyFullPath::SVNMainDirector"
+"__CopyFullPath"
+0
+
+0

@@ -1,0 +1,96 @@
+jx_menu_editor 0
+991 310
+"MainDirector"
+"Info"
+'i
+40
+40
+169
+100
+40
+274
+223
+75
+
+0
+1
+0
+0 "svn_info_log.xpm"
+"Info & Log"
+"Meta-I"
+'i
+"InfoLogSelectedFiles::SVNMainDirector"
+"kInfoLogSelectedFilesCmd"
+0
+
+1
+0
+0 ""
+"Properties"
+""
+'o
+"PropSelectedFiles::SVNMainDirector"
+"kPropSelectedFilesCmd"
+1
+
+1
+0
+0 ""
+"Compare with edited"
+""
+'e
+"DiffEditedSelectedFiles::SVNMainDirector"
+"kDiffEditedSelectedFilesCmd"
+0
+
+1
+0
+0 ""
+"Compare with current"
+""
+'c
+"DiffCurrentSelectedFiles::SVNMainDirector"
+"kDiffCurrentSelectedFilesCmd"
+0
+
+1
+0
+0 ""
+"Compare with previous"
+""
+'p
+"DiffPrevSelectedFiles::SVNMainDirector"
+"kDiffPrevSelectedFilesCmd"
+1
+
+1
+0
+0 ""
+"Commit details"
+""
+'d
+"CommitDetails::SVNMainDirector"
+"kCommitDetailsCmd"
+1
+
+1
+0
+0 ""
+"Browse revision..."
+""
+'r
+"BrowseRevision::SVNMainDirector"
+"kBrowseRepoRevisionCmd"
+0
+
+1
+0
+0 ""
+"Browse selected revision"
+""
+'s
+"BrowseSelectedRevision::SVNMainDirector"
+"kBrowseSelectedRepoRevisionCmd"
+0
+
+0

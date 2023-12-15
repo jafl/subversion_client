@@ -237,6 +237,8 @@ PropertiesList::ExtractRelativePath
 
  ******************************************************************************/
 
+#include "MainDirector-Actions.h"
+
 void
 PropertiesList::UpdateActionsMenu
 	(

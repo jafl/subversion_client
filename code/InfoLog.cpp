@@ -22,23 +22,8 @@
 
 static const JRegex revisionPattern = "^r([0-9]+)$";
 
-// Context menu
-
-static const JUtf8Byte* kContextMenuStr =
-	"    Compare with edited"
-	"  | Compare with current"
-	"  | Compare with previous"
-	"%l| Details"
-	"%l| Browse this revision";
-
-enum
-{
-	kDiffEditedSelectedFilesCtxCmd = 1,
-	kDiffCurrentSelectedFilesCtxCmd,
-	kDiffPrevSelectedFilesCtxCmd,
-	kCommitDetailsCtxCmd,
-	kBrowseRepoRevisionCtxCmd
-};
+#include "MainDirector-Info.h"
+#include "InfoLog-Context.h"
 
 /******************************************************************************
  Constructor
@@ -236,12 +221,13 @@ InfoLog::CreateContextMenu()
 	if (itsContextMenu == nullptr)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		itsContextMenu->SetMenuItems(kContextMenuStr, "InfoLog");
+		itsContextMenu->SetMenuItems(kContextMenuStr);
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
 		itsContextMenu->AttachHandlers(this,
 			&InfoLog::UpdateContextMenu,
 			&InfoLog::HandleContextMenu);
+		ConfigureContextMenu(itsContextMenu);
 	}
 }
 
