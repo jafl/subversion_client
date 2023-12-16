@@ -138,7 +138,7 @@ StatusList::UpdateActionsMenu
 
  ******************************************************************************/
 
-#include "ListBase-Context.h"
+#include "ListBase-Context-enum.h"
 
 void
 StatusList::UpdateContextMenu

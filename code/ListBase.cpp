@@ -607,8 +607,7 @@ ListBase::CreateContextMenu()
 		itsContextMenu->SetMenuItems(kContextMenuStr);
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
-
-		itsContextMenu->SetItemImage(kInfoLogSelectedFilesCtxCmd, svn_info_log);
+		ConfigureContextMenu(itsContextMenu);
 
 		ListenTo(itsContextMenu);
 	}

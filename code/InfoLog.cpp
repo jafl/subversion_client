@@ -21,9 +21,6 @@
 
 static const JRegex revisionPattern = "^r([0-9]+)$";
 
-#include "MainDirector-Info.h"
-#include "InfoLog-Context.h"
-
 /******************************************************************************
  Constructor
 
@@ -214,6 +211,8 @@ InfoLog::HandleMouseDown
 
  ******************************************************************************/
 
+#include "InfoLog-Context.h"
+
 void
 InfoLog::CreateContextMenu()
 {
@@ -294,6 +293,8 @@ InfoLog::HandleContextMenu
  UpdateInfoMenu (virtual)
 
  ******************************************************************************/
+
+#include "MainDirector-Info-enum.h"
 
 void
 InfoLog::UpdateInfoMenu
