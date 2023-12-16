@@ -16,23 +16,14 @@ static const JUtf8Byte* kInfoMenuStr =
 "|* %i BrowseSelectedRevision::SVNMainDirector"
 ;
 
-enum {
-	kInfoLogSelectedFilesCmd=1,
-	kPropSelectedFilesCmd,
-	kDiffEditedSelectedFilesCmd,
-	kDiffCurrentSelectedFilesCmd,
-	kDiffPrevSelectedFilesCmd,
-	kCommitDetailsCmd,
-	kBrowseRepoRevisionCmd,
-	kBrowseSelectedRepoRevisionCmd,
-};
+#include "MainDirector-Info-enum.h"
 
 #ifndef _H_svn_info_log
 #define _H_svn_info_log
 #include "svn_info_log.xpm"
 #endif
 
-inline void ConfigureInfoMenu(JXTextMenu* menu, const int offset = 0) {
+static void ConfigureInfoMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#i", JString::kNoCopy));
 	}

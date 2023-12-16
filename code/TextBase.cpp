@@ -196,7 +196,7 @@ TextBase::AdjustCursor
 
  ******************************************************************************/
 
-#include "MainDirector-Actions.h"
+#include "MainDirector-Actions-enum.h"
 
 void
 TextBase::UpdateActionsMenu

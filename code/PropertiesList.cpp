@@ -236,7 +236,7 @@ PropertiesList::ExtractRelativePath
 
  ******************************************************************************/
 
-#include "MainDirector-Actions.h"
+#include "MainDirector-Actions-enum.h"
 
 void
 PropertiesList::UpdateActionsMenu

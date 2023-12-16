@@ -45,10 +45,9 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include "MainDirector-Actions.h"
-#include "MainDirector-Info.h"
 #include "RepoView-Context.h"
 
+#include <jx-af/image/jx/jx_folder_small.xpm>
 #include <jx-af/image/jx/jx_folder_selected_small.xpm>
 #include <jx-af/image/jx/jx_plain_file_small.xpm>
 #include <jx-af/image/jx/jx_plain_file_selected_small.xpm>
@@ -1253,6 +1252,8 @@ RepoView::HandleContextMenu
 
  ******************************************************************************/
 
+#include "MainDirector-Actions-enum.h"
+
 void
 RepoView::UpdateActionsMenu
 	(
@@ -1283,6 +1284,8 @@ RepoView::UpdateActionsMenu
  UpdateInfoMenu (virtual)
 
  ******************************************************************************/
+
+#include "MainDirector-Info-enum.h"
 
 void
 RepoView::UpdateInfoMenu

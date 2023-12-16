@@ -25,25 +25,7 @@ static const JUtf8Byte* kActionsMenuStr =
 "|* %i IgnoreSelection::SVNMainDirector"
 ;
 
-enum {
-	kRefreshCmd=1,
-	kCloseTabCmd,
-	kUpdateWorkingCopyCmd,
-	kCleanUpWorkingCopyCmd,
-	kAddSelectedFilesCmd,
-	kRemoveSelectedFilesCmd,
-	kForceRemoveSelectedFilesCmd,
-	kResolveSelectedConflictsCmd,
-	kCommitSelectedChangesCmd,
-	kCommitAllChangesCmd,
-	kRevertSelectedChangesCmd,
-	kRevertAllChangesCmd,
-	kCreateDirectoryCmd,
-	kDuplicateSelectedItemCmd,
-	kCreatePropertyCmd,
-	kRemoveSelectedPropertiesCmd,
-	kIgnoreSelectionCmd,
-};
+#include "MainDirector-Actions-enum.h"
 
 #ifndef _H_svn_update
 #define _H_svn_update
@@ -86,7 +68,7 @@ enum {
 #include <jx-af/image/jx/jx_folder_small.xpm>
 #endif
 
-inline void ConfigureActionsMenu(JXTextMenu* menu, const int offset = 0) {
+static void ConfigureActionsMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#a", JString::kNoCopy));
 	}

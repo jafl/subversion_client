@@ -25,8 +25,6 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include "MainDirector-Actions.h"
-#include "MainDirector-Info.h"
 #include "ListBase-Context.h"
 
 /******************************************************************************
@@ -690,6 +688,8 @@ ListBase::HandleContextMenu
 
  ******************************************************************************/
 
+#include "MainDirector-Actions-enum.h"
+
 void
 ListBase::UpdateActionsMenu
 	(
@@ -720,6 +720,8 @@ ListBase::UpdateActionsMenu
  UpdateInfoMenu (virtual)
 
  ******************************************************************************/
+
+#include "MainDirector-Info-enum.h"
 
 void
 ListBase::UpdateInfoMenu

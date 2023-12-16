@@ -114,7 +114,7 @@ StatusList::ExtractRelativePath
 
  ******************************************************************************/
 
-#include "MainDirector-Actions.h"
+#include "MainDirector-Actions-enum.h"
 
 void
 StatusList::UpdateActionsMenu
