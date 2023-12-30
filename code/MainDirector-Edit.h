@@ -9,9 +9,7 @@ static const JUtf8Byte* kEditMenuStr =
 "* %i CopyFullPath::SVNMainDirector"
 ;
 
-enum {
-	__CopyFullPath=1,
-};
+#include "MainDirector-Edit-enum.h"
 
 
 static void ConfigureEditMenu(JXTextMenu* menu, const int offset = 0) {

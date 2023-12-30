@@ -40,7 +40,7 @@ StatusList::StatusList
 	const JCoordinate	h
 	)
 	:
-	ListBase(director, editMenu, JString("svn --non-interactive status", JString::kNoCopy),
+	ListBase(director, editMenu, "svn --non-interactive status",
 				false, false, false, true,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {

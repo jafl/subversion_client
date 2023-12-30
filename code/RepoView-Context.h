@@ -15,22 +15,14 @@ static const JUtf8Byte* kContextMenuStr =
 "|* %i __ShowInFileManager::RepoView"
 ;
 
-enum {
-	kDiffEditedSelectedFilesCtxCmd=1,
-	kDiffCurrentSelectedFilesCtxCmd,
-	kDiffPrevSelectedFilesCtxCmd,
-	kInfoLogSelectedFilesCtxCmd,
-	kPropSelectedFilesCtxCmd,
-	kCheckOutSelectedDirCtxCmd,
-	kShowSelectedFilesCtxCmd,
-};
+#include "RepoView-Context-enum.h"
 
 #ifndef _H_svn_info_log
 #define _H_svn_info_log
 #include "svn_info_log.xpm"
 #endif
 
-inline void ConfigureContextMenu(JXTextMenu* menu, const int offset = 0) {
+static void ConfigureContextMenu(JXTextMenu* menu, const int offset = 0) {
 	menu->SetItemImage(kInfoLogSelectedFilesCtxCmd + offset, svn_info_log);
 };
 

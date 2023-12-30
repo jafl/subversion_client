@@ -13,16 +13,10 @@ static const JUtf8Byte* kContextMenuStr =
 "|* %i __BrowseThisRevision::InfoLog"
 ;
 
-enum {
-	kDiffEditedSelectedFilesCtxCmd=1,
-	kDiffCurrentSelectedFilesCtxCmd,
-	kDiffPrevSelectedFilesCtxCmd,
-	kCommitDetailsCtxCmd,
-	kBrowseRepoRevisionCtxCmd,
-};
+#include "InfoLog-Context-enum.h"
 
 
-inline void ConfigureContextMenu(JXTextMenu* menu, const int offset = 0) {
+static void ConfigureContextMenu(JXTextMenu* menu, const int offset = 0) {
 };
 
 #endif

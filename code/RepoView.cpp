@@ -298,7 +298,7 @@ RepoView::GetCellString
 	const RepoTreeNode::Type type = node->GetType();
 	if (type == RepoTreeNode::kError || type == RepoTreeNode::kBusy)
 	{
-		return JString();
+		return JString::empty;
 	}
 	else if (cell.x == kRevColIndex)
 	{
@@ -318,11 +318,11 @@ RepoView::GetCellString
 	}
 	else if (cell.x == kSizeColIndex && type == RepoTreeNode::kDirectory)
 	{
-		return JString("-", JString::kNoCopy);
+		return "-";
 	}
 	else
 	{
-		return JString();
+		return JString::empty;
 	}
 }
 

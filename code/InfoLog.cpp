@@ -19,7 +19,7 @@
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JRegex revisionPattern = "^r([0-9]+)$";
+static const JRegex revisionPattern("^r([0-9]+)$");
 
 /******************************************************************************
  Constructor

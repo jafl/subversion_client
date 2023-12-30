@@ -17,17 +17,7 @@ static const JUtf8Byte* kFileMenuStr =
 "|* %i Quit::JX"
 ;
 
-enum {
-	kOpenDirectoryCmd=1,
-	kBrowseRepoCmd,
-	kCheckOutRepoCmd,
-	kCheckOutCurrentRepoCmd,
-	kCheckOutSelectionCmd,
-	kOpenFilesCmd,
-	kShowFilesCmd,
-	kCloseCmd,
-	kQuitCmd,
-};
+#include "MainDirector-File-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_file_open
 #define _H_jx_af_image_jx_jx_file_open
@@ -36,7 +26,7 @@ enum {
 
 static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#f", JString::kNoCopy));
+		menu->SetShortcuts("#f");
 	}
 	menu->SetItemImage(kOpenDirectoryCmd + offset, jx_file_open);
 };

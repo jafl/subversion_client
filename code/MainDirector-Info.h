@@ -25,7 +25,7 @@ static const JUtf8Byte* kInfoMenuStr =
 
 static void ConfigureInfoMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#i", JString::kNoCopy));
+		menu->SetShortcuts("#i");
 	}
 	menu->SetItemImage(kInfoLogSelectedFilesCmd + offset, svn_info_log);
 };

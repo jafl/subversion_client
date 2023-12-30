@@ -14,8 +14,8 @@
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JRegex revisionPattern = "revision [0-9]+\\.$";
-static const JString conflictPattern("conflicts:", JString::kNoCopy);
+static const JRegex revisionPattern("revision [0-9]+\\.$");
+static const JString conflictPattern("conflicts:");
 
 /******************************************************************************
  Constructor
@@ -36,7 +36,7 @@ UpdateList::UpdateList
 	const JCoordinate	h
 	)
 	:
-	ListBase(director, editMenu, JString("svn --non-interactive update", JString::kNoCopy),
+	ListBase(director, editMenu, "svn --non-interactive update",
 				false, true, true, true,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsHasRefreshedFlag(false)

@@ -366,7 +366,7 @@ TabBase::ExecuteJCCDiff
 bool
 TabBase::ScheduleForAdd()
 {
-	if (Execute(JString("svn add $file_name", JString::kNoCopy)))
+	if (Execute("svn add $file_name"))
 	{
 		itsDirector->RefreshStatus();
 		return true;
@@ -385,7 +385,7 @@ TabBase::ScheduleForAdd()
 bool
 TabBase::ScheduleForRemove()
 {
-	if (Execute(JString("svn remove $file_name", JString::kNoCopy), "WarnRemove::TabBase", true))
+	if (Execute("svn remove $file_name", "WarnRemove::TabBase", true))
 	{
 		itsDirector->RefreshStatus();
 		return true;
@@ -404,7 +404,7 @@ TabBase::ScheduleForRemove()
 bool
 TabBase::ForceScheduleForRemove()
 {
-	if (Execute(JString("svn remove --force $file_name", JString::kNoCopy), "WarnRemove::TabBase", true))
+	if (Execute("svn remove --force $file_name", "WarnRemove::TabBase", true))
 	{
 		itsDirector->RefreshStatus();
 		return true;
@@ -423,7 +423,7 @@ TabBase::ForceScheduleForRemove()
 bool
 TabBase::Resolved()
 {
-	if (Execute(JString("svn resolved $file_name", JString::kNoCopy)))
+	if (Execute("svn resolved $file_name"))
 	{
 		itsDirector->RefreshStatus();
 		return true;
@@ -457,7 +457,7 @@ TabBase::Commit()
 bool
 TabBase::Revert()
 {
-	if (Execute(JString("svn revert $file_name", JString::kNoCopy), "WarnRevert::TabBase", true))
+	if (Execute("svn revert $file_name", "WarnRevert::TabBase", true))
 	{
 		itsDirector->RefreshStatus();
 		(GetApplication())->ReloadOpenFilesInIDE();

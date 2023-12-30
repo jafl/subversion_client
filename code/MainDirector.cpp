@@ -1087,8 +1087,7 @@ MainDirector::CleanUpWorkingCopy()
 {
 	if (HasPath())
 	{
-		Execute("CleanUpTab::MainDirector",
-				JString("svn cleanup", JString::kNoCopy), false, true, true);
+		Execute("CleanUpTab::MainDirector", "svn cleanup", false, true, true);
 	}
 }
 
@@ -1119,8 +1118,7 @@ MainDirector::CommitAll()
 {
 	if (HasPath())
 	{
-		Execute("CommitAllTab::MainDirector",
-				JString("svn commit", JString::kNoCopy), true, true, false);
+		Execute("CommitAllTab::MainDirector", "svn commit", true, true, false);
 	}
 }
 
@@ -1135,8 +1133,7 @@ MainDirector::RevertAll()
 	if (HasPath() &&
 		JGetUserNotification()->AskUserNo(JGetString("WarnRevertAll::MainDirector")))
 	{
-		Execute("RevertAllTab::MainDirector",
-				JString("svn revert -R .", JString::kNoCopy), false, true, true);
+		Execute("RevertAllTab::MainDirector", "svn revert -R .", false, true, true);
 	}
 }
 

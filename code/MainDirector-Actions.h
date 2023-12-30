@@ -70,7 +70,7 @@ static const JUtf8Byte* kActionsMenuStr =
 
 static void ConfigureActionsMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#a", JString::kNoCopy));
+		menu->SetShortcuts("#a");
 	}
 	menu->SetItemImage(kUpdateWorkingCopyCmd + offset, svn_update);
 	menu->SetItemImage(kAddSelectedFilesCmd + offset, svn_add);

@@ -75,7 +75,7 @@ RepoDragData::ConvertData
 		*returnType   = XA_STRING;
 		*bitsPerBlock = 8;
 		*dataLength   = itsURI.GetByteCount();
-		*data         = jnew unsigned char[ *dataLength ];
+		*data         = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
 			memcpy(*data, itsURI.GetRawBytes(), *dataLength);
