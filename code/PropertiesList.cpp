@@ -19,8 +19,8 @@
 #include <jx-af/jcore/JSimpleProcess.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JString kPropEditCmd("svn propedit $prop_name $file_name", JString::kNoCopy);
-static const JString kPropRemoveCmd("svn propdel $prop_name $file_name", JString::kNoCopy);
+static const JString kPropEditCmd("svn propedit $prop_name $file_name");
+static const JString kPropRemoveCmd("svn propdel $prop_name $file_name");
 
 static const JUtf8Byte* kSpecialPropertyList[] =
 {

@@ -193,20 +193,3 @@ GetVersionStr()
 	};
 	return JGetString("Description::globals", map, sizeof(map));
 }
-
-/******************************************************************************
- GetWMClassInstance
-
- ******************************************************************************/
-
-const JUtf8Byte*
-GetWMClassInstance()
-{
-	return "NPS_SVN_Client";
-}
-
-const JUtf8Byte*
-GetMainWindowClass()
-{
-	return "NPS_SVN_Client_Main_Window";
-}

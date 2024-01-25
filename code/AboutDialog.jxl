@@ -1,0 +1,92 @@
+jx_layout_editor 5
+430
+200
+"JXLayout"
+"About"
+""
+""
+0
+
+1
+0
+"ImageWidget"
+0
+0
+20 25 60 65
+"imageWidget"
+0
+0
+0
+0
+0 "svn_about_icon.png"
+
+1
+0
+"StaticText"
+2
+2
+20 90 150 420
+"textWidget"
+0
+0
+0
+""
+0
+0
+0
+0
+0
+
+1
+0
+"ImageWidget"
+0
+0
+75 10 140 75
+"npsIcon"
+0
+0
+0
+0
+1 "new_planet_software.xpm"
+
+1
+0
+"TextButton"
+0
+1
+170 50 190 110
+"itsCreditsButton"
+1
+0
+0
+"Credits"
+""
+
+1
+0
+"TextButton"
+0
+1
+170 185 190 245
+"itsHelpButton"
+1
+0
+0
+"Help"
+"F1"
+
+1
+0
+"TextButton"
+0
+1
+170 320 190 380
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

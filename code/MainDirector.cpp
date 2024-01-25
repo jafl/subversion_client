@@ -193,6 +193,8 @@ MainDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,300, JString::empty);
+	window->SetMinSize(200, 200);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "NPS_SVN_Client_Main_Window");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -202,7 +204,6 @@ MainDirector::BuildWindow()
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -218,8 +219,6 @@ MainDirector::BuildWindow()
 		displayPath = JConvertToHomeDirShortcut(itsPath);
 	}
 	UpdateWindowTitle(displayPath);
-	window->SetMinSize(200, 200);
-	window->SetWMClass(GetWMClassInstance(), GetMainWindowClass());
 
 	auto* image = jnew JXImage(GetDisplay(), svn_main_window_icon);
 	assert( image != nullptr );

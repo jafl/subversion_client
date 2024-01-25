@@ -19,7 +19,7 @@
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JString kIgnoreCmd("svn propedit svn:ignore $path", JString::kNoCopy);
+static const JString kIgnoreCmd("svn propedit svn:ignore $path");
 
 /******************************************************************************
  Constructor

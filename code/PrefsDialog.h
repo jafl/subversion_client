@@ -37,12 +37,12 @@ private:
 
 // begin JXLayout
 
-	JXInputField*      itsCommitEditor;
-	JXInputField*      itsDiffCmd;
 	JXRadioGroup*      itsIntegrationRG;
 	JXTextRadioButton* itsJCCIntegrationRB;
-	JXTextRadioButton* itsCustomIntegrationRB;
 	JXTextRadioButton* itsCmdLineIntegrationRB;
+	JXTextRadioButton* itsCustomIntegrationRB;
+	JXInputField*      itsCommitEditor;
+	JXInputField*      itsDiffCmd;
 	JXInputField*      itsReloadChangedCmd;
 
 // end JXLayout

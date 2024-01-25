@@ -30,7 +30,7 @@ App::App
 	JString*	prevVersStr
 	)
 	:
-	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
+	JXApplication(argc, argv, kAppSignature, "NPS_SVN_Client", kDefaultStringData)
 {
 	*displayAbout = CreateGlobals(this);
 

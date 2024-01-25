@@ -138,13 +138,8 @@ Usage:  nps-svn-client [options] (path|url[@rev])
 
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-# PrefsDialog
-
-WindowTitle::PrefsDialog "Preferences"
-
 # AboutDialog
 
-WindowTitle::AboutDialog		"About"
 ChangeButtonLabel::AboutDialog	"Changes"
 
 UpgradeNotice::AboutDialog

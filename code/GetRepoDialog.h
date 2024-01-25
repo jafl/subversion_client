@@ -33,8 +33,8 @@ private:
 
 // begin JXLayout
 
-	JXInputField*        itsRepoInput;
 	JXStringHistoryMenu* itsRepoHistoryMenu;
+	JXInputField*        itsRepoInput;
 
 // end JXLayout
 

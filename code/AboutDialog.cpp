@@ -9,11 +9,12 @@
 
 #include "AboutDialog.h"
 #include "globals.h"
+#include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXImageWidget.h>
-#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXImageCache.h>
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -50,9 +51,6 @@ AboutDialog::~AboutDialog()
 
  ******************************************************************************/
 
-#include "svn_about_icon.xpm"
-#include <jx-af/image/jx/new_planet_software.xpm>
-
 void
 AboutDialog::BuildWindow
 	(
@@ -61,49 +59,51 @@ AboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 430,200, JString::empty);
-
-	auto* textWidget =
-		jnew JXStaticText(JGetString("textWidget::AboutDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,130);
-	assert( textWidget != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,170, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
-
-	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::AboutDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,170, 60,20);
-	assert( itsHelpButton != nullptr );
-	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::AboutDialog::shortcuts::JXLayout"));
+	auto* window = jnew JXWindow(this, 430,200, JGetString("WindowTitle::AboutDialog::JXLayout"));
 
 	auto* imageWidget =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
-	assert( imageWidget != nullptr );
+#ifndef _H_svn_about_icon
+#define _H_svn_about_icon
+#include "svn_about_icon.xpm"
+#endif
+	imageWidget->SetImage(GetDisplay()->GetImageCache()->GetImage(svn_about_icon), false);
 
-	itsCreditsButton =
-		jnew JXTextButton(JGetString("itsCreditsButton::AboutDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,170, 60,20);
-	assert( itsCreditsButton != nullptr );
+	auto* textWidget =
+		jnew JXStaticText(JString::empty, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,130);
+	assert( textWidget != nullptr );
 
 	auto* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
-	assert( npsIcon != nullptr );
+#ifndef _H_jx_af_image_jx_new_planet_software
+#define _H_jx_af_image_jx_new_planet_software
+#include <jx-af/image/jx/new_planet_software.xpm>
+#endif
+	npsIcon->SetImage(GetDisplay()->GetImageCache()->GetImage(new_planet_software), false);
+
+	itsCreditsButton =
+		jnew JXTextButton(JGetString("itsCreditsButton::AboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,170, 60,20);
+
+	itsHelpButton =
+		jnew JXTextButton(JGetString("itsHelpButton::AboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,170, 60,20);
+	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::shortcuts::AboutDialog::JXLayout"));
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 319,169, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::AboutDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
-
-	imageWidget->SetXPM(svn_about_icon);
 
 	JString text = GetVersionStr();
 	if (!prevVersStr.IsEmpty())
@@ -118,10 +118,6 @@ AboutDialog::BuildWindow
 		itsIsUpgradeFlag = true;
 	}
 	textWidget->GetText()->SetText(text);
-
-	// NPS icon
-
-	npsIcon->SetXPM(new_planet_software);
 
 	// adjust window to fit text
 

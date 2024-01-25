@@ -1,0 +1,35 @@
+jx_layout_editor 5
+500
+300
+"JXLayout"
+""
+"NPS_SVN_Client_Main_Window"
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 500
+"menuBar"
+0
+0
+0
+
+1
+0
+"ToolBar"
+2
+2
+30 0 300 500
+"itsToolBar"
+1
+0
+0
+"GetPrefsManager()"
+"kMainToolBarID"
+"menuBar"
+
+0

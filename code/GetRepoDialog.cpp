@@ -79,33 +79,29 @@ GetRepoDialog::BuildWindow
 
 	auto* window = jnew JXWindow(this, 310,110, JString::empty);
 
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::GetRepoDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,80, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::GetRepoDialog::shortcuts::JXLayout"));
+	auto* repoUrlLabel =
+		jnew JXStaticText(JGetString("repoUrlLabel::GetRepoDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
+	repoUrlLabel->SetToLabel(false);
+
+	itsRepoHistoryMenu =
+		jnew JXStringHistoryMenu(kHistoryLength, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,40, 30,20);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GetRepoDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 60,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::GetRepoDialog::shortcuts::JXLayout"));
+	cancelButton->SetShortcuts(JGetString("cancelButton::shortcuts::GetRepoDialog::JXLayout"));
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::GetRepoDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 189,79, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::GetRepoDialog::JXLayout"));
 
 	itsRepoInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 240,20);
-	assert( itsRepoInput != nullptr );
-
-	itsRepoHistoryMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,40, 30,20);
-	assert( itsRepoHistoryMenu != nullptr );
-
-	auto* repoUrlLabel =
-		jnew JXStaticText(JGetString("repoUrlLabel::GetRepoDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
-	assert( repoUrlLabel != nullptr );
-	repoUrlLabel->SetToLabel();
+	itsRepoInput->SetIsRequired();
 
 // end JXLayout
 
