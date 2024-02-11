@@ -183,9 +183,9 @@ TabBase::ComparePrev
 		JUInt rev;
 		if (revStr.ConvertToUInt(&rev) && rev > 0)
 		{
-			r  = JString((JUInt64) rev-1);
+			r  = JString(rev-1);
 			r += ":";
-			r += JString((JUInt64) rev);
+			r += JString(rev);
 		}
 		else
 		{
@@ -266,9 +266,9 @@ TabBase::ExecuteDiff
 		if (customPrev)
 		{
 			const JIndex j = revList.GetItem(i);
-			r  = JString((JUInt64) j-1);
+			r  = JString(j-1);
 			r += ":";
-			r += JString((JUInt64) j);
+			r += JString(j);
 			subst.DefineVariable("rev_option", r);
 		}
 
@@ -318,9 +318,9 @@ TabBase::ExecuteJCCDiff
 		if (customPrev)
 		{
 			const JIndex j = revList.GetItem(i);
-			s  = JString((JUInt64) j-1);
+			s  = JString(j-1);
 			s += ":";
-			s += JString((JUInt64) j);
+			s += JString(j);
 		}
 		else
 		{

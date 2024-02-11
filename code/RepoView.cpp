@@ -302,7 +302,7 @@ RepoView::GetCellString
 	}
 	else if (cell.x == kRevColIndex)
 	{
-		return JString((JUInt64) node->GetRevision());
+		return JString(node->GetRevision());
 	}
 	else if (cell.x == kAgeColIndex)
 	{

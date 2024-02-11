@@ -6,7 +6,7 @@
 
 MenuTitle::MainDirector_Info "Info"
 
-InfoLogSelectedFiles::SVNMainDirector "Info & Log %k Meta-I %h i"
+InfoLogSelectedFiles::SVNMainDirector "Info & Log %k Ctrl-I %h i"
 PropSelectedFiles::SVNMainDirector "Properties %h o"
 DiffEditedSelectedFiles::SVNMainDirector "Compare with edited %h e"
 DiffCurrentSelectedFiles::SVNMainDirector "Compare with current %h c"
