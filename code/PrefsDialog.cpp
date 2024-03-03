@@ -137,7 +137,7 @@ PrefsDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 239,219, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 240,220, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::PrefsDialog::JXLayout"));
 
 	itsCommitEditor =

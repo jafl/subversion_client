@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 400
 250
 "JXLayout"
@@ -9,6 +9,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "RadioGroup"
 2
 0
@@ -17,7 +18,9 @@ jx_layout_editor 5
 1
 0
 0
+0
 
+1
 1
 1
 "TextRadioButton"
@@ -33,6 +36,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "StaticText"
 0
@@ -51,6 +55,7 @@ jx_layout_editor 5
 
 1
 1
+1
 "TextRadioButton"
 2
 0
@@ -63,6 +68,7 @@ jx_layout_editor 5
 "Command Line"
 ""
 
+1
 1
 1
 "TextRadioButton"
@@ -78,6 +84,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "StaticText"
 0
@@ -96,6 +103,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "StaticText"
 0
 0
@@ -113,6 +121,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "InputField"
 2
 0
@@ -129,8 +138,11 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
+0
 0
 "StaticText"
 0
@@ -149,6 +161,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "InputField"
 2
 0
@@ -165,8 +178,11 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
+0
 0
 "StaticText"
 0
@@ -185,6 +201,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "InputField"
 2
 0
@@ -201,8 +218,11 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
+0
 0
 "TextButton"
 0
@@ -216,6 +236,7 @@ jx_layout_editor 5
 "^["
 
 1
+0
 0
 "TextButton"
 1
