@@ -195,8 +195,8 @@ RepoTreeNode::Update()
 		return;
 	}
 
-	JError err = JCreateTempFile(nullptr, nullptr, &itsResponseFullName);
-	if (!err.OK())
+	JError err = JNoError();
+	if (!JCreateTempFile(nullptr, nullptr, &itsResponseFullName, &err))
 	{
 		err.ReportIfError();
 		return;
