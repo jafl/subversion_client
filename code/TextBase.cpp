@@ -156,8 +156,7 @@ TextBase::ReceiveData
 	const Message& message
 	)
 {
-	const auto* info =
-		dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
+	auto* info = dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
 	assert( info != nullptr );
 
 	const DisplayState state = SaveDisplayState();

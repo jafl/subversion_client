@@ -100,15 +100,13 @@ RepoView::RepoView
 	itsSortNode(nullptr)
 {
 	itsRepoTreeList = dynamic_cast<RepoTreeList*>(GetTreeList());
-	assert( itsRepoTreeList != nullptr );
-
-	itsRepoTree = itsRepoTreeList->GetRepoTree();
+	itsRepoTree     = itsRepoTreeList->GetRepoTree();
 
 	itsRefreshTask = jnew JXFunctionTask(kRefreshInterval, [this]()
 	{
 		Refresh();	// virtual
-	});
-	assert( itsRefreshTask != nullptr );
+	},
+	"RepoView::Refresh");
 	itsRefreshTask->Start();
 
 	AppendCols(kExtraColCount);
@@ -468,8 +466,6 @@ RepoView::CopySelectedFiles
 	}
 
 	auto* data = jnew JXTextSelection(GetDisplay(), list);
-	assert( data != nullptr );
-
 	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
 
@@ -759,8 +755,6 @@ RepoView::HandleMouseDrag
 				}
 
 				auto* data = jnew RepoDragData(GetDisplay(), itsDNDDataType, uri);
-				assert(data != nullptr);
-
 				itsDNDCursorType = (type == RepoTreeNode::kDirectory ? kDNDDirCursor : kDNDFileCursor);
 				BeginDND(pt, buttonStates, modifiers, data);
 			}
@@ -1017,9 +1011,8 @@ RepoView::HandleDNDDrop
 				jnew JXGetStringDialog(
 					JGetString("CopyItemWindowTitle::RepoView"),
 					JGetString("CopyItemPrompt::RepoView"), initialName);
-			assert( dlog != nullptr );
-			dlog->GetInputField()->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 
+			dlog->GetInputField()->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 			if (dlog->DoDialog())
 			{
 				const JString src = JPrepArgForExec(srcURI);
@@ -1505,7 +1498,6 @@ RepoView::CreateDirectory()
 		jnew CreateRepoDirectoryDialog(
 			JGetString("CreateDirectoryWindowTitle::RepoView"),
 			JGetString("CreateDirectoryPrompt::RepoView"), JString::empty, parentNode);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{
@@ -1559,7 +1551,6 @@ RepoView::DuplicateItem()
 		jnew DuplicateRepoItemDialog(
 			JGetString("DuplicateItemWindowTitle::RepoView"),
 			JGetString("DuplicateItemPrompt::RepoView"), initialName, srcNode);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{

@@ -177,7 +177,6 @@ WDManager::OpenDirectory
 	if (!open)
 	{
 		dir = jnew MainDirector(JXGetApplication(), path);
-		assert( dir != nullptr );
 	}
 
 	dir->Activate();
@@ -212,7 +211,6 @@ WDManager::RestoreState
 	for (JIndex i=1; i<=windowCount; i++)
 	{
 		auto* dir = jnew MainDirector(JXGetApplication(), input, vers);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 

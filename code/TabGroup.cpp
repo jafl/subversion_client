@@ -58,7 +58,6 @@ TabGroup::TabGroup
 	itsBusyIndex(0)
 {
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, kBusyIconCount);
-	assert( itsImageList != nullptr );
 
 	JXImageCache* cache = enclosure->GetDisplay()->GetImageCache();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
@@ -176,8 +175,7 @@ TabGroup::Receive
 {
 	if (message.Is(JXCardFile::kCardRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
+		auto* info = dynamic_cast<const JXCardFile::CardRemoved*>(&message);
 		assert( info != nullptr );
 
 		JIndex i;

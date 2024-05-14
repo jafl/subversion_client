@@ -117,7 +117,6 @@ MainDirector::MainDirectorX()
 	itsRefreshStatusTask = nullptr;
 
 	itsTabList = jnew JPtrArray<TabBase>(JPtrArrayT::kForgetAll);
-	assert( itsTabList != nullptr );
 
 	BuildWindow();
 
@@ -220,9 +219,7 @@ MainDirector::BuildWindow()
 	}
 	UpdateWindowTitle(displayPath);
 
-	auto* image = jnew JXImage(GetDisplay(), svn_main_window_icon);
-	assert( image != nullptr );
-	window->SetIcon(image);
+	window->SetIcon(jnew JXImage(GetDisplay(), svn_main_window_icon));
 	ListenTo(window);
 
 	// menus
@@ -265,7 +262,6 @@ MainDirector::BuildWindow()
 	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
 	{
@@ -290,7 +286,6 @@ MainDirector::BuildWindow()
 		jnew TabGroup(itsToolBar->GetWidgetEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 100,100);
-	assert( itsTabGroup != nullptr );
 	itsTabGroup->FitToEnclosure();
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
@@ -307,7 +302,6 @@ MainDirector::BuildWindow()
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 100,100);
-		assert( itsRepoWidget != nullptr );
 
 		itsTabList->Append(itsRepoWidget);
 	}
@@ -324,7 +318,6 @@ MainDirector::BuildWindow()
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kVElastic,
 							  0,0, 100,100);
-		assert( itsStatusWidget != nullptr );
 
 		itsTabList->Append(itsStatusWidget);
 		itsStatusWidget->RefreshContent();
@@ -498,8 +491,7 @@ MainDirector::Receive
 {
 	if (sender == itsActionProcess && message.Is(JProcess::kFinished))
 	{
-		const auto* info =
-			dynamic_cast<const JProcess::Finished*>(&message);
+		auto* info = dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
 
 		itsActionProcess       = nullptr;
@@ -539,8 +531,7 @@ MainDirector::Receive
 
 	else if (message.Is(JXCardFile::kCardRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
+		auto* info = dynamic_cast<const JXCardFile::CardRemoved*>(&message);
 		assert( info != nullptr );
 
 		JIndex i;
@@ -643,7 +634,6 @@ MainDirector::HandleFileMenu
 	else if (index == kBrowseRepoCmd)
 	{
 		auto* dlog = jnew GetRepoDialog(JGetString("BrowseRepoWindowTitle::MainDirector"));
-		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
 			const JString& url = dlog->GetRepo();
@@ -662,7 +652,6 @@ MainDirector::HandleFileMenu
 	else if (index == kCheckOutRepoCmd)
 	{
 		auto* dlog = jnew GetRepoDialog(JGetString("CheckOutRepoWindowTitle::MainDirector"));
-		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
 			CheckOut(dlog->GetRepo());
@@ -726,7 +715,6 @@ MainDirector::CheckOut
 	if (!(GetWDManager())->GetBrowserForExactURL(url, &dir))
 	{
 		dir = jnew MainDirector(JXGetApplication(), url);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 	dir->CheckOut();
@@ -800,7 +788,6 @@ MainDirector::CreateStatusTab()
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
-	assert( itsStatusWidget != nullptr );
 
 	itsTabList->InsertAtIndex(index, itsStatusWidget);
 	itsStatusWidget->RefreshContent();
@@ -1022,7 +1009,6 @@ MainDirector::BrowseRepo
 						scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 100,100);
-	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);
@@ -1068,7 +1054,6 @@ MainDirector::UpdateWorkingCopy()
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
-	assert( updateWidget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(updateWidget);
@@ -1159,7 +1144,6 @@ MainDirector::Execute
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
-	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);
@@ -1254,7 +1238,6 @@ MainDirector::HandleInfoMenu
 			jnew JXGetStringDialog(
 				JGetString("BrowseRepoRevWindowTitle::MainDirector"),
 				JGetString("BrowseRepoRevPrompt::MainDirector"));
-		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
 			BrowseRepo(dlog->GetString());
@@ -1323,7 +1306,6 @@ MainDirector::ShowInfoLog
 					   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, 100,100);
-	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);
@@ -1378,7 +1360,6 @@ MainDirector::ShowProperties
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kVElastic,
 							  0,0, 100,100);
-	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);

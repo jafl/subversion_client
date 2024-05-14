@@ -48,7 +48,6 @@ RepoTreeNode::RepoTreeNode
 	itsErrorLink(nullptr)
 {
 	itsErrorList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsErrorList != nullptr );
 }
 
 /******************************************************************************
@@ -231,7 +230,6 @@ RepoTreeNode::Update()
 			jnew RepoTreeNode(GetTree(), JString::empty, JString::empty,
 								 JGetString("BusyLabel::RepoTreeNode"),
 								 kBusy, 0, 0, JString::empty, 0);
-		assert( node != nullptr );
 		this->Append(node);
 	}
 	else
@@ -383,7 +381,6 @@ RepoTreeNode::ParseResponse()
 						jnew RepoTreeNode(GetTree(), repoPath1, itsRepoRevision,
 											name, type == "dir" ? kDirectory : kFile,
 											rev, modTime, author, size);
-					assert( node != nullptr );
 					this->InsertSorted(node);
 				}
 
@@ -422,7 +419,6 @@ RepoTreeNode::DisplayErrors()
 			jnew RepoTreeNode(GetTree(), JString::empty, JString::empty,
 								 *(itsErrorList->GetItem(i)),
 								 kError, 0, 0, JString::empty, 0);
-		assert( node != nullptr );
 		this->InsertAtIndex(i, node);
 	}
 
@@ -438,7 +434,7 @@ RepoTree*
 RepoTreeNode::GetRepoTree()
 {
 	auto* tree = dynamic_cast<RepoTree*>(GetTree());
-	assert (tree != nullptr);
+	assert( tree != nullptr );
 	return tree;
 }
 
@@ -447,7 +443,7 @@ RepoTreeNode::GetRepoTree()
 	const
 {
 	const auto* tree = dynamic_cast<const RepoTree*>(GetTree());
-	assert (tree != nullptr);
+	assert( tree != nullptr );
 	return tree;
 }
 
@@ -528,7 +524,7 @@ RepoTreeNode::GetRepoChild
 	)
 {
 	auto* node = dynamic_cast<RepoTreeNode*>(GetChild(index));
-	assert (node != nullptr);
+	assert( node != nullptr );
 	return node;
 }
 
@@ -540,7 +536,7 @@ RepoTreeNode::GetRepoChild
 	const
 {
 	const auto* node = dynamic_cast<const RepoTreeNode*>(GetChild(index));
-	assert (node != nullptr);
+	assert( node != nullptr );
 	return node;
 }
 

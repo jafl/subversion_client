@@ -69,7 +69,7 @@ RepoTreeList::GetRepoNode
 	)
 {
 	auto* node = dynamic_cast<RepoTreeNode*>(GetNode(index));
-	assert (node != nullptr);
+	assert( node != nullptr );
 	return node;
 }
 
@@ -81,6 +81,6 @@ RepoTreeList::GetRepoNode
 	const
 {
 	const auto* node = dynamic_cast<const RepoTreeNode*>(GetNode(index));
-	assert (node != nullptr);
+	assert( node != nullptr );
 	return node;
 }

@@ -58,10 +58,7 @@ PropertiesList::PropertiesList
 	itsFullName(fullName)
 {
 	itsRemovePropertyCmdList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsRemovePropertyCmdList != nullptr );
-
-	itsProcessList = jnew JPtrArray<JProcess>(JPtrArrayT::kForgetAll);
-	assert( itsProcessList != nullptr );
+	itsProcessList           = jnew JPtrArray<JProcess>(JPtrArrayT::kForgetAll);
 }
 
 /******************************************************************************
@@ -196,8 +193,6 @@ PropertiesList::CopySelectedItems
 	}
 
 	auto* data = jnew JXTextSelection(GetDisplay(), list);
-	assert( data != nullptr );
-
 	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
 
@@ -298,7 +293,6 @@ PropertiesList::CreateProperty()
 		jnew JXGetStringDialog(
 			JGetString("CreatePropertyWindowTitle::PropertiesList"),
 			JGetString("CreatePropertyPrompt::PropertiesList"), JString::empty);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{

@@ -27,7 +27,6 @@ RepoTree::RepoTree
 	itsView(nullptr)
 {
 	itsSavedOpenNodes = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSavedOpenNodes != nullptr );
 	itsSavedOpenNodes->SetCompareFunction(JCompareStringsCaseSensitive);
 }
 
@@ -93,10 +92,8 @@ RepoTree::SaveOpenNodes()
 		{
 			if (itsView->IsOpen(i))
 			{
-				auto* s = jnew JString((itsView->GetRepoNode(i))->GetRepoPath());
-				assert( s != nullptr );
-
-				itsSavedOpenNodes->InsertSorted(s);
+				itsSavedOpenNodes->InsertSorted(
+					jnew JString(itsView->GetRepoNode(i)->GetRepoPath()));
 			}
 		}
 	}

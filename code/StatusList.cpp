@@ -181,8 +181,6 @@ StatusList::Ignore()
 		JSplitPathAndName(*list.GetFirstItem(), &path, &name);
 
 		auto* data = jnew JXTextSelection(GetDisplay(), name);
-		assert( data != nullptr );
-
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 
 		JString cmd = kIgnoreCmd;

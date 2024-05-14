@@ -70,7 +70,6 @@ ListBase::ListBase
 	SetSelectionBehavior(true, true);
 
 	itsLineList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsLineList != nullptr );
 	itsLineList->SetCompareFunction([this](JString* const & s1, JString* const & s2)
 	{
 		JString p1 = ExtractRelativePath(*s1);
@@ -80,10 +79,8 @@ ListBase::ListBase
 	SetStringList(itsLineList);
 
 	itsErrorList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsErrorList != nullptr );
 
 	itsSavedSelection = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSavedSelection != nullptr );
 	itsSavedSelection->SetCompareFunction(JCompareStringsCaseSensitive);
 
 	FitToEnclosure();
@@ -207,8 +204,7 @@ ListBase::Receive
 	}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 	}
@@ -426,8 +422,6 @@ ListBase::CopySelectedItems
 	}
 
 	auto* data = jnew JXTextSelection(GetDisplay(), list);
-	assert( data != nullptr );
-
 	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
 
