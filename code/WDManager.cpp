@@ -249,10 +249,10 @@ WDManager::SaveState
 
 	for (JIndex i=1; i<=windowCount; i++)
 	{
-		auto* dir = dynamic_cast<MainDirector*>(windowList.GetItem(i));
+		auto& dir = dynamic_cast<MainDirector&>(*windowList.GetItem(i));
 
 		output << ' ';
-		dir->StreamOut(output);
+		dir.StreamOut(output);
 	}
 
 	return true;

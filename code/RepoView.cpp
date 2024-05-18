@@ -100,7 +100,9 @@ RepoView::RepoView
 	itsSortNode(nullptr)
 {
 	itsRepoTreeList = dynamic_cast<RepoTreeList*>(GetTreeList());
-	itsRepoTree     = itsRepoTreeList->GetRepoTree();
+	assert( itsRepoTreeList != nullptr );
+
+	itsRepoTree = itsRepoTreeList->GetRepoTree();
 
 	itsRefreshTask = jnew JXFunctionTask(kRefreshInterval, [this]()
 	{

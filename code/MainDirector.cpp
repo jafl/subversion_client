@@ -491,16 +491,14 @@ MainDirector::Receive
 {
 	if (sender == itsActionProcess && message.Is(JProcess::kFinished))
 	{
-		auto* info = dynamic_cast<const JProcess::Finished*>(&message);
-		assert( info != nullptr );
-
-		itsActionProcess       = nullptr;
+		auto& info         = dynamic_cast<const JProcess::Finished&>(message);
+		itsActionProcess   = nullptr;
 		bool refreshRepo   = itsRefreshRepoFlag;	// changed when refresh status
 		bool refreshStatus = itsRefreshStatusFlag;	// changed when refresh status
 		bool reload        = itsReloadOpenFilesFlag;
 
 		itsTabGroup->ClearBusyIndex();
-		if (info->Successful())
+		if (info.Successful())
 		{
 			if (refreshRepo)
 			{
@@ -514,7 +512,7 @@ MainDirector::Receive
 
 			if (reload)
 			{
-				(GetApplication())->ReloadOpenFilesInIDE();
+				GetApplication()->ReloadOpenFilesInIDE();
 			}
 
 			if (sender == itsCheckOutProcess)
@@ -531,11 +529,9 @@ MainDirector::Receive
 
 	else if (message.Is(JXCardFile::kCardRemoved))
 	{
-		auto* info = dynamic_cast<const JXCardFile::CardRemoved*>(&message);
-		assert( info != nullptr );
-
+		auto& info = dynamic_cast<const JXCardFile::CardRemoved&>(message);
 		JIndex i;
-		if (info->GetCardIndex(&i))
+		if (info.GetCardIndex(&i))
 		{
 			itsTabList->RemoveItem(i);
 		}

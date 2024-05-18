@@ -417,8 +417,8 @@ RepoTreeNode::DisplayErrors()
 	{
 		auto* node =
 			jnew RepoTreeNode(GetTree(), JString::empty, JString::empty,
-								 *(itsErrorList->GetItem(i)),
-								 kError, 0, 0, JString::empty, 0);
+							  *itsErrorList->GetItem(i),
+							  kError, 0, 0, JString::empty, 0);
 		this->InsertAtIndex(i, node);
 	}
 
@@ -455,8 +455,8 @@ RepoTreeNode::GetRepoTree()
 RepoTreeNode*
 RepoTreeNode::GetRepoParent()
 {
-	JTreeNode* p       = GetParent();
-	auto* n = dynamic_cast<RepoTreeNode*>(p);
+	JTreeNode* p = GetParent();
+	auto* n      = dynamic_cast<RepoTreeNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -465,8 +465,8 @@ const RepoTreeNode*
 RepoTreeNode::GetRepoParent()
 	const
 {
-	const JTreeNode* p       = GetParent();
-	const auto* n = dynamic_cast<const RepoTreeNode*>(p);
+	const JTreeNode* p = GetParent();
+	const auto* n      = dynamic_cast<const RepoTreeNode*>(p);
 	assert( n != nullptr );
 	return n;
 }

@@ -175,11 +175,9 @@ TabGroup::Receive
 {
 	if (message.Is(JXCardFile::kCardRemoved))
 	{
-		auto* info = dynamic_cast<const JXCardFile::CardRemoved*>(&message);
-		assert( info != nullptr );
-
+		auto& info = dynamic_cast<const JXCardFile::CardRemoved&>(message);
 		JIndex i;
-		const bool hasIndex = info->GetCardIndex(&i);
+		const bool hasIndex = info.GetCardIndex(&i);
 		if (hasIndex && i < itsBusyIndex)
 		{
 			itsBusyIndex--;

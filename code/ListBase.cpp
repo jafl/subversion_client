@@ -204,9 +204,8 @@ ListBase::Receive
 	}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleContextMenu(selection->GetIndex());
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		HandleContextMenu(selection.GetIndex());
 	}
 
 	else

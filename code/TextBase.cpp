@@ -156,13 +156,12 @@ TextBase::ReceiveData
 	const Message& message
 	)
 {
-	auto* info = dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
-	assert( info != nullptr );
+	auto& info = dynamic_cast<const JAsynchDataReceiverT::DataReady&>(message);
 
 	const DisplayState state = SaveDisplayState();
 
 	SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
-	Paste(info->GetData());
+	Paste(info.GetData());
 	GetText()->ClearUndo();
 
 	RestoreDisplayState(state);
