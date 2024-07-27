@@ -94,6 +94,7 @@ parts:
       - libboost-fiber-dev
       - libxpm4
       - libxrender1
+      - subversion
   launcher:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-subdir: glib-only
