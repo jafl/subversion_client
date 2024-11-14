@@ -128,7 +128,7 @@ WDManager::GetBrowser
 bool
 WDManager::GetBrowserForExactURL
 	(
-	const JString&		url,
+	const JString&	url,
 	MainDirector**	dir
 	)
 {

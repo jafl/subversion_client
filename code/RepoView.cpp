@@ -152,7 +152,7 @@ RepoView::BuildTreeList
 {
 	auto* root =
 		jnew RepoTreeNode(nullptr, repoPath, repoRevision, JString::empty,
-							RepoTreeNode::kDirectory, 0, 0, JString::empty, 0);
+						  RepoTreeNode::kDirectory, 0, 0, JString::empty, 0);
 
 	auto* tree = jnew RepoTree(root);
 
@@ -172,8 +172,8 @@ RepoView::RefreshContent()
 	GetDNDManager()->CancelDND();
 	CancelEditing();
 	GetWindow()->EndDrag(this, JPoint(0,0),
-						   GetDisplay()->GetLatestButtonStates(),
-						   GetDisplay()->GetLatestKeyModifiers());
+						 GetDisplay()->GetLatestButtonStates(),
+						 GetDisplay()->GetLatestKeyModifiers());
 
 	itsRepoTree->Update(itsRepoTreeList);
 }

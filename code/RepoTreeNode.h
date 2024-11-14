@@ -83,7 +83,7 @@ private:
 	JIndex	itsRevision;
 	time_t	itsModTime;
 	JString	itsAuthor;
-	JSize	itsFileSize;			// only relevant for files
+	JSize	itsFileSize;	// only relevant for files
 
 	JProcess*			itsProcess;		// can be nullptr
 	JString				itsResponseFullName;

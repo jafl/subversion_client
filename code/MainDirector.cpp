@@ -60,8 +60,8 @@ MainDirector::MainDirector
 
 	JPoint desktopLoc;
 	JCoordinate w,h;
-	if ((GetPrefsManager())->GetWindowSize(kMainDirectorWindSizeID,
-											  &desktopLoc, &w, &h))
+	if (GetPrefsManager()->GetWindowSize(kMainDirectorWindSizeID,
+										 &desktopLoc, &w, &h))
 	{
 		JXWindow* window = GetWindow();
 		window->Place(desktopLoc.x, desktopLoc.y);
@@ -284,8 +284,8 @@ MainDirector::BuildWindow()
 
 	itsTabGroup =
 		jnew TabGroup(itsToolBar->GetWidgetEnclosure(),
-						JXWidget::kHElastic, JXWidget::kVElastic,
-						0,0, 100,100);
+					  JXWidget::kHElastic, JXWidget::kVElastic,
+					  0,0, 100,100);
 	itsTabGroup->FitToEnclosure();
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
@@ -299,9 +299,9 @@ MainDirector::BuildWindow()
 
 		itsRepoWidget =
 			jnew RepoView(this, repoPath, JString::empty, itsEditMenu,
-							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-							JXWidget::kHElastic, JXWidget::kVElastic,
-							0,0, 100,100);
+						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						  JXWidget::kHElastic, JXWidget::kVElastic,
+						  0,0, 100,100);
 
 		itsTabList->Append(itsRepoWidget);
 	}
@@ -315,9 +315,9 @@ MainDirector::BuildWindow()
 
 		itsStatusWidget =
 			jnew StatusList(this, itsEditMenu,
-							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-							  JXWidget::kHElastic, JXWidget::kVElastic,
-							  0,0, 100,100);
+							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+							JXWidget::kHElastic, JXWidget::kVElastic,
+							0,0, 100,100);
 
 		itsTabList->Append(itsStatusWidget);
 		itsStatusWidget->RefreshContent();
@@ -369,7 +369,7 @@ MainDirector::BuildScrollbarSet
 {
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(widget, JXWidget::kHElastic,JXWidget::kVElastic,
-						   0,0, 100,100);
+							0,0, 100,100);
 	scrollbarSet->FitToEnclosure();
 	return scrollbarSet;
 }
@@ -420,7 +420,7 @@ MainDirector::GetRepoPath
 {
 	if (itsRepoWidget != nullptr)
 	{
-		*path = (itsRepoWidget->GetRepoTree())->GetRepoPath();
+		*path = itsRepoWidget->GetRepoTree()->GetRepoPath();
 		JStripTrailingDirSeparator(path);
 		return true;
 	}
@@ -708,7 +708,7 @@ MainDirector::CheckOut
 	)
 {
 	MainDirector* dir;
-	if (!(GetWDManager())->GetBrowserForExactURL(url, &dir))
+	if (!GetWDManager()->GetBrowserForExactURL(url, &dir))
 	{
 		dir = jnew MainDirector(JXGetApplication(), url);
 		dir->Activate();
@@ -1127,9 +1127,9 @@ MainDirector::Execute
 	(
 	const JUtf8Byte*	tabStringID,
 	const JString&		cmd,
-	const bool		refreshRepo,
-	const bool		refreshStatus,
-	const bool		reloadOpenFiles
+	const bool			refreshRepo,
+	const bool			refreshStatus,
+	const bool			reloadOpenFiles
 	)
 {
 	JXContainer* card            = itsTabGroup->AppendTab(JGetString(tabStringID), true);
