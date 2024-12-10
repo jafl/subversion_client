@@ -57,7 +57,7 @@ TabGroup::TabGroup
 	JXTabGroup(enclosure, hSizing, vSizing, x,y, w,h),
 	itsBusyIndex(0)
 {
-	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, 3);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, kBusyIconCount);
 
 	JXImageCache* cache = enclosure->GetDisplay()->GetImageCache();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
